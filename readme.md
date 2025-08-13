@@ -28,18 +28,20 @@ Um portfólio pessoal moderno e responsivo inspirado no design do tania.dev, des
 
 ### Pré-requisitos
 
-- Node.js 18+ 
+- Node.js 18+
 - pnpm (recomendado) ou npm
 
 ### Passos para executar
 
 1. **Clone o repositório**
+
    ```bash
    git clone <url-do-repositorio>
    cd portfolio-carlos
    ```
 
 2. **Instale as dependências**
+
    ```bash
    pnpm install
    # ou
@@ -47,6 +49,7 @@ Um portfólio pessoal moderno e responsivo inspirado no design do tania.dev, des
    ```
 
 3. **Execute o servidor de desenvolvimento**
+
    ```bash
    pnpm run dev
    # ou
@@ -68,6 +71,7 @@ O portfólio inclui um sistema de música de fundo ambiente:
 - **Arquivo Personalizado**: Localizado em `public/background-music.wav`
 
 Para substituir a música:
+
 1. Substitua o arquivo `public/background-music.wav`
 2. Ou edite o caminho em `src/hooks/useBackgroundMusic.js`
 
@@ -99,7 +103,7 @@ const userData = {
 Para alterar o usuário do GitHub, edite o arquivo `src/components/GitHubProjects.jsx`:
 
 ```javascript
-const { repos, loading, error } = useGitHubRepos('SEU_USUARIO_GITHUB');
+const { repos, loading, error } = useGitHubRepos("SEU_USUARIO_GITHUB");
 ```
 
 ### Cores e Tema
@@ -115,32 +119,37 @@ As cores estão definidas no arquivo `src/App.css` usando o sistema de cores do 
 O portfólio é totalmente responsivo com breakpoints:
 
 - **Mobile**: < 768px
-- **Tablet**: 768px - 1024px  
+- **Tablet**: 768px - 1024px
 - **Desktop**: > 1024px
 
 ## 🎨 Componentes Principais
 
 ### Header
+
 - Navegação fixa com efeito de transparência
 - Botões de música e tema
 - Links para redes sociais
 
 ### Hero
+
 - Seção principal com animação de typewriter
 - Avatar com gradiente
 - Call-to-actions
 
 ### About
+
 - Informações pessoais e profissionais
 - Grid de habilidades técnicas
 - Cards com efeitos visuais
 
 ### Projects
+
 - Projetos em destaque (estáticos)
 - Repositórios do GitHub (dinâmicos)
 - Filtros por linguagem e popularidade
 
 ### Contact
+
 - Informações de contato
 - Links para redes sociais
 - Formulário de contato (futuro)
@@ -202,6 +211,7 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 ## 👨‍💻 Autor
 
 **Carlos Filho**
+
 - GitHub: [@DELIRlO](https://github.com/DELIRlO)
 - LinkedIn: [ysneshy](https://linkedin.com/in/ysneshy)
 - Portfolio: [carlosfilho.vercel.app](https://carlosfilho.vercel.app)
@@ -210,3 +220,131 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 
 ⭐ Se este projeto te ajudou, considere dar uma estrela no repositório!
 
+# Projeto Portfólio Carlos Filho - CORRIGIDO
+
+## ✅ Problemas Resolvidos
+
+Este projeto foi completamente reestruturado para resolver os problemas de dependências e estrutura de arquivos que estavam impedindo sua execução.
+
+### Principais Correções Realizadas:
+
+1. **Estrutura de Arquivos Reorganizada**
+
+   - Movidos todos os componentes para `src/components/`
+   - Movidos todos os hooks para `src/hooks/`
+   - Arquivos de dados organizados em `src/`
+   - Estrutura padrão do React respeitada
+
+2. **Dependências Corrigidas**
+
+   - Instalada dependência `react-intersection-observer` que estava faltando
+   - Criado hook `useGitHubRepos` funcional
+   - Todos os imports corrigidos para os caminhos corretos
+
+3. **Imports Corrigidos**
+
+   - Corrigidos todos os caminhos de importação nos componentes
+   - Removidos imports duplicados
+   - Adicionados imports faltantes do `useInView`
+
+4. **Projeto Funcional**
+   - Servidor de desenvolvimento funcionando sem erros
+   - Todos os componentes carregando corretamente
+   - Interface responsiva e funcional
+
+## 🚀 Como Executar
+
+### Pré-requisitos
+
+- Node.js (versão 18 ou superior)
+- npm ou pnpm
+
+### Instalação e Execução
+
+1. **Extrair o projeto**
+
+   ```bash
+   unzip portfolio-carlos-corrigido.zip
+   cd portfolio-carlos-fixed
+   ```
+
+2. **Instalar dependências**
+
+   ```bash
+   npm install
+   # ou
+   pnpm install
+   ```
+
+3. **Executar o projeto**
+
+   ```bash
+   npm run dev
+   # ou
+   pnpm run dev
+   ```
+
+4. **Acessar no navegador**
+   - Abra http://localhost:5173
+
+## 📁 Estrutura do Projeto
+
+```
+portfolio-carlos-fixed/
+├── src/
+│   ├── components/
+│   │   ├── ui/           # Componentes de UI (shadcn/ui)
+│   │   ├── About.jsx     # Seção Sobre
+│   │   ├── Contact.jsx   # Seção Contato
+│   │   ├── Footer.jsx    # Rodapé
+│   │   ├── Header.jsx    # Cabeçalho
+│   │   ├── Hero.jsx      # Seção principal
+│   │   ├── Projects.jsx  # Seção de projetos
+│   │   └── GitHubProjects.jsx # Projetos do GitHub
+│   ├── hooks/
+│   │   ├── useBackgroundMusic.js # Hook para música de fundo
+│   │   ├── useTheme.js          # Hook para tema escuro/claro
+│   │   └── useGitHubRepos.js    # Hook para buscar repos do GitHub
+│   ├── assets/
+│   │   └── background-music.wav # Música de fundo
+│   ├── App.jsx          # Componente principal
+│   ├── App.css          # Estilos principais
+│   ├── main.jsx         # Ponto de entrada
+│   ├── userData.js      # Dados do usuário
+│   └── data.js          # Dados adicionais
+├── package.json         # Dependências e scripts
+├── vite.config.js       # Configuração do Vite
+└── index.html           # HTML principal
+```
+
+## 🎨 Funcionalidades
+
+- ✅ Design responsivo com Tailwind CSS
+- ✅ Tema escuro/claro
+- ✅ Música de fundo opcional
+- ✅ Seções: Hero, Sobre, Projetos, Contato
+- ✅ Integração com API do GitHub
+- ✅ Animações suaves
+- ✅ Componentes UI modernos (shadcn/ui)
+
+## 🔧 Tecnologias Utilizadas
+
+- React 19
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- Lucide React (ícones)
+- React Intersection Observer
+- Framer Motion (animações)
+
+## 📝 Notas Importantes
+
+1. **Sem Problemas de Dependências**: Todas as dependências necessárias estão instaladas e funcionando
+2. **Estrutura Padrão**: Segue as melhores práticas do React
+3. **Compatível com VS Code**: Funciona perfeitamente no VS Code
+4. **Sem Erros de Caminho**: Todos os imports estão corretos
+5. **Pronto para Produção**: Pode ser buildado com `npm run build`
+
+## 🎯 Resultado
+
+O projeto agora funciona perfeitamente, sem erros de dependências ou problemas de estrutura de arquivos. Todos os componentes carregam corretamente e a interface está totalmente funcional.
