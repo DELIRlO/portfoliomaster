@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import TextTransition from "react-text-transition";
 import {
   Moon,
   Sun,
@@ -12,8 +13,16 @@ import { Button } from "./ui/button";
 
 const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
   const [scrolled, setScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState("");
   const [hoveredIcon, setHoveredIcon] = useState("");
+  const [index, setIndex] = useState(0);
+
+  // Efeito de rotação para o nome
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setIndex((prev) => prev + 1);
+    }, 3000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +32,32 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Efeito de fumaça simples para o nome
+  const SmokeText = ({ text }) => {
+    return (
+      <TextTransition
+        springConfig={{ tension: 180, friction: 12 }}
+        direction="up"
+        inline
+        style={{ display: "inline-block" }}
+      >
+        {text.split("").map((letter, i) => (
+          <span
+            key={i}
+            style={{
+              display: "inline-block",
+              transition: "all 0.3s ease",
+              transform: `rotate(${(index + i) % 3 === 0 ? "2deg" : "-2deg"})`,
+              opacity: (index + i) % 2 === 0 ? 0.9 : 1,
+            }}
+          >
+            {letter}
+          </span>
+        ))}
+      </TextTransition>
+    );
+  };
 
   return (
     <header
@@ -35,7 +70,9 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <h1 className="text-xl font-bold gradient-text">CarlosFilho</h1>
+            <h1 className="text-xl font-bold">
+              <SmokeText text="CarlosFilho" />
+            </h1>
           </div>
 
           <nav className="hidden md:flex items-center space-x-8">
@@ -45,40 +82,13 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
               { id: "projects", label: "Projetos" },
               { id: "contact", label: "Contato" },
             ].map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                className="relative group"
-                onMouseEnter={() => setActiveLink(item.id)}
-                onMouseLeave={() => setActiveLink("")}
-              >
+              <a key={item.id} href={`#${item.id}`} className="relative group">
                 <span className="relative z-10 block px-2 py-1">
-                  <span
-                    className={`text-foreground/90 group-hover:text-blue-500 font-medium transition-all duration-300 ${
-                      activeLink === item.id ? "text-blue-600" : ""
-                    }`}
-                  >
+                  <span className="text-foreground/90 group-hover:text-blue-600 font-medium transition-colors duration-300">
                     {item.label}
                   </span>
                 </span>
-
-                {/* Traço inferior em azul forte */}
-                <span
-                  className={`absolute bottom-0 left-0 h-[3px] w-0 bg-blue-500 group-hover:w-full transition-all duration-400 ${
-                    activeLink === item.id ? "w-full" : ""
-                  }`}
-                ></span>
-
-                {/* Efeito de brilho neon */}
-                <span
-                  className={`absolute inset-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
-                    activeLink === item.id ? "opacity-100" : ""
-                  }`}
-                  style={{
-                    boxShadow: "0 0 8px rgba(59, 130, 246, 0.6)",
-                    mixBlendMode: "screen",
-                  }}
-                ></span>
+                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
               </a>
             ))}
           </nav>
@@ -127,13 +137,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   <Github
                     className={`h-4 w-4 transition-colors duration-300 ${
                       hoveredIcon === "github"
-                        ? "text-blue-500"
+                        ? "text-blue-600"
                         : "text-foreground/90"
                     }`}
                   />
-                  {/* Traço inferior para ícone */}
                   <span
-                    className={`absolute bottom-0 left-0 h-[3px] w-0 bg-blue-500 group-hover:w-full transition-all duration-400 ${
+                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300 ${
                       hoveredIcon === "github" ? "w-full" : ""
                     }`}
                   ></span>
@@ -156,13 +165,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   <Linkedin
                     className={`h-4 w-4 transition-colors duration-300 ${
                       hoveredIcon === "linkedin"
-                        ? "text-blue-500"
+                        ? "text-blue-600"
                         : "text-foreground/90"
                     }`}
                   />
-                  {/* Traço inferior para ícone */}
                   <span
-                    className={`absolute bottom-0 left-0 h-[3px] w-0 bg-blue-500 group-hover:w-full transition-all duration-400 ${
+                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300 ${
                       hoveredIcon === "linkedin" ? "w-full" : ""
                     }`}
                   ></span>
@@ -185,13 +193,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   <Instagram
                     className={`h-4 w-4 transition-colors duration-300 ${
                       hoveredIcon === "instagram"
-                        ? "text-blue-500"
+                        ? "text-blue-600"
                         : "text-foreground/90"
                     }`}
                   />
-                  {/* Traço inferior para ícone */}
                   <span
-                    className={`absolute bottom-0 left-0 h-[3px] w-0 bg-blue-500 group-hover:w-full transition-all duration-400 ${
+                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300 ${
                       hoveredIcon === "instagram" ? "w-full" : ""
                     }`}
                   ></span>

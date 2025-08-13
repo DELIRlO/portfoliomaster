@@ -1,7 +1,79 @@
 import { useInView } from "react-intersection-observer";
 import { Card, CardContent } from "./ui/card";
-import { Badge } from "./ui/badge";
 import userData from "../userData";
+
+// Configuração completa de cores para todas as linguagens
+const skillStyles = {
+  // Frontend
+  HTML: { border: "border-red-500", gradient: "from-red-500 to-orange-500" },
+  CSS: { border: "border-blue-500", gradient: "from-blue-500 to-cyan-500" },
+  JavaScript: {
+    border: "border-yellow-500",
+    gradient: "from-yellow-500 to-amber-500",
+  },
+  TypeScript: {
+    border: "border-blue-600",
+    gradient: "from-blue-600 to-indigo-500",
+  },
+  React: { border: "border-cyan-400", gradient: "from-cyan-400 to-blue-500" },
+  "Next.js": {
+    border: "border-purple-500",
+    gradient: "from-purple-500 to-pink-500",
+  },
+  Tailwind: {
+    border: "border-cyan-300",
+    gradient: "from-cyan-300 to-teal-400",
+  },
+  "Styled Components": {
+    border: "border-pink-400",
+    gradient: "from-pink-400 to-rose-500",
+  },
+
+  // Backend
+  "Node.js": {
+    border: "border-green-500",
+    gradient: "from-green-500 to-emerald-500",
+  },
+  Python: {
+    border: "border-emerald-500",
+    gradient: "from-emerald-500 to-green-500",
+  },
+  PHP: {
+    border: "border-indigo-500",
+    gradient: "from-indigo-500 to-purple-500",
+  },
+  Laravel: { border: "border-red-600", gradient: "from-red-600 to-orange-500" },
+  Java: {
+    border: "border-amber-600",
+    gradient: "from-amber-600 to-yellow-500",
+  },
+  "C#": {
+    border: "border-violet-600",
+    gradient: "from-violet-600 to-purple-600",
+  },
+
+  // Mobile/Game
+  Flutter: { border: "border-teal-400", gradient: "from-teal-400 to-blue-400" },
+  Godot: { border: "border-green-400", gradient: "from-green-400 to-lime-400" },
+
+  // Ferramentas
+  Git: {
+    border: "border-orange-500",
+    gradient: "from-orange-500 to-amber-500",
+  },
+  GitHub: { border: "border-gray-500", gradient: "from-gray-500 to-gray-700" },
+  "Power BI": {
+    border: "border-blue-400",
+    gradient: "from-blue-400 to-cyan-400",
+  },
+  "Material UI": {
+    border: "border-lightBlue-400",
+    gradient: "from-lightBlue-400 to-blue-500",
+  },
+
+  // Default
+  default: { border: "border-primary", gradient: "from-primary to-accent" },
+};
 
 const About = () => {
   const { ref, inView } = useInView({
@@ -28,6 +100,7 @@ const About = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Seção "Minha História" */}
             <div
               className={`transition-all duration-1000 delay-200 ${
                 inView ? "animate-fade-in-left" : "opacity-0"
@@ -53,6 +126,7 @@ const About = () => {
               </Card>
             </div>
 
+            {/* Seção "Habilidades Técnicas" */}
             <div
               className={`transition-all duration-1000 delay-400 ${
                 inView ? "animate-fade-in-right" : "opacity-0"
@@ -63,20 +137,45 @@ const About = () => {
                   <h3 className="text-2xl font-bold mb-6">
                     Habilidades Técnicas
                   </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {userData.skills.map((skill, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="justify-center py-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                      >
-                        {skill}
-                      </Badge>
-                    ))}
+
+                  {/* Grid de habilidades com efeitos */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {userData.skills.map((skill, index) => {
+                      const style = skillStyles[skill] || skillStyles.default;
+                      return (
+                        <div key={index} className="relative group">
+                          {/* Efeito de traço colorido */}
+                          <div
+                            className={`absolute -inset-0.5 rounded-lg bg-gradient-to-r ${style.gradient} 
+                            opacity-75 group-hover:opacity-100 blur-sm group-hover:blur-none 
+                            transition-all duration-300 animate-pulse group-hover:animate-none`}
+                          ></div>
+
+                          {/* Card da habilidade */}
+                          <div
+                            className={`relative bg-card rounded-lg px-3 py-2 text-sm font-medium text-center 
+                            border ${style.border} group-hover:border-transparent transition-all duration-300
+                            hover:scale-105 hover:shadow-lg`}
+                          >
+                            <span className="text-foreground">{skill}</span>
+
+                            {/* Efeito de brilho interno */}
+                            <div
+                              className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-20 
+                              transition-opacity duration-500"
+                              style={{
+                                background: `radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 70%)`,
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
 
+              {/* Seção "Localização" */}
               <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20 mt-6">
                 <CardContent className="p-0">
                   <h3 className="text-2xl font-bold mb-4">Localização</h3>
