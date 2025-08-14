@@ -10,74 +10,67 @@ const useBackgroundMusic = () => {
   useEffect(() => {
     const audio = new Audio("/background-music.mp3");
     audioRef.current = audio;
-    audio.loop = true; // Música em loop
+    audio.loop = true;
     audio.volume = 0.2;
     audio.preload = "auto";
 
-    const handleCanPlayThrough = () => {
-      setIsLoaded(true);
-      setError(null);
-
-      // Toca automaticamente SE o usuário já interagiu
-      if (userInteracted && !isPlaying) {
-        audio
-          .play()
-          .then(() => setIsPlaying(true))
-          .catch((e) => setError("Autoplay bloqueado: " + e.message));
-      }
-    };
-
+    const handleCanPlayThrough = () => setIsLoaded(true);
     const handleError = () => setError("Falha ao carregar a música");
-    const handleEnded = () => setIsPlaying(false);
+    const handlePause = () => setIsPlaying(false);
+    const handlePlay = () => setIsPlaying(true);
 
     audio.addEventListener("canplaythrough", handleCanPlayThrough);
     audio.addEventListener("error", handleError);
-    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("play", handlePlay);
 
-    // Detecta a primeira interação do usuário (ex: clique, scroll, tecla)
+    // Interação do usuário
     const handleFirstInteraction = () => {
-      setUserInteracted(true);
-      // Tenta tocar automaticamente após primeira interação
-      if (audioRef.current && isLoaded && !isPlaying) {
-        audioRef.current
-          .play()
-          .then(() => setIsPlaying(true))
-          .catch((e) => setError("Autoplay bloqueado: " + e.message));
+      if (!userInteracted) {
+        setUserInteracted(true);
+        // Tenta tocar após interação
+        if (!isPlaying) {
+          audioRef.current
+            .play()
+            .then(() => setIsPlaying(true))
+            .catch((e) => setError("Erro ao reproduzir: " + e.message));
+        }
       }
-      // Remove todos os listeners após primeira interação
-      document.removeEventListener("click", handleFirstInteraction);
-      document.removeEventListener("scroll", handleFirstInteraction);
-      document.removeEventListener("keydown", handleFirstInteraction);
     };
 
-    document.addEventListener("click", handleFirstInteraction);
-    document.addEventListener("scroll", handleFirstInteraction);
-    document.addEventListener("keydown", handleFirstInteraction);
+    const events = ["click", "touchstart", "keydown"];
+    events.forEach((event) =>
+      document.addEventListener(event, handleFirstInteraction, { once: true })
+    );
 
     return () => {
       audio.pause();
       audio.removeEventListener("canplaythrough", handleCanPlayThrough);
       audio.removeEventListener("error", handleError);
-      audio.removeEventListener("ended", handleEnded);
-      document.removeEventListener("click", handleFirstInteraction);
-      document.removeEventListener("scroll", handleFirstInteraction);
-      document.removeEventListener("keydown", handleFirstInteraction);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("play", handlePlay);
+      events.forEach((event) =>
+        document.removeEventListener(event, handleFirstInteraction)
+      );
     };
-  }, [userInteracted]);
+  }, []);
 
   const toggleMusic = async () => {
     if (!audioRef.current || !isLoaded) return;
 
     try {
       if (isPlaying) {
-        audioRef.current.pause();
+        await audioRef.current.pause();
       } else {
-        if (audioRef.current.ended) {
-          audioRef.current.currentTime = 0; // Reinicia se a música terminou
+        // Reinicia se a música terminou
+        if (
+          audioRef.current.ended ||
+          audioRef.current.currentTime === audioRef.current.duration
+        ) {
+          audioRef.current.currentTime = 0;
         }
         await audioRef.current.play();
       }
-      setIsPlaying(!isPlaying); // Atualiza o estado
     } catch (error) {
       setError("Erro ao controlar música: " + error.message);
     }
