@@ -8,7 +8,7 @@ const useBackgroundMusic = () => {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    const audio = new Audio("/src/assets/background-music.mp3");
+    const audio = new Audio("/public/background-music.mp3");
     audioRef.current = audio;
     audio.loop = true; // Música em loop
     audio.volume = 0.2;
