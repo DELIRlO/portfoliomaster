@@ -166,7 +166,7 @@ const GitHubProjects = () => {
           ))}
         </div>
 
-        <div className="text-center mt-8">
+        <div className="text-center mt-4">
           <Button variant="outline" size="lg" asChild>
             <a href="https://github.com/DELIRlO" target="_blank" rel="noopener noreferrer">
               <Github className="mr-2 h-4 w-4" />

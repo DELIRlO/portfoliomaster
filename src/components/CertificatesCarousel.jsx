@@ -47,7 +47,7 @@ const CertificatesCarousel = () => {
   };
 
   return (
-    <section id="certificates" className="py-20 bg-background">
+    <section id="certificates" className="py-12 bg-background">
       <div className="container mx-auto px-4">
         <div
           ref={ref}
@@ -55,7 +55,7 @@ const CertificatesCarousel = () => {
             inView ? "animate-fade-in-up" : "opacity-0"
           }`}
         >
-          <div className="text-center mb-16">
+          <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
               Certificados
             </h2>
@@ -67,6 +67,7 @@ const CertificatesCarousel = () => {
           <div className="p-4">
             <Carousel
               setApi={setApi}
+              orientation="vertical"
               plugins={[
                 Autoplay({
                   delay: 2000,
@@ -79,11 +80,11 @@ const CertificatesCarousel = () => {
                 loop: true,
               }}
             >
-              <CarouselContent>
+              <CarouselContent className="h-[200px] md:h-[300px] lg:h-[400px]">
                 {userData.certificates.map((certificate, index) => (
                   <CarouselItem
                     key={index}
-                    className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 group"
+                    className="basis-1/2 md:basis-1/3 lg:basis-1/4 group"
                   >
                     <div className="p-1">
                       <Card
@@ -109,8 +110,8 @@ const CertificatesCarousel = () => {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex" />
-              <CarouselNext className="hidden sm:flex" />
+              <CarouselPrevious className="flex" />
+              <CarouselNext className="flex" />
             </Carousel>
           </div>
 
