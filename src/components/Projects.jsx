@@ -38,24 +38,9 @@ const Projects = () => {
   };
 
   // Função para obter a imagem do projeto
-  const getProjectThumbnail = (projectName) => {
-    const normalizedName = projectName.toLowerCase().replace(/\s+/g, '').replace(/-/g, '');
-    
-    // Mapeamentos específicos
-    const mappings = {
-      'portfoliocarlosfilho': 'portfoliomaster',
-      'wordinvert': 'wordinvert',
-      'aimgunbound': 'DELIRIO',
-      'cronometroalarme': 'DELIRIO',
-      'tubysneshypro': 'DELIRIO',
-      'megaman': 'megaman',
-      'instaorionapp': 'InstaOrionApp',
-      'cryptoreact': 'crypto-react',
-      'whatszapclone': 'InstaOrionApp'
-    };
-
-    const mappedKey = mappings[normalizedName];
-    return mappedKey ? projectThumbnails[mappedKey] : projectThumbnails['portfoliomaster'];
+  const getProjectThumbnail = (project) => {
+    // Usar a thumbnail do projeto se existir, senão usar fallback
+    return project.thumbnail || '/thumbnails/portfoliomaster.png';
   };
 
   // Featured projects (manually curated)
@@ -88,7 +73,7 @@ const Projects = () => {
                     {/* Imagem do Projeto */}
                     <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
                       <img
-                        src={getProjectThumbnail(project.name)}
+                        src={getProjectThumbnail(project)}
                         alt={`${project.name} thumbnail`}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         onError={(e) => {
