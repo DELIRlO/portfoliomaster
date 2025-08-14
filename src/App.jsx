@@ -4,9 +4,10 @@ import Hero from "./components/Hero";
 import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer"; // Adicionei esta importação
 import useTheme from "./hooks/useTheme";
 import useBackgroundMusic from "./hooks/useBackgroundMusic";
+import CertificatesCarousel from "./components/CertificatesCarousel";
 
 function App() {
   const { darkMode, toggleTheme } = useTheme();
@@ -24,6 +25,8 @@ function App() {
         <Hero />
         <About />
         <Projects />
+        <CertificatesCarousel />
+        {/* Adicionei aqui, ajuste a ordem conforme necessário */}
         <Contact />
       </main>
       <Footer />
