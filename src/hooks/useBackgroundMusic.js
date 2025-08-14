@@ -34,13 +34,25 @@ const useBackgroundMusic = () => {
     audio.addEventListener("error", handleError);
     audio.addEventListener("ended", handleEnded);
 
-    // Detecta a primeira interação do usuário (ex: clique)
+    // Detecta a primeira interação do usuário (ex: clique, scroll, tecla)
     const handleFirstInteraction = () => {
       setUserInteracted(true);
+      // Tenta tocar automaticamente após primeira interação
+      if (audioRef.current && isLoaded && !isPlaying) {
+        audioRef.current
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch((e) => setError("Autoplay bloqueado: " + e.message));
+      }
+      // Remove todos os listeners após primeira interação
       document.removeEventListener("click", handleFirstInteraction);
+      document.removeEventListener("scroll", handleFirstInteraction);
+      document.removeEventListener("keydown", handleFirstInteraction);
     };
 
     document.addEventListener("click", handleFirstInteraction);
+    document.addEventListener("scroll", handleFirstInteraction);
+    document.addEventListener("keydown", handleFirstInteraction);
 
     return () => {
       audio.pause();
@@ -48,6 +60,8 @@ const useBackgroundMusic = () => {
       audio.removeEventListener("error", handleError);
       audio.removeEventListener("ended", handleEnded);
       document.removeEventListener("click", handleFirstInteraction);
+      document.removeEventListener("scroll", handleFirstInteraction);
+      document.removeEventListener("keydown", handleFirstInteraction);
     };
   }, [userInteracted]);
 

@@ -103,195 +103,195 @@ const userData = {
   certificates: [
     {
       name: "Administrador de Banco de Dados",
-      image: "/src/imagens/cursos/ADMINISTRADOR DE BANCO DE DADOS.png"
+      image: "/cursos/ADMINISTRADOR DE BANCO DE DADOS.png"
     },
     {
       name: "Blockchain SENAI",
-      image: "/src/imagens/cursos/BLOBKCHAIN SENAI.png"
+      image: "/cursos/BLOBKCHAIN SENAI.png"
     },
     {
       name: "C Programação Bradesco",
-      image: "/src/imagens/cursos/C PROGRAMACAO BRADESCO.png"
+      image: "/cursos/C PROGRAMACAO BRADESCO.png"
     },
     {
       name: "Cerimonialista",
-      image: "/src/imagens/cursos/CERIMONIALISTA.png"
+      image: "/cursos/CERIMONIALISTA.png"
     },
     {
       name: "Competência Transversal TI SENAI",
-      image: "/src/imagens/cursos/COMPETENCIA TRANSVERSAL TI SENAI.png"
+      image: "/cursos/COMPETENCIA TRANSVERSAL TI SENAI.png"
     },
     {
       name: "Desvendando 5G SENAI",
-      image: "/src/imagens/cursos/DESVENDANDO 5G SENAI.png"
+      image: "/cursos/DESVENDANDO 5G SENAI.png"
     },
     {
       name: "Desvendando a Indústria 4.0 SENAI",
-      image: "/src/imagens/cursos/DESVENDANDO A INDUSTRIA 40 SENAI.png"
+      image: "/cursos/DESVENDANDO A INDUSTRIA 40 SENAI.png"
     },
     {
       name: "Introdução Programação Orientada a Objeto POO",
-      image: "/src/imagens/cursos/INTRODUCAO PROGRAMACAO ORIENTADA OBJETO POO.png"
+      image: "/cursos/INTRODUCAO PROGRAMACAO ORIENTADA OBJETO POO.png"
     },
     {
       name: "Modelagem e Desenvolvimento Software Bradesco",
-      image: "/src/imagens/cursos/MODEDLAGEM E DESENVOLVIMENTO SOFTWARE BRADESCO.png"
+      image: "/cursos/MODEDLAGEM E DESENVOLVIMENTO SOFTWARE BRADESCO.png"
     },
     {
       name: "Modelando Dados no Power BI",
-      image: "/src/imagens/cursos/MODELANDO DADOS NO  POWER BI.png"
+      image: "/cursos/MODELANDO DADOS NO  POWER BI.png"
     },
     {
       name: "Privacidade e Proteção de Dados SENAI",
-      image: "/src/imagens/cursos/PRIVACIDADE E PROTECAO DE DADOS SENAI.png"
+      image: "/cursos/PRIVACIDADE E PROTECAO DE DADOS SENAI.png"
     },
     {
       name: "Projetos de Sistema TI",
-      image: "/src/imagens/cursos/PROJETOS DE SISTEMA TI.png"
+      image: "/cursos/PROJETOS DE SISTEMA TI.png"
     },
     {
       name: "Segurança em Tecnologia da Informação",
-      image: "/src/imagens/cursos/SEGURANÇA EM TECNOLOGIA DA INFORMACAO.png"
+      image: "/cursos/SEGURANÇA EM TECNOLOGIA DA INFORMACAO.png"
     },
     {
       name: "SENAI Excel Básico",
-      image: "/src/imagens/cursos/SENAI EXCEL BASICO.png"
+      image: "/cursos/SENAI EXCEL BASICO.png"
     },
     {
       name: "SharePoint",
-      image: "/src/imagens/cursos/SHAREPOINT.png"
+      image: "/cursos/SHAREPOINT.png"
     },
     {
       name: "Veículos Elétricos e Híbridos",
-      image: "/src/imagens/cursos/VEICULOS ELETRICOS E HIBRIDOS.png"
+      image: "/cursos/VEICULOS ELETRICOS E HIBRIDOS.png"
     },
     {
       name: "Vídeo Aula e Vídeo IFMS",
-      image: "/src/imagens/cursos/VIDEO AULA E VIDEO IFMS.png"
+      image: "/cursos/VIDEO AULA E VIDEO IFMS.png"
     },
     {
       name: "Administração de Redes Linux 1",
-      image: "/src/imagens/cursos/administracao de redes linux 1.png"
+      image: "/cursos/administracao de redes linux 1.png"
     },
     {
       name: "Administração de Redes Linux 2",
-      image: "/src/imagens/cursos/administracao de redes linux 2.png"
+      image: "/cursos/administracao de redes linux 2.png"
     },
     {
       name: "Administração de Sistemas Linux 1",
-      image: "/src/imagens/cursos/administracao de sistemas linux 1.jpg"
+      image: "/cursos/administracao de sistemas linux 1.jpg"
     },
     {
       name: "Administração Estratégica",
-      image: "/src/imagens/cursos/administracao estrategica.jpg"
+      image: "/cursos/administracao estrategica.jpg"
     },
     {
       name: "Automação de Sistemas",
-      image: "/src/imagens/cursos/automacao de sistemas.jpg"
+      image: "/cursos/automacao de sistemas.jpg"
     },
     {
       name: "Banco de Dados 1",
-      image: "/src/imagens/cursos/banco de dados 1.jpg"
+      image: "/cursos/banco de dados 1.jpg"
     },
     {
       name: "CSS",
-      image: "/src/imagens/cursos/css.jpg"
+      image: "/cursos/css.jpg"
     },
     {
       name: "Direito",
-      image: "/src/imagens/cursos/direito.png"
+      image: "/cursos/direito.png"
     },
     {
       name: "Empreender SENAI",
-      image: "/src/imagens/cursos/empreender senai.jpg"
+      image: "/cursos/empreender senai.jpg"
     },
     {
       name: "Escola do Trabalhador - Trabalhando com Computadores",
-      image: "/src/imagens/cursos/escola do trabalhador trabalhando com computadores.png"
+      image: "/cursos/escola do trabalhador trabalhando com computadores.png"
     },
     {
       name: "Fundamentos de Sistema Linux",
-      image: "/src/imagens/cursos/fundamentos de sistema linux.png"
+      image: "/cursos/fundamentos de sistema linux.png"
     },
     {
       name: "Geoinformação",
-      image: "/src/imagens/cursos/geoinformacao.jpg"
+      image: "/cursos/geoinformacao.jpg"
     },
     {
       name: "HTML - Desenvolvimento de Páginas Web",
-      image: "/src/imagens/cursos/html_desenvolvimento de paginas web.jpg"
+      image: "/cursos/html_desenvolvimento de paginas web.jpg"
     },
     {
       name: "Implementando Banco de Dados",
-      image: "/src/imagens/cursos/implementando banco de dados.png"
+      image: "/cursos/implementando banco de dados.png"
     },
     {
       name: "Learning Python",
-      image: "/src/imagens/cursos/learning python.jpg"
+      image: "/cursos/learning python.jpg"
     },
     {
       name: "Lógica de Programação",
-      image: "/src/imagens/cursos/logica de programacao.jpg"
+      image: "/cursos/logica de programacao.jpg"
     },
     {
       name: "Lógica de Programação 2",
-      image: "/src/imagens/cursos/logica de programacao 2.jpg"
+      image: "/cursos/logica de programacao 2.jpg"
     },
     {
       name: "Lógica de Programação 3",
-      image: "/src/imagens/cursos/logica de prorgamacao 3.jpg"
+      image: "/cursos/logica de prorgamacao 3.jpg"
     },
     {
       name: "Lógica de Programação - Múltiplos Valores",
-      image: "/src/imagens/cursos/logica de programacao multiplos valorees.png"
+      image: "/cursos/logica de programacao multiplos valorees.png"
     },
     {
       name: "Marketing Público",
-      image: "/src/imagens/cursos/marketing publico.png"
+      image: "/cursos/marketing publico.png"
     },
     {
       name: "Matemática Analítica",
-      image: "/src/imagens/cursos/matematica analitica.jpg"
+      image: "/cursos/matematica analitica.jpg"
     },
     {
       name: "Programação Java",
-      image: "/src/imagens/cursos/programacao java.jpg"
+      image: "/cursos/programacao java.jpg"
     },
     {
       name: "Programador Web",
-      image: "/src/imagens/cursos/programador web.png"
+      image: "/cursos/programador web.png"
     },
     {
       name: "Psicologia Aplicada à Reabilitação",
-      image: "/src/imagens/cursos/psicologia aplicada reabilitacao.png"
+      image: "/cursos/psicologia aplicada reabilitacao.png"
     },
     {
       name: "Psicologia no Trabalho",
-      image: "/src/imagens/cursos/psicologia no trabalho.png"
+      image: "/cursos/psicologia no trabalho.png"
     },
     {
       name: "Raspberry - Aplicações",
-      image: "/src/imagens/cursos/raspberry-aplicacoes.jpg"
+      image: "/cursos/raspberry-aplicacoes.jpg"
     },
     {
       name: "Raspberry",
-      image: "/src/imagens/cursos/raspyberry.jpg"
+      image: "/cursos/raspyberry.jpg"
     },
     {
       name: "Segurança em Linux - Firewall",
-      image: "/src/imagens/cursos/seguranca em linux - firewall.png"
+      image: "/cursos/seguranca em linux - firewall.png"
     },
     {
       name: "SENAI São Paulo",
-      image: "/src/imagens/cursos/senai sao paulo.png"
+      image: "/cursos/senai sao paulo.png"
     },
     {
       name: "Tecnologia Assistiva no Contexto Educacional",
-      image: "/src/imagens/cursos/tecnologia assistiva no contexto educacional.png"
+      image: "/cursos/tecnologia assistiva no contexto educacional.png"
     },
     {
       name: "Windows Server 2016",
-      image: "/src/imagens/cursos/windows service 2016.jpg"
+      image: "/cursos/windows service 2016.jpg"
     }
   ]
 };
