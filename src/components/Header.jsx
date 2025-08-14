@@ -42,20 +42,24 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
     // Scroll suave para a seção
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   // Fechar menu mobile ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (mobileMenuOpen && !event.target.closest('.mobile-menu') && !event.target.closest('.menu-button')) {
+      if (
+        mobileMenuOpen &&
+        !event.target.closest(".mobile-menu") &&
+        !event.target.closest(".menu-button")
+      ) {
         setMobileMenuOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [mobileMenuOpen]);
 
   // Efeito de fumaça simples para o nome
@@ -111,17 +115,17 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 <span className="relative z-10 block px-3 py-2">
                   <span className="text-foreground/90 group-hover:text-primary font-medium transition-all duration-500 relative">
                     {item.label}
-                    
+
                     {/* Efeito de construção - Pixels aparecendo */}
                     <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                      {item.label.split('').map((char, charIndex) => (
+                      {item.label.split("").map((char, charIndex) => (
                         <span
                           key={charIndex}
                           className="absolute inline-block transition-all duration-300"
                           style={{
                             left: `${charIndex * 0.6}em`,
                             animationDelay: `${charIndex * 50}ms`,
-                            animation: 'pixelBuild 0.8s ease-out forwards'
+                            animation: "pixelBuild 0.8s ease-out forwards",
                           }}
                         >
                           {char}
@@ -130,12 +134,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                     </span>
                   </span>
                 </span>
-                
+
                 {/* Efeito de linha construindo */}
                 <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-primary via-blue-500 to-purple-500 group-hover:w-full transition-all duration-700 ease-out">
                   <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></span>
                 </span>
-                
+
                 {/* Efeito de partículas construindo */}
                 <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   {[...Array(3)].map((_, particleIndex) => (
@@ -144,14 +148,16 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                       className="absolute w-1 h-1 bg-primary/60 rounded-full"
                       style={{
                         left: `${20 + particleIndex * 30}%`,
-                        top: '50%',
-                        animation: `particleFloat 1.5s ease-in-out infinite ${particleIndex * 0.2}s`,
-                        animationDelay: `${particleIndex * 200}ms`
+                        top: "50%",
+                        animation: `particleFloat 1.5s ease-in-out infinite ${
+                          particleIndex * 0.2
+                        }s`,
+                        animationDelay: `${particleIndex * 200}ms`,
                       }}
                     />
                   ))}
                 </span>
-                
+
                 {/* Efeito de borda construindo */}
                 <span className="absolute inset-0 border border-transparent group-hover:border-primary/20 transition-all duration-500 rounded-md opacity-0 group-hover:opacity-100">
                   <span className="absolute top-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-700 delay-100"></span>
@@ -294,17 +300,23 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
       </div>
 
       {/* Menu Mobile Lateral */}
-      <div className={`fixed inset-0 z-40 md:hidden ${mobileMenuOpen ? 'block' : 'hidden'}`}>
+      <div
+        className={`fixed inset-0 z-40 md:hidden ${
+          mobileMenuOpen ? "block" : "hidden"
+        }`}
+      >
         {/* Overlay */}
-        <div 
+        <div
           className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
           onClick={() => setMobileMenuOpen(false)}
         />
-        
+
         {/* Menu Lateral */}
-        <div className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-background/95 backdrop-blur-lg border-l border-primary/20 transform transition-transform duration-300 ease-out ${
-          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}>
+        <div
+          className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-background/95 backdrop-blur-lg border-l border-primary/20 transform transition-transform duration-300 ease-out ${
+            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
           <div className="flex flex-col h-full">
             {/* Header do menu */}
             <div className="flex items-center justify-between p-6 border-b border-primary/20">
@@ -342,7 +354,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                         {item.label}
                       </span>
                     </div>
-                    
+
                     {/* Efeito de linha animada */}
                     <div className="mt-2 h-[2px] w-0 bg-gradient-to-r from-primary to-purple-500 group-hover:w-full transition-all duration-500 ease-out" />
                   </button>
@@ -398,10 +410,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   </a>
                 </Button>
               </div>
-              
+
               <div className="mt-4 text-center">
                 <p className="text-sm text-muted-foreground">Carlos Filho</p>
-                <p className="text-xs text-muted-foreground/60">Desenvolvedor Full Stack</p>
+                <p className="text-xs text-muted-foreground/60">
+                  Desenvolvedor Full Stack
+                </p>
               </div>
             </div>
           </div>

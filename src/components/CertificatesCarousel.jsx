@@ -17,6 +17,13 @@ const CertificatesCarousel = () => {
   const [api, setApi] = React.useState();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
+  const [hoveredIndex, setHoveredIndex] = React.useState(null);
+  const autoplay = React.useRef(
+    Autoplay(
+      { delay: 2000, stopOnInteraction: false },
+      (emblaRoot) => emblaRoot.parentElement
+    )
+  );
 
   const { ref, inView } = useInView({
     threshold: 0.1,
@@ -24,9 +31,7 @@ const CertificatesCarousel = () => {
   });
 
   React.useEffect(() => {
-    if (!api) {
-      return;
-    }
+    if (!api) return;
 
     const scrollSnaps = api.scrollSnapList();
     setCount(scrollSnaps.length);
@@ -37,9 +42,21 @@ const CertificatesCarousel = () => {
     });
   }, [api]);
 
-  // Check if there are certificates to display
+  React.useEffect(() => {
+    if (!api || !autoplay.current) return;
+
+    const onInteraction = () => {
+      autoplay.current.reset();
+    };
+
+    api.on("pointerDown", onInteraction);
+    return () => {
+      api.off("pointerDown", onInteraction);
+    };
+  }, [api]);
+
   if (!userData.certificates || userData.certificates.length === 0) {
-    return null; // Don't render anything if there are no certificates
+    return null;
   }
 
   const scrollTo = (index) => {
@@ -68,12 +85,7 @@ const CertificatesCarousel = () => {
             <Carousel
               setApi={setApi}
               orientation="horizontal"
-              plugins={[
-                Autoplay({
-                  delay: 2000,
-                  stopOnInteraction: true,
-                }),
-              ]}
+              plugins={[autoplay.current]}
               className="w-full"
               opts={{
                 align: "start",
@@ -96,11 +108,25 @@ const CertificatesCarousel = () => {
                         )}
                       >
                         <CardContent className="flex flex-col items-center justify-center p-4 gap-4 aspect-square overflow-hidden">
-                          <img
-                            src={certificate.image}
-                            alt={certificate.name}
-                            className="w-full h-4/5 object-contain rounded-md transition-transform duration-300 group-hover:scale-105"
-                          />
+                          <div
+                            className="relative w-full h-4/5 overflow-hidden rounded-md"
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                          >
+                            <img
+                              src={certificate.image}
+                              alt={certificate.name}
+                              className={cn(
+                                "w-full h-full object-contain transition-transform duration-500 ease-in-out",
+                                hoveredIndex === index
+                                  ? "scale-[1.4]"
+                                  : "scale-100"
+                              )}
+                              style={{
+                                transformOrigin: "center center",
+                              }}
+                            />
+                          </div>
                           <span className="text-sm font-semibold text-center mt-2 text-muted-foreground h-1/5">
                             {certificate.name}
                           </span>
