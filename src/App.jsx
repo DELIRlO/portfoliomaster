@@ -6,7 +6,6 @@ import Projects from "./components/Projects";
 import CertificatesCarousel from "./components/CertificatesCarousel";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import PageTransition from "./components/PageTransition";
 import useTheme from "./hooks/useTheme";
 import useBackgroundMusic from "./hooks/useBackgroundMusic";
 
@@ -23,25 +22,13 @@ function App() {
         toggleMusic={toggleMusic}
       />
       <main>
-        <PageTransition>
-          <Hero />
-        </PageTransition>
-        <PageTransition>
-          <About />
-        </PageTransition>
-        <PageTransition>
-          <Projects />
-        </PageTransition>
-        <PageTransition>
-          <CertificatesCarousel />
-        </PageTransition>
-        <PageTransition>
-          <Contact />
-        </PageTransition>
+        <Hero />
+        <About />
+        <Projects />
+        <CertificatesCarousel />
+        <Contact />
       </main>
-      <PageTransition>
-        <Footer />
-      </PageTransition>
+      <Footer />
     </div>
   );
 }

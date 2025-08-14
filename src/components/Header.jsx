@@ -62,7 +62,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [mobileMenuOpen]);
 
-  // Efeito de fumaça simples para o nome
+  // Animação de fumaça simples para o nome
   const SmokeText = ({ text }) => {
     return (
       <TextTransition
@@ -116,7 +116,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   <span className="text-foreground/90 group-hover:text-primary font-medium transition-all duration-500 relative">
                     {item.label}
 
-                    {/* Efeito de construção - Pixels aparecendo */}
+                    {/* Animação de construção - Pixels aparecendo */}
                     <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                       {item.label.split("").map((char, charIndex) => (
                         <span
@@ -135,12 +135,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   </span>
                 </span>
 
-                {/* Efeito de linha construindo */}
+                {/* Animação de linha construindo */}
                 <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-primary via-blue-500 to-purple-500 group-hover:w-full transition-all duration-700 ease-out">
                   <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></span>
                 </span>
 
-                {/* Efeito de partículas construindo */}
+                {/* Animação de partículas construindo */}
                 <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   {[...Array(3)].map((_, particleIndex) => (
                     <span
@@ -158,7 +158,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   ))}
                 </span>
 
-                {/* Efeito de borda construindo */}
+                {/* Animação de borda construindo */}
                 <span className="absolute inset-0 border border-transparent group-hover:border-primary/20 transition-all duration-500 rounded-md opacity-0 group-hover:opacity-100">
                   <span className="absolute top-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-700 delay-100"></span>
                   <span className="absolute top-0 right-0 w-[1px] h-0 bg-primary group-hover:h-full transition-all duration-700 delay-200"></span>
@@ -355,7 +355,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                       </span>
                     </div>
 
-                    {/* Efeito de linha animada */}
+                    {/* Animação de linha animada */}
                     <div className="mt-2 h-[2px] w-0 bg-gradient-to-r from-primary to-purple-500 group-hover:w-full transition-all duration-500 ease-out" />
                   </button>
                 ))}

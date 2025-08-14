@@ -1,6 +1,7 @@
 import { useInView } from "react-intersection-observer";
 import { Card, CardContent } from "./ui/card";
 import userData from "../userData";
+import PageTransition from "./PageTransition";
 
 // Configuração completa de cores para todas as linguagens
 const skillStyles = {
@@ -82,119 +83,121 @@ const About = () => {
   });
 
   return (
-    <section id="about" className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4">
-        <div
-          ref={ref}
-          className={`transition-all duration-1000 ${
-            inView ? "animate-fade-in-up" : "opacity-0"
-          }`}
-        >
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
-              Sobre Mim
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Conheça um pouco mais sobre minha trajetória e habilidades
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Seção "Minha História" */}
-            <div
-              className={`transition-all duration-1000 delay-200 ${
-                inView ? "animate-fade-in-left" : "opacity-0"
-              }`}
-            >
-              <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
-                <CardContent className="p-0">
-                  <h3 className="text-2xl font-bold mb-4">Minha História</h3>
-                  <p className="text-muted-foreground mb-4">{userData.about}</p>
-                  <p className="text-muted-foreground mb-4">
-                    Formado pelo ITA (Instituto de Tecnologia da Aeronáutica),
-                    tenho experiência sólida em desenvolvimento de sistemas e
-                    programas. Minha paixão pela tecnologia me leva a estar
-                    sempre aprendendo e explorando novas ferramentas e
-                    frameworks.
-                  </p>
-                  <p className="text-muted-foreground">
-                    Atualmente, foco no desenvolvimento front-end com React, mas
-                    também tenho conhecimento em backend e outras tecnologias
-                    que me permitem criar soluções completas.
-                  </p>
-                </CardContent>
-              </Card>
+    <PageTransition isVisible={inView}>
+      <section id="about" className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div
+            ref={ref}
+            className={`transition-all duration-1000 ${
+              inView ? "animate-fade-in-up" : "opacity-0"
+            }`}
+          >
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
+                Sobre Mim
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Conheça um pouco mais sobre minha trajetória e habilidades
+              </p>
             </div>
 
-            {/* Seção "Habilidades Técnicas" */}
-            <div
-              className={`transition-all duration-1000 delay-400 ${
-                inView ? "animate-fade-in-right" : "opacity-0"
-              }`}
-            >
-              <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
-                <CardContent className="p-0">
-                  <h3 className="text-2xl font-bold mb-6">
-                    Habilidades Técnicas
-                  </h3>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Seção "Minha História" */}
+              <div
+                className={`transition-all duration-1000 delay-200 ${
+                  inView ? "animate-fade-in-left" : "opacity-0"
+                }`}
+              >
+                <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
+                  <CardContent className="p-0">
+                    <h3 className="text-2xl font-bold mb-4">Minha História</h3>
+                    <p className="text-muted-foreground mb-4">{userData.about}</p>
+                    <p className="text-muted-foreground mb-4">
+                      Formado pelo ITA (Instituto de Tecnologia da Aeronáutica),
+                      tenho experiência sólida em desenvolvimento de sistemas e
+                      programas. Minha paixão pela tecnologia me leva a estar
+                      sempre aprendendo e explorando novas ferramentas e
+                      frameworks.
+                    </p>
+                    <p className="text-muted-foreground">
+                      Atualmente, foco no desenvolvimento front-end com React, mas
+                      também tenho conhecimento em backend e outras tecnologias
+                      que me permitem criar soluções completas.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
 
-                  {/* Grid de habilidades com efeitos */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {userData.skills.map((skill, index) => {
-                      const style = skillStyles[skill] || skillStyles.default;
-                      return (
-                        <div key={index} className="relative group">
-                          {/* Efeito de traço colorido */}
-                          <div
-                            className={`absolute -inset-0.5 rounded-lg bg-gradient-to-r ${style.gradient} 
-                            opacity-75 group-hover:opacity-100 blur-sm group-hover:blur-none 
-                            transition-all duration-300 animate-pulse group-hover:animate-none`}
-                          ></div>
+              {/* Seção "Habilidades Técnicas" */}
+              <div
+                className={`transition-all duration-1000 delay-400 ${
+                  inView ? "animate-fade-in-right" : "opacity-0"
+                }`}
+              >
+                <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
+                  <CardContent className="p-0">
+                    <h3 className="text-2xl font-bold mb-6">
+                      Habilidades Técnicas
+                    </h3>
 
-                          {/* Card da habilidade */}
-                          <div
-                            className={`relative bg-card rounded-lg px-3 py-2 text-sm font-medium text-center 
-                            border ${style.border} group-hover:border-transparent transition-all duration-300
-                            hover:scale-105 hover:shadow-lg`}
-                          >
-                            <span className="text-foreground">{skill}</span>
-
-                            {/* Efeito de brilho interno */}
+                    {/* Grid de habilidades com efeitos */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {userData.skills.map((skill, index) => {
+                        const style = skillStyles[skill] || skillStyles.default;
+                        return (
+                          <div key={index} className="relative group">
+                            {/* Animação de traço colorido */}
                             <div
-                              className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-20 
-                              transition-opacity duration-500"
-                              style={{
-                                background: `radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 70%)`,
-                              }}
+                              className={`absolute -inset-0.5 rounded-lg bg-gradient-to-r ${style.gradient} 
+                              opacity-75 group-hover:opacity-100 blur-sm group-hover:blur-none 
+                              transition-all duration-300 animate-pulse group-hover:animate-none`}
                             ></div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </CardContent>
-              </Card>
 
-              {/* Seção "Localização" */}
-              <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20 mt-6">
-                <CardContent className="p-0">
-                  <h3 className="text-2xl font-bold mb-4">Localização</h3>
-                  <p className="text-muted-foreground">
-                    📍 Belém, Pará - Brasil
-                  </p>
-                  <p className="text-muted-foreground">
-                    🎓 ITA - Instituto de Tecnologia da Aeronáutica
-                  </p>
-                  <p className="text-muted-foreground">
-                    👨‍💻 39 anos, Engenheiro de Computação
-                  </p>
-                </CardContent>
-              </Card>
+                            {/* Card da habilidade */}
+                            <div
+                              className={`relative bg-card rounded-lg px-3 py-2 text-sm font-medium text-center 
+                              border ${style.border} group-hover:border-transparent transition-all duration-300
+                              hover:scale-105 hover:shadow-lg`}
+                            >
+                              <span className="text-foreground">{skill}</span>
+
+                              {/* Animação de brilho interno */}
+                              <div
+                                className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-20 
+                                transition-opacity duration-500"
+                                style={{
+                                  background: `radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 70%)`,
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Seção "Localização" */}
+                <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20 mt-6">
+                  <CardContent className="p-0">
+                    <h3 className="text-2xl font-bold mb-4">Localização</h3>
+                    <p className="text-muted-foreground">
+                      📍 Belém, Pará - Brasil
+                    </p>
+                    <p className="text-muted-foreground">
+                      🎓 ITA - Instituto de Tecnologia da Aeronáutica
+                    </p>
+                    <p className="text-muted-foreground">
+                      👨‍💻 39 anos, Engenheiro de Computação
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </PageTransition>
   );
 };
 
