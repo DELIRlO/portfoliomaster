@@ -67,7 +67,7 @@ const CertificatesCarousel = () => {
           <div className="p-4">
             <Carousel
               setApi={setApi}
-              orientation="vertical"
+              orientation="horizontal"
               plugins={[
                 Autoplay({
                   delay: 2000,
@@ -80,7 +80,7 @@ const CertificatesCarousel = () => {
                 loop: true,
               }}
             >
-              <CarouselContent className="h-[200px] md:h-[300px] lg:h-[400px]">
+              <CarouselContent className="w-full">
                 {userData.certificates.map((certificate, index) => (
                   <CarouselItem
                     key={index}
@@ -110,8 +110,8 @@ const CertificatesCarousel = () => {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="flex" />
-              <CarouselNext className="flex" />
+              <CarouselPrevious />
+              <CarouselNext />
             </Carousel>
           </div>
 
