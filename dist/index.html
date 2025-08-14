@@ -1,14 +1,80 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Carlos Filho - Desenvolvedor</title>
-    <script type="module" crossorigin src="/assets/index-D0l79rRS.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-D3wNxf_a.css">
+    <button id="back-to-top" class="back-to-top">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5 15L12 8L19 15"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+    <style>
+      .back-to-top {
+        display: none;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 40px;
+        height: 40px;
+        background: #3a3ea6;
+        color: white;
+        border: none;
+        border-radius: 30%;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.3s, transform 0.3s;
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .back-to-top:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+      }
+
+      .back-to-top svg {
+        width: 20px;
+        height: 20px;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-DMLsurm7.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BaHXJDqa.css">
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Mostrar ou ocultar o botão conforme a rolagem
+      window.addEventListener("scroll", () => {
+        const backToTop = document.getElementById("back-to-top");
+        if (window.scrollY > 300) {
+          backToTop.style.display = "flex";
+        } else {
+          backToTop.style.display = "none";
+        }
+      });
+
+      // Rolagem suave ao topo
+      document.getElementById("back-to-top").addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+    </script>
   </body>
 </html>

@@ -2,15 +2,18 @@ import { useInView } from 'react-intersection-observer';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github, ExternalLink, Eye } from 'lucide-react';
 import GitHubProjects from './GitHubProjects';
 import userData from '../userData';
+import useIntersectionObserver from '../hooks/useIntersectionObserver';
 
 const Projects = () => {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
+
+  const { ref: projectsRef, hasIntersected } = useIntersectionObserver();
 
   const getTechColor = (tech) => {
     const colors = {
@@ -22,6 +25,37 @@ const Projects = () => {
       'TypeScript': 'bg-blue-700/20 text-blue-400 border-blue-700/30',
     };
     return colors[tech] || 'bg-primary/20 text-primary border-primary/30';
+  };
+
+  // Mapeamento de projetos para suas imagens
+  const projectThumbnails = {
+    'portfoliomaster': '/thumbnails/portfoliomaster.png',
+    'wordinvert': '/thumbnails/wordinvert.png',
+    'DELIRIO': '/thumbnails/DELIRIO.png',
+    'megaman': '/thumbnails/megaman.png',
+    'InstaOrionApp': '/thumbnails/InstaOrionApp.png',
+    'crypto-react': '/thumbnails/crypto-react.png'
+  };
+
+  // Função para obter a imagem do projeto
+  const getProjectThumbnail = (projectName) => {
+    const normalizedName = projectName.toLowerCase().replace(/\s+/g, '').replace(/-/g, '');
+    
+    // Mapeamentos específicos
+    const mappings = {
+      'portfoliocarlosfilho': 'portfoliomaster',
+      'wordinvert': 'wordinvert',
+      'aimgunbound': 'DELIRIO',
+      'cronometroalarme': 'DELIRIO',
+      'tubysneshypro': 'DELIRIO',
+      'megaman': 'megaman',
+      'instaorionapp': 'InstaOrionApp',
+      'cryptoreact': 'crypto-react',
+      'whatszapclone': 'InstaOrionApp'
+    };
+
+    const mappedKey = mappings[normalizedName];
+    return mappedKey ? projectThumbnails[mappedKey] : projectThumbnails['portfoliomaster'];
   };
 
   // Featured projects (manually curated)
@@ -39,60 +73,108 @@ const Projects = () => {
           </div>
 
           {/* Featured Projects */}
-          <div className="mb-16">
+          <div className="mb-16" ref={projectsRef}>
             <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center gradient-text">Projetos em Destaque</h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredProjects.map((project, index) => (
                 <div
                   key={index}
                   className={`transition-all duration-1000 ${
-                    inView ? 'animate-fade-in-up' : 'opacity-0'
+                    hasIntersected ? 'animate-fade-in-up' : 'opacity-0'
                   }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  style={{ animationDelay: `${index * 150}ms` }}
                 >
-                  <Card className="h-full bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
-                    <CardHeader>
+                  <Card className="h-full bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-all duration-500 hover:shadow-xl hover:shadow-primary/20 group hover-lift overflow-hidden">
+                    {/* Imagem do Projeto */}
+                    <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+                      <img
+                        src={getProjectThumbnail(project.name)}
+                        alt={`${project.name} thumbnail`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
+                      />
+                      {/* Fallback quando a imagem não carrega */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center hidden">
+                        <div className="text-4xl font-bold text-primary/60">
+                          {project.name.charAt(0).toUpperCase()}
+                        </div>
+                      </div>
+                      
+                      {/* Overlay com botões */}
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-3">
+                        <Button variant="secondary" size="sm" asChild className="smooth-transition">
+                          <a 
+                            href={project.githubLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex items-center space-x-2"
+                          >
+                            <Github className="h-4 w-4" />
+                            <span>Código</span>
+                          </a>
+                        </Button>
+                        {project.onlineLink && (
+                          <Button size="sm" asChild className="smooth-transition">
+                            <a 
+                              href={project.onlineLink} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="flex items-center space-x-2"
+                            >
+                              <Eye className="h-4 w-4" />
+                              <span>Demo</span>
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+
+                    <CardHeader className="pb-3">
                       <CardTitle className="flex items-center justify-between">
-                        <span className="gradient-text group-hover:text-primary transition-colors">
+                        <span className="gradient-text group-hover:text-primary transition-colors text-lg">
                           {project.name}
                         </span>
-                        <div className="flex space-x-2">
-                          <Button variant="ghost" size="icon" asChild>
+                        <div className="flex space-x-1">
+                          <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
                             <a 
                               href={project.githubLink} 
                               target="_blank" 
                               rel="noopener noreferrer"
-                              className="hover:text-primary"
+                              className="hover:text-primary smooth-transition"
                             >
-                              <Github className="h-4 w-4" />
+                              <Github className="h-3 w-3" />
                             </a>
                           </Button>
                           {project.onlineLink && (
-                            <Button variant="ghost" size="icon" asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
                               <a 
                                 href={project.onlineLink} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="hover:text-primary"
+                                className="hover:text-primary smooth-transition"
                               >
-                                <ExternalLink className="h-4 w-4" />
+                                <ExternalLink className="h-3 w-3" />
                               </a>
                             </Button>
                           )}
                         </div>
                       </CardTitle>
                     </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground mb-4 min-h-[3rem]">
+                    
+                    <CardContent className="pt-0">
+                      <p className="text-muted-foreground mb-4 text-sm leading-relaxed min-h-[2.5rem]">
                         {project.description || 'Projeto em desenvolvimento...'}
                       </p>
                       
-                      <div className="flex flex-wrap gap-2 mb-4">
+                      <div className="flex flex-wrap gap-1.5 mb-4">
                         {project.technologies.map((tech, techIndex) => (
                           <Badge 
                             key={techIndex} 
                             variant="outline" 
-                            className={`${getTechColor(tech)} text-xs`}
+                            className={`${getTechColor(tech)} text-xs px-2 py-1 smooth-transition hover:scale-105`}
                           >
                             {tech}
                           </Badge>
@@ -100,14 +182,14 @@ const Projects = () => {
                       </div>
 
                       <div className="flex space-x-2">
-                        <Button variant="outline" size="sm" className="flex-1" asChild>
+                        <Button variant="outline" size="sm" className="flex-1 smooth-transition" asChild>
                           <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
                             <Github className="mr-2 h-3 w-3" />
                             Código
                           </a>
                         </Button>
                         {project.onlineLink && (
-                          <Button size="sm" className="flex-1" asChild>
+                          <Button size="sm" className="flex-1 smooth-transition" asChild>
                             <a href={project.onlineLink} target="_blank" rel="noopener noreferrer">
                               <ExternalLink className="mr-2 h-3 w-3" />
                               Demo
