@@ -11,7 +11,7 @@ import PageTransition from './PageTransition';
 const Projects = () => {
   const { ref, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
   const { ref: projectsRef, hasIntersected } = useIntersectionObserver();

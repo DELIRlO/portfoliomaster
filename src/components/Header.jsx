@@ -62,29 +62,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [mobileMenuOpen]);
 
-  // Animação de fumaça simples para o nome
+  // Animação simples para o nome sem tremelique
   const SmokeText = ({ text }) => {
     return (
-      <TextTransition
-        springConfig={{ tension: 180, friction: 12 }}
-        direction="up"
-        inline
-        style={{ display: "inline-block" }}
-      >
-        {text.split("").map((letter, i) => (
-          <span
-            key={i}
-            style={{
-              display: "inline-block",
-              transition: "all 0.3s ease",
-              transform: `rotate(${(index + i) % 3 === 0 ? "2deg" : "-2deg"})`,
-              opacity: (index + i) % 2 === 0 ? 0.9 : 1,
-            }}
-          >
-            {letter}
-          </span>
-        ))}
-      </TextTransition>
+      <span style={{ display: "inline-block" }}>
+        {text}
+      </span>
     );
   };
 
@@ -115,23 +98,6 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 <span className="relative z-10 block px-3 py-2">
                   <span className="text-foreground/90 group-hover:text-primary font-medium transition-all duration-500 relative">
                     {item.label}
-
-                    {/* Animação de construção - Pixels aparecendo */}
-                    <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                      {item.label.split("").map((char, charIndex) => (
-                        <span
-                          key={charIndex}
-                          className="absolute inline-block transition-all duration-300"
-                          style={{
-                            left: `${charIndex * 0.6}em`,
-                            animationDelay: `${charIndex * 50}ms`,
-                            animation: "pixelBuild 0.8s ease-out forwards",
-                          }}
-                        >
-                          {char}
-                        </span>
-                      ))}
-                    </span>
                   </span>
                 </span>
 

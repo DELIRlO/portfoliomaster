@@ -8,7 +8,7 @@ import PageTransition from './PageTransition';
 const Contact = () => {
   const { ref, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
   const contactLinks = [

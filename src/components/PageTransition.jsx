@@ -6,7 +6,12 @@ const PageTransition = ({ children, isVisible = true }) => {
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (isVisible) {
+      // Reset animation state first
+      setShowContent(false);
       const timer = setTimeout(() => {
         setShowContent(true);
       }, 100);

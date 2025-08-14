@@ -6,7 +6,7 @@ import PageTransition from './PageTransition';
 const Footer = () => {
   const { ref, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
   return (
