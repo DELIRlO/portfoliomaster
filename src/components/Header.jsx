@@ -7,15 +7,12 @@ import {
   Instagram,
   Music,
   VolumeX,
-  Menu,
-  X,
 } from "lucide-react";
 import { Button } from "./ui/button";
 
 const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredIcon, setHoveredIcon] = useState("");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,29 +22,6 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleMobileMenuClick = (id) => {
-    setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        mobileMenuOpen &&
-        !event.target.closest(".mobile-menu") &&
-        !event.target.closest(".menu-button")
-      ) {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [mobileMenuOpen]);
 
   const SmokeText = ({ text }) => (
     <span style={{ display: "inline-block" }}>{text}</span>
@@ -112,18 +86,6 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
           </nav>
 
           <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden menu-button"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </Button>
             <Button
               variant="ghost"
               size="icon"
@@ -230,122 +192,6 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   ></span>
                 </a>
               </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className={`fixed inset-0 z-40 md:hidden ${
-          mobileMenuOpen ? "block" : "hidden"
-        }`}
-      >
-        <div
-          className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-
-        <div
-          className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-background/95 backdrop-blur-lg border-l border-primary/20 transform transition-transform duration-300 ease-out ${
-            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-        >
-          <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between p-6 border-b border-primary/20">
-              <h2 className="text-xl font-bold gradient-text">Menu</h2>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setMobileMenuOpen(false)}
-                className="hover:bg-primary/10"
-              >
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-
-            <nav className="flex-1 px-6 py-8">
-              <div className="space-y-6">
-                {[
-                  { id: "home", label: "Início", icon: "🏠" },
-                  { id: "about", label: "Sobre", icon: "👨‍💻" },
-                  { id: "projects", label: "Projetos", icon: "🚀" },
-                  { id: "contact", label: "Contato", icon: "📧" },
-                ].map((item, index) => (
-                  <button
-                    key={item.id}
-                    onClick={() => handleMobileMenuClick(item.id)}
-                    className="w-full text-left p-4 rounded-lg bg-card/30 hover:bg-primary/10 transition-all duration-300 group border border-transparent hover:border-primary/20"
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <div className="flex items-center space-x-4">
-                      <span className="text-2xl group-hover:scale-110 transition-transform duration-300">
-                        {item.icon}
-                      </span>
-                      <span className="text-lg font-medium group-hover:text-primary transition-colors duration-300">
-                        {item.label}
-                      </span>
-                    </div>
-
-                    <div className="mt-2 h-[2px] w-0 bg-gradient-to-r from-primary to-purple-500 group-hover:w-full transition-all duration-500 ease-out" />
-                  </button>
-                ))}
-              </div>
-            </nav>
-
-            <div className="p-6 border-t border-primary/20">
-              <div className="flex items-center justify-center space-x-4">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  asChild
-                  className="hover:bg-primary/10 hover:scale-110 transition-all duration-300"
-                >
-                  <a
-                    href="https://github.com/DELIRlO"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Github className="h-5 w-5" />
-                  </a>
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  asChild
-                  className="hover:bg-primary/10 hover:scale-110 transition-all duration-300"
-                >
-                  <a
-                    href="https://www.linkedin.com/in/ysneshy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Linkedin className="h-5 w-5" />
-                  </a>
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  asChild
-                  className="hover:bg-primary/10 hover:scale-110 transition-all duration-300"
-                >
-                  <a
-                    href="https://www.instagram.com/ysneshy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Instagram className="h-5 w-5" />
-                  </a>
-                </Button>
-              </div>
-
-              <div className="mt-4 text-center">
-                <p className="text-sm text-muted-foreground">Carlos Filho</p>
-                <p className="text-xs text-muted-foreground/60">
-                  Desenvolvedor Full Stack
-                </p>
-              </div>
             </div>
           </div>
         </div>
