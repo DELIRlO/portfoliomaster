@@ -2,6 +2,7 @@ import { useInView } from "react-intersection-observer";
 import { Card, CardContent } from "./ui/card";
 import userData from "../userData";
 import PageTransition from "./PageTransition";
+import Typewriter from "./Typewriter";
 import { BarChart4, Bot } from "lucide-react"; // BarChart4 para Power BI, Bot para RPA
 
 // Configuração completa de cores para todas as linguagens
@@ -118,21 +119,54 @@ const About = () => {
                 <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
                   <CardContent className="p-0">
                     <h3 className="text-2xl font-bold mb-4">Minha História</h3>
-                    <p className="text-muted-foreground mb-4">
-                      {userData.about}
-                    </p>
-                    <p className="text-muted-foreground mb-4">
-                      Formado pelo ITA (Instituto de Tecnologia da Aeronáutica),
-                      tenho experiência sólida em desenvolvimento de sistemas e
-                      programas. Minha paixão pela tecnologia me leva a estar
-                      sempre aprendendo e explorando novas ferramentas e
-                      frameworks.
-                    </p>
-                    <p className="text-muted-foreground">
-                      Atualmente, foco no desenvolvimento front-end com React,
-                      mas também tenho conhecimento em backend e outras
-                      tecnologias que me permitem criar soluções completas.
-                    </p>
+                    <div className="text-muted-foreground mb-4">
+                      <p className="font-bold">
+                        Tecnologia da Informação com expertise em:
+                      </p>
+                      <ul className="list-disc list-inside">
+                        <li>
+                          <Typewriter text="Desenvolvimento de sistemas e programação full-stack" />
+                        </li>
+                        <li>
+                          <Typewriter text="Arquitetura e administração de redes computacionais" />
+                        </li>
+                        <li>
+                          <Typewriter text="Soluções técnicas personalizadas para infraestrutura de TI" />
+                        </li>
+                      </ul>
+                      <br />
+                      <p className="font-bold">Destaques profissionais:</p>
+                      <ul className="list-disc list-inside">
+                        <li>
+                          <Typewriter text="Autodidata com capacitação contínua nas últimas tecnologias" />
+                        </li>
+                        <li>
+                          <Typewriter text="Visão estratégica para análise e solução de problemas complexos" />
+                        </li>
+                        <li>
+                          <Typewriter text="Especialista em UX/UI e otimização da experiência do usuário" />
+                        </li>
+                        <li>
+                          <Typewriter text="Inovação aplicada com metodologias ágeis e boas práticas de desenvolvimento" />
+                        </li>
+                      </ul>
+                      <br />
+                      <p className="font-bold">Competências-chave:</p>
+                      <ul className="list-disc list-inside">
+                        <li>
+                          <Typewriter text="Pensamento analítico para arquitetura de sistemas" />
+                        </li>
+                        <li>
+                          <Typewriter text="Domínio de protocolos e topologias de rede" />
+                        </li>
+                        <li>
+                          <Typewriter text="Desenvolvimento de soluções tecnológicas customizadas" />
+                        </li>
+                        <li>
+                          <Typewriter text="Implementação de melhorias contínuas em produtos digitais" />
+                        </li>
+                      </ul>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -155,7 +189,10 @@ const About = () => {
                         const style =
                           skillStyles[skill.name] || skillStyles.default;
                         return (
-                          <div key={index} className="relative group">
+                          <div
+                            key={index}
+                            className="relative group w-4/5 justify-self-center"
+                          >
                             {/* Animação de traço colorido */}
                             <div
                               className={`absolute -inset-0.5 rounded-lg bg-gradient-to-r ${style.gradient} 
