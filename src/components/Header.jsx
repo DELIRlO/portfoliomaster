@@ -9,8 +9,17 @@ import {
   VolumeX,
   Menu,
   X,
+  Home,
+  User,
+  Code,
+  Mail,
+  Briefcase,
+  BookOpen,
+  Aperture,
+  Building,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -49,9 +58,24 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [mobileMenuOpen]);
 
-  const SmokeText = ({ text }) => (
-    <span style={{ display: "inline-block" }}>{text}</span>
-  );
+  const menuItems = [
+    { id: "home", label: "HOME", icon: <Home className="h-5 w-5" /> },
+    { id: "about", label: "SOBRE", icon: <User className="h-5 w-5" /> },
+    {
+      id: "curriculum",
+      label: "CURRÍCULO",
+      icon: <Briefcase className="h-5 w-5" />,
+    },
+    { id: "projects", label: "PROJETOS", icon: <Code className="h-5 w-5" /> },
+    { id: "courses", label: "CURSOS", icon: <BookOpen className="h-5 w-5" /> },
+    { id: "skills", label: "SKILLS", icon: <Aperture className="h-5 w-5" /> },
+    {
+      id: "building",
+      label: "TRABALHOS",
+      icon: <Building className="h-5 w-5" />,
+    },
+    { id: "contact", label: "CONTATO", icon: <Mail className="h-5 w-5" /> },
+  ];
 
   return (
     <header
@@ -64,50 +88,31 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <h1 className="text-xl font-bold">
-              <SmokeText text="CarlosFilho" />
-            </h1>
+            <motion.h1
+              className="text-xl font-bold"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
+              CarlosFilho
+            </motion.h1>
           </div>
 
           <nav className="hidden md:flex items-center space-x-8">
-            {[
-              { id: "home", label: "Início" },
-              { id: "about", label: "Sobre" },
-              { id: "projects", label: "Projetos" },
-              { id: "contact", label: "Contato" },
-            ].map((item) => (
-              <a key={item.id} href={`#${item.id}`} className="relative group">
-                <span className="relative z-10 block px-3 py-2">
-                  <span className="text-foreground/90 group-hover:text-primary font-medium transition-all duration-500 relative">
+            {menuItems.slice(0, 4).map((item) => (
+              <motion.a
+                key={item.id}
+                href={`#${item.id}`}
+                className="relative group"
+                whileHover={{ y: -2 }}
+              >
+                <span className="relative z-10 flex items-center gap-2 px-3 py-2">
+                  {item.icon}
+                  <span className="text-foreground/90 group-hover:text-primary font-medium transition-all duration-300">
                     {item.label}
                   </span>
                 </span>
-                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-primary via-blue-500 to-purple-500 group-hover:w-full transition-all duration-700 ease-out">
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></span>
-                </span>
-                <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  {[...Array(3)].map((_, particleIndex) => (
-                    <span
-                      key={particleIndex}
-                      className="absolute w-1 h-1 bg-primary/60 rounded-full"
-                      style={{
-                        left: `${20 + particleIndex * 30}%`,
-                        top: "50%",
-                        animation: `particleFloat 1.5s ease-in-out infinite ${
-                          particleIndex * 0.2
-                        }s`,
-                        animationDelay: `${particleIndex * 200}ms`,
-                      }}
-                    />
-                  ))}
-                </span>
-                <span className="absolute inset-0 border border-transparent group-hover:border-primary/20 transition-all duration-500 rounded-md opacity-0 group-hover:opacity-100">
-                  <span className="absolute top-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-700 delay-100"></span>
-                  <span className="absolute top-0 right-0 w-[1px] h-0 bg-primary group-hover:h-full transition-all duration-700 delay-200"></span>
-                  <span className="absolute bottom-0 right-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-700 delay-300"></span>
-                  <span className="absolute bottom-0 left-0 w-[1px] h-0 bg-primary group-hover:h-full transition-all duration-700 delay-400"></span>
-                </span>
-              </a>
+                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-primary to-purple-500 group-hover:w-full transition-all duration-500 ease-out" />
+              </motion.a>
             ))}
           </nav>
 
@@ -124,6 +129,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 <Menu className="h-5 w-5" />
               )}
             </Button>
+
             <Button
               variant="ghost"
               size="icon"
@@ -136,6 +142,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 <VolumeX className="h-4 w-4" />
               )}
             </Button>
+
             <Button
               variant="ghost"
               size="icon"
@@ -148,208 +155,147 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 <Moon className="h-4 w-4" />
               )}
             </Button>
+
             <div className="flex items-center space-x-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                asChild
-                className="relative group"
-                onMouseEnter={() => setHoveredIcon("github")}
-                onMouseLeave={() => setHoveredIcon("")}
-              >
-                <a
-                  href="https://github.com/DELIRlO"
-                  target="_blank"
-                  rel="noopener noreferrer"
+              {[
+                {
+                  icon: <Github className="h-4 w-4" />,
+                  href: "https://github.com/DELIRlO",
+                },
+                {
+                  icon: <Linkedin className="h-4 w-4" />,
+                  href: "https://www.linkedin.com/in/ysneshy",
+                },
+                {
+                  icon: <Instagram className="h-4 w-4" />,
+                  href: "https://www.instagram.com/ysneshy",
+                },
+              ].map((social, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ y: -3, scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
-                  <Github
-                    className={`h-4 w-4 transition-colors duration-300 ${
-                      hoveredIcon === "github"
-                        ? "text-blue-600"
-                        : "text-foreground/90"
-                    }`}
-                  />
-                  <span
-                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300 ${
-                      hoveredIcon === "github" ? "w-full" : ""
-                    }`}
-                  ></span>
-                </a>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                asChild
-                className="relative group"
-                onMouseEnter={() => setHoveredIcon("linkedin")}
-                onMouseLeave={() => setHoveredIcon("")}
-              >
-                <a
-                  href="https://www.linkedin.com/in/ysneshy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Linkedin
-                    className={`h-4 w-4 transition-colors duration-300 ${
-                      hoveredIcon === "linkedin"
-                        ? "text-blue-600"
-                        : "text-foreground/90"
-                    }`}
-                  />
-                  <span
-                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300 ${
-                      hoveredIcon === "linkedin" ? "w-full" : ""
-                    }`}
-                  ></span>
-                </a>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                asChild
-                className="relative group"
-                onMouseEnter={() => setHoveredIcon("instagram")}
-                onMouseLeave={() => setHoveredIcon("")}
-              >
-                <a
-                  href="https://www.instagram.com/ysneshy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Instagram
-                    className={`h-4 w-4 transition-colors duration-300 ${
-                      hoveredIcon === "instagram"
-                        ? "text-blue-600"
-                        : "text-foreground/90"
-                    }`}
-                  />
-                  <span
-                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300 ${
-                      hoveredIcon === "instagram" ? "w-full" : ""
-                    }`}
-                  ></span>
-                </a>
-              </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    asChild
+                    className="relative group"
+                  >
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {social.icon}
+                      <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300" />
+                    </a>
+                  </Button>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      <div
-        className={`fixed inset-0 z-40 md:hidden ${
-          mobileMenuOpen ? "block" : "hidden"
-        }`}
-      >
-        <div
-          className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
-          onClick={() => setMobileMenuOpen(false)}
-        />
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+              onClick={() => setMobileMenuOpen(false)}
+            />
 
-        <div
-          className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-background/95 backdrop-blur-lg border-l border-primary/20 transform transition-transform duration-300 ease-out ${
-            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-        >
-          <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between p-6 border-b border-primary/20">
-              <h2 className="text-xl font-bold gradient-text">Menu</h2>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setMobileMenuOpen(false)}
-                className="hover:bg-primary/10"
-              >
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-
-            <nav className="flex-1 px-6 py-8">
-              <div className="space-y-6">
-                {[
-                  { id: "home", label: "Início", icon: "fm" },
-                  { id: "about", label: "Sobre", icon: "gh" },
-                  { id: "projects", label: "Projetos", icon: "#" },
-                  { id: "contact", label: "Contato", icon: "mg" },
-                ].map((item, index) => (
-                  <button
-                    key={item.id}
-                    onClick={() => handleMobileMenuClick(item.id)}
-                    className="w-full text-left p-4 rounded-lg bg-card/30 hover:bg-primary/10 transition-all duration-300 group border border-transparent hover:border-primary/20"
-                    style={{ animationDelay: `${index * 100}ms` }}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25 }}
+              className="mobile-menu fixed top-0 right-0 z-50 h-full w-80 bg-background/95 backdrop-blur-lg border-l border-primary/20 shadow-xl"
+            >
+              <div className="flex flex-col h-full">
+                <div className="flex items-center justify-between p-6 border-b border-primary/20">
+                  <h2 className="text-xl font-bold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+                    Menu
+                  </h2>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:bg-primary/10"
                   >
-                    <div className="flex items-center space-x-4">
-                      <span className="text-2xl group-hover:scale-110 transition-transform duration-300">
-                        {item.icon}
-                      </span>
-                      <span className="text-lg font-medium group-hover:text-primary transition-colors duration-300">
-                        {item.label}
-                      </span>
-                    </div>
+                    <X className="h-5 w-5" />
+                  </Button>
+                </div>
 
-                    <div className="mt-2 h-[2px] w-0 bg-gradient-to-r from-primary to-purple-500 group-hover:w-full transition-all duration-500 ease-out" />
-                  </button>
-                ))}
+                <nav className="flex-1 px-6 py-8 overflow-y-auto">
+                  <div className="space-y-3">
+                    {menuItems.map((item, index) => (
+                      <motion.button
+                        key={item.id}
+                        onClick={() => handleMobileMenuClick(item.id)}
+                        className="w-full text-left p-4 rounded-lg hover:bg-primary/5 transition-all duration-300 group flex items-center gap-4"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                      >
+                        <span className="text-primary">{item.icon}</span>
+                        <span className="text-lg font-medium group-hover:text-primary transition-colors duration-300">
+                          {item.label}
+                        </span>
+                        <span className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent group-hover:from-primary/50 transition-all duration-500" />
+                      </motion.button>
+                    ))}
+                  </div>
+                </nav>
+
+                <div className="p-6 border-t border-primary/20">
+                  <div className="flex items-center justify-center space-x-6">
+                    {[
+                      {
+                        icon: <Github className="h-5 w-5" />,
+                        href: "https://github.com/DELIRlO",
+                      },
+                      {
+                        icon: <Linkedin className="h-5 w-5" />,
+                        href: "https://www.linkedin.com/in/ysneshy",
+                      },
+                      {
+                        icon: <Instagram className="h-5 w-5" />,
+                        href: "https://www.instagram.com/ysneshy",
+                      },
+                    ].map((social, index) => (
+                      <motion.a
+                        key={index}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ y: -3, scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-2 rounded-full hover:bg-primary/10 transition-colors duration-300"
+                      >
+                        {social.icon}
+                      </motion.a>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 text-center">
+                    <p className="text-sm text-muted-foreground">
+                      Carlos Filho
+                    </p>
+                    <p className="text-xs text-muted-foreground/60 mt-1">
+                      Desenvolvedor Full Stack
+                    </p>
+                  </div>
+                </div>
               </div>
-            </nav>
-
-            <div className="p-6 border-t border-primary/20">
-              <div className="flex items-center justify-center space-x-4">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  asChild
-                  className="hover:bg-primary/10 hover:scale-110 transition-all duration-300"
-                >
-                  <a
-                    href="https://github.com/DELIRlO"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Github className="h-5 w-5" />
-                  </a>
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  asChild
-                  className="hover:bg-primary/10 hover:scale-110 transition-all duration-300"
-                >
-                  <a
-                    href="https://www.linkedin.com/in/ysneshy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Linkedin className="h-5 w-5" />
-                  </a>
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  asChild
-                  className="hover:bg-primary/10 hover:scale-110 transition-all duration-300"
-                >
-                  <a
-                    href="https://www.instagram.com/ysneshy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Instagram className="h-5 w-5" />
-                  </a>
-                </Button>
-              </div>
-
-              <div className="mt-4 text-center">
-                <p className="text-sm text-muted-foreground">Carlos Filho</p>
-                <p className="text-xs text-muted-foreground/60">
-                  Desenvolvedor Full Stack
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
