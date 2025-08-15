@@ -2,6 +2,7 @@ import { useInView } from "react-intersection-observer";
 import { Card, CardContent } from "./ui/card";
 import userData from "../userData";
 import PageTransition from "./PageTransition";
+import { BarChart4, Bot } from "lucide-react"; // BarChart4 para Power BI, Bot para RPA
 
 // Configuração completa de cores para todas as linguagens
 const skillStyles = {
@@ -111,7 +112,9 @@ const About = () => {
                 <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
                   <CardContent className="p-0">
                     <h3 className="text-2xl font-bold mb-4">Minha História</h3>
-                    <p className="text-muted-foreground mb-4">{userData.about}</p>
+                    <p className="text-muted-foreground mb-4">
+                      {userData.about}
+                    </p>
                     <p className="text-muted-foreground mb-4">
                       Formado pelo ITA (Instituto de Tecnologia da Aeronáutica),
                       tenho experiência sólida em desenvolvimento de sistemas e
@@ -120,9 +123,9 @@ const About = () => {
                       frameworks.
                     </p>
                     <p className="text-muted-foreground">
-                      Atualmente, foco no desenvolvimento front-end com React, mas
-                      também tenho conhecimento em backend e outras tecnologias
-                      que me permitem criar soluções completas.
+                      Atualmente, foco no desenvolvimento front-end com React,
+                      mas também tenho conhecimento em backend e outras
+                      tecnologias que me permitem criar soluções completas.
                     </p>
                   </CardContent>
                 </Card>
@@ -143,7 +146,8 @@ const About = () => {
                     {/* Grid de habilidades com efeitos */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                       {userData.skills.map((skill, index) => {
-                        const style = skillStyles[skill] || skillStyles.default;
+                        const style =
+                          skillStyles[skill.name] || skillStyles.default;
                         return (
                           <div key={index} className="relative group">
                             {/* Animação de traço colorido */}
@@ -157,9 +161,16 @@ const About = () => {
                             <div
                               className={`relative bg-card rounded-lg px-3 py-2 text-sm font-medium text-center 
                               border ${style.border} group-hover:border-transparent transition-all duration-300
-                              hover:scale-105 hover:shadow-lg`}
+                              hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2`}
                             >
-                              <span className="text-foreground">{skill}</span>
+                              <img
+                                src={skill.icon}
+                                alt={`${skill.name} icon`}
+                                className="w-5 h-5 mr-2"
+                              />
+                              <span className="text-foreground">
+                                {skill.name}
+                              </span>
 
                               {/* Animação de brilho interno */}
                               <div
