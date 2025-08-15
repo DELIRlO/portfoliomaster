@@ -27,14 +27,14 @@ const PageTransition = ({ children, isVisible = true }) => {
     <div className="relative overflow-hidden">
       {/* Efeito de tela regenerando */}
       <div
-        className={`absolute inset-0 bg-gradient-to-r from-purple-600/20 via-blue-500/20 to-purple-600/20 transition-all duration-1000 ease-out ${
+        className={`absolute inset-0 bg-gradient-to-r from-gray-800/20 via-gray-500/20 to-gray-800/20 transition-all duration-1000 ease-out ${
           showContent
             ? "opacity-0 scale-x-0 translate-x-full"
             : "opacity-100 scale-x-100 translate-x-0"
         }`}
         style={{
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(147, 51, 234, 0.3) 25%, rgba(59, 130, 246, 0.3) 50%, rgba(147, 51, 234, 0.3) 75%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, #2d2d2d 15%, #4a4a4a 30%, #6b6b6b 45%, #e8e8e8 50%, #ffffff 55%, #e8e8e8 70%, #6b6b6b 85%, #4a4a4a 100%)",
           transformOrigin: "left center",
         }}
       />
@@ -46,9 +46,9 @@ const PageTransition = ({ children, isVisible = true }) => {
         }`}
         style={{
           background: `
-            radial-gradient(circle at 20% 20%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.1) 0%, transparent 50%)
+            radial-gradient(circle at 20% 20%, rgba(232, 232, 232, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(107, 107, 107, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(74, 74, 74, 0.1) 0%, transparent 50%)
           `,
           animation: showContent ? "none" : "pixelRegenerate 1s ease-out",
         }}
@@ -77,7 +77,7 @@ const PageTransition = ({ children, isVisible = true }) => {
         }`}
         style={{
           background:
-            "linear-gradient(to bottom, transparent 0%, rgba(147, 51, 234, 0.2) 48%, rgba(147, 51, 234, 0.4) 50%, rgba(147, 51, 234, 0.2) 52%, transparent 100%)",
+            "linear-gradient(to bottom, transparent 0%, rgba(107, 107, 107, 0.2) 48%, rgba(232, 232, 232, 0.4) 50%, rgba(107, 107, 107, 0.2) 52%, transparent 100%)",
           height: "2px",
           animation: showContent ? "none" : "scanLine 1s ease-out",
         }}
