@@ -68,6 +68,23 @@ const Hero = () => {
             }
           }
 
+          .circle-shimmer {
+            background: linear-gradient(
+              90deg,
+              #2d2d2d 0%,
+              #4a4a4a 15%,
+              #6b6b6b 30%,
+              #e8e8e8 45%,
+              #ffffff 50%,
+              #e8e8e8 55%,
+              #6b6b6b 70%,
+              #4a4a4a 85%,
+              #2d2d2d 100%
+            );
+            background-size: 400% 100%;
+            animation: shimmerEffect 5s ease-in-out infinite;
+          }
+
           .letter-effect {
             position: relative;
             display: inline-block;
@@ -139,9 +156,10 @@ const Hero = () => {
             }`}
           >
             <div className="mb-8">
-              <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-accent p-1">
-                <div className="w-full h-full rounded-full bg-background flex items-center justify-center text-4xl font-bold gradient-text">
-                  CF
+              <div className="relative group w-32 h-32 mx-auto mb-6">
+                <div className="absolute -inset-0.5 circle-shimmer rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative w-full h-full rounded-full bg-background flex items-center justify-center text-4xl font-bold gradient-text">
+                  {createLetterEffect("CF")}
                 </div>
               </div>
             </div>
