@@ -1,43 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carlos Filho - Desenvolvedor</title>
-    <script type="module" crossorigin src="/assets/index-D0l79rRS.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-D3wNxf_a.css" />
-    <!-- Open Graph / Facebook (WhatsApp, Discord, etc) -->
+    <title>Carlos Filho - Desenvolvedor Full Stack</title>
+
+    <!-- Meta Tags Essenciais -->
+    <meta
+      name="description"
+      content="Portfólio de Carlos Filho - Desenvolvedor Full Stack com experiência em React, Node.js e diversas tecnologias modernas"
+    />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://carlosaugusto.vercel.app" />
-    <!-- Substitua pela sua URL -->
-    <meta property="og:title" content="Meu Portfólio Incrível" />
-    <!-- Título do preview -->
+    <meta property="og:url" content="https://carlosfilho.vercel.app/" />
+    <meta
+      property="og:title"
+      content="Carlos Filho - Desenvolvedor Full Stack"
+    />
     <meta
       property="og:description"
-      content="Confira meus projetos e habilidades!"
+      content="Portfólio profissional mostrando projetos e habilidades técnicas"
     />
-    <!-- Descrição -->
     <meta
       property="og:image"
-      content="https://carlosaugusto.vercel.app/miniatura.png"
+      content="https://carlosfilho.vercel.app/miniatura.png"
     />
-    <!-- Link para a imagem de preview (1200x630px) -->
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://carlosaugusto.vercel.app" />
-    <meta name="twitter:title" content="Meu Portfólio Incrível" />
+    <meta name="twitter:url" content="https://carlosfilho.vercel.app/" />
+    <meta
+      name="twitter:title"
+      content="Carlos Filho - Desenvolvedor Full Stack"
+    />
     <meta
       name="twitter:description"
-      content="Confira meus projetos e habilidades!"
+      content="Portfólio profissional mostrando projetos e habilidades técnicas"
     />
     <meta
       name="twitter:image"
-      content="https://carlosaugusto.vercel.app/miniatura.png"
+      content="https://carlosfilho.vercel.app/miniatura.png"
     />
+
+    <!-- Botão Voltar ao Topo -->
+    <style>
+      .back-to-top {
+        display: none;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 40px;
+        height: 40px;
+        background: #3a3ea6;
+        color: white;
+        border: none;
+        border-radius: 30%;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.3s, transform 0.3s;
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+      .back-to-top:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+      }
+      .back-to-top svg {
+        width: 20px;
+        height: 20px;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <button id="back-to-top" class="back-to-top">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5 15L12 8L19 15"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+    <script>
+      window.addEventListener("scroll", () => {
+        const backToTop = document.getElementById("back-to-top");
+        backToTop.style.display = window.scrollY > 300 ? "flex" : "none";
+      });
+      document.getElementById("back-to-top").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    </script>
   </body>
 </html>
