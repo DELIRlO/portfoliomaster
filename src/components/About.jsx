@@ -125,45 +125,78 @@ const About = () => {
                       </p>
                       <ul className="list-disc list-inside">
                         <li>
-                          <Typewriter text="Desenvolvimento de sistemas e programação full-stack" />
+                          <Typewriter
+                            text="Desenvolvimento de sistemas e programação full-stack"
+                            delay={0}
+                          />
                         </li>
                         <li>
-                          <Typewriter text="Arquitetura e administração de redes computacionais" />
+                          <Typewriter
+                            text="Arquitetura e administração de redes computacionais"
+                            delay={3500}
+                          />
                         </li>
                         <li>
-                          <Typewriter text="Soluções técnicas personalizadas para infraestrutura de TI" />
+                          <Typewriter
+                            text="Soluções técnicas personalizadas para infraestrutura de TI"
+                            delay={7500}
+                          />
                         </li>
                       </ul>
                       <br />
                       <p className="font-bold">Destaques profissionais:</p>
                       <ul className="list-disc list-inside">
                         <li>
-                          <Typewriter text="Autodidata com capacitação contínua nas últimas tecnologias" />
+                          <Typewriter
+                            text="Autodidata com capacitação contínua nas últimas tecnologias"
+                            delay={12000}
+                          />
                         </li>
                         <li>
-                          <Typewriter text="Visão estratégica para análise e solução de problemas complexos" />
+                          <Typewriter
+                            text="Visão estratégica para análise e solução de problemas complexos"
+                            delay={17000}
+                          />
                         </li>
                         <li>
-                          <Typewriter text="Especialista em UX/UI e otimização da experiência do usuário" />
+                          <Typewriter
+                            text="Especialista em UX/UI e otimização da experiência do usuário"
+                            delay={22500}
+                          />
                         </li>
                         <li>
-                          <Typewriter text="Inovação aplicada com metodologias ágeis e boas práticas de desenvolvimento" />
+                          <Typewriter
+                            text="Inovação aplicada com metodologias ágeis e boas práticas de desenvolvimento"
+                            delay={28000}
+                          />
                         </li>
                       </ul>
                       <br />
                       <p className="font-bold">Competências-chave:</p>
                       <ul className="list-disc list-inside">
                         <li>
-                          <Typewriter text="Pensamento analítico para arquitetura de sistemas" />
+                          <Typewriter
+                            text="Pensamento analítico para arquitetura de sistemas"
+                            delay={34000}
+                          />
                         </li>
                         <li>
-                          <Typewriter text="Domínio de protocolos e topologias de rede" />
+                          <Typewriter
+                            text="Domínio de protocolos e topologias de rede"
+                            delay={38500}
+                          />
                         </li>
                         <li>
-                          <Typewriter text="Desenvolvimento de soluções tecnológicas customizadas" />
+                          <Typewriter
+                            text="Desenvolvimento de soluções tecnológicas customizadas"
+                            delay={43000}
+                          />
                         </li>
                         <li>
-                          <Typewriter text="Implementação de melhorias contínuas em produtos digitais" />
+                          <Typewriter
+                            text="Implementação de melhorias contínuas em produtos digitais"
+                            delay={48000}
+                          />
                         </li>
                       </ul>
                     </div>

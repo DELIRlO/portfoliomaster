@@ -1,18 +1,43 @@
 import React, { useState, useEffect } from "react";
 
-const Typewriter = ({ text, speed = 50 }) => {
+const Typewriter = ({ text, speed = 200, delay = 0 }) => {
   const [displayedText, setDisplayedText] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [startTyping, setStartTyping] = useState(false);
 
+  // Efeito para o delay inicial
   useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedText((prev) => prev + text[currentIndex]);
-        setCurrentIndex((prev) => prev + 1);
+    setStartTyping(false);
+    const timer = setTimeout(() => {
+      setStartTyping(true);
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [delay, text]); // Reseta se o delay ou o texto mudar
+
+  // Efeito para a animação de digitação
+  useEffect(() => {
+    if (startTyping) {
+      const words = text.split(" ");
+      let i = 0;
+
+      // Limpa o texto anterior antes de iniciar
+      setDisplayedText("");
+
+      const intervalId = setInterval(() => {
+        if (i < words.length) {
+          // Constrói a string palavra por palavra de forma mais segura
+          setDisplayedText(words.slice(0, i + 1).join(" "));
+          i++;
+        } else {
+          clearInterval(intervalId);
+        }
       }, speed);
-      return () => clearTimeout(timeout);
+
+      return () => clearInterval(intervalId);
+    } else {
+      // Se não estiver digitando, garante que o texto esteja limpo
+      setDisplayedText("");
     }
-  }, [currentIndex, speed, text]);
+  }, [startTyping, text, speed]);
 
   return <span>{displayedText}</span>;
 };
