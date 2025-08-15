@@ -164,14 +164,75 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
               variant="ghost"
               size="icon"
               onClick={toggleMusic}
-              className={`music-button ${musicPlaying ? "playing" : "stopped"}`}
+              className="music-button"
             >
-              {musicPlaying ? (
-                <Music className="h-4 w-4" />
-              ) : (
-                <VolumeX className="h-4 w-4" />
-              )}
+              <span
+                className={`music-icon-base ${
+                  musicPlaying ? "music-icon-on" : "music-icon-off"
+                }`}
+              >
+                {musicPlaying ? (
+                  <Music className="h-4 w-4" />
+                ) : (
+                  <VolumeX className="h-4 w-4" />
+                )}
+              </span>
             </Button>
+            <style jsx>{`
+              @keyframes music-off-animation {
+                0%,
+                100% {
+                  transform: scale(1);
+                  filter: drop-shadow(0 0 2px rgba(255, 50, 50, 0.7));
+                }
+                50% {
+                  transform: scale(1.05);
+                  filter: drop-shadow(0 0 5px rgba(255, 50, 50, 1));
+                }
+              }
+
+              @keyframes music-on-animation {
+                0%,
+                100% {
+                  transform: scale(1);
+                  filter: drop-shadow(0 0 3px rgba(50, 255, 50, 0.8));
+                }
+                50% {
+                  transform: scale(1.1);
+                  filter: drop-shadow(0 0 7px rgba(50, 255, 50, 1));
+                }
+              }
+
+              .music-icon-base {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                transition: all 0.3s ease-in-out;
+              }
+
+              .music-icon-off {
+                animation: music-off-animation 2s ease-in-out infinite;
+                background: radial-gradient(
+                  circle,
+                  rgba(255, 100, 100, 0.3) 0%,
+                  rgba(0, 0, 0, 0) 70%
+                );
+                color: #ff6666;
+              }
+
+              .music-icon-on {
+                animation: music-on-animation 1.5s ease-in-out infinite;
+                background: radial-gradient(
+                  circle,
+                  rgba(100, 255, 100, 0.4) 0%,
+                  rgba(0, 0, 0, 0) 70%
+                );
+                color: #66ff66;
+              }
+            `}</style>
             <Button
               variant="ghost"
               size="icon"
