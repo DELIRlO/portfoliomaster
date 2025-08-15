@@ -165,9 +165,9 @@ const About = () => {
 
                             {/* Card da habilidade */}
                             <div
-                              className={`relative bg-card rounded-lg px-3 py-2 text-sm font-medium text-center 
-                              border ${style.border} group-hover:border-transparent transition-all duration-300
-                              hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2`}
+                              className={`relative bg-card rounded-lg px-3 py-2 text-sm font-medium 
+                                border ${style.border} group-hover:border-transparent transition-all duration-300
+                                hover:scale-105 hover:shadow-lg flex items-center justify-start space-x-2`}
                             >
                               {style.icon ? (
                                 style.icon
