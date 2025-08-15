@@ -67,6 +67,12 @@ const skillStyles = {
   "Power BI": {
     border: "border-blue-400",
     gradient: "from-blue-400 to-cyan-400",
+    icon: <BarChart4 className="w-5 h-5" />,
+  },
+  RPA: {
+    border: "border-gray-400",
+    gradient: "from-gray-400 to-gray-500",
+    icon: <Bot className="w-5 h-5" />,
   },
   "Material UI": {
     border: "border-lightBlue-400",
@@ -163,11 +169,15 @@ const About = () => {
                               border ${style.border} group-hover:border-transparent transition-all duration-300
                               hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2`}
                             >
-                              <img
-                                src={skill.icon}
-                                alt={`${skill.name} icon`}
-                                className="w-5 h-5 mr-2"
-                              />
+                              {style.icon ? (
+                                style.icon
+                              ) : (
+                                <img
+                                  src={skill.icon}
+                                  alt={`${skill.name} icon`}
+                                  className="w-5 h-5"
+                                />
+                              )}
                               <span className="text-foreground">
                                 {skill.name}
                               </span>

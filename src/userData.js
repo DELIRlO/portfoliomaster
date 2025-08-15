@@ -25,6 +25,7 @@ const userData = {
     { name: "C#", icon: "https://cdn.simpleicons.org/dotnet/512BD4" },
     { name: "Ruby", icon: "https://cdn.simpleicons.org/ruby/CC342D" },
     { name: "Power BI", icon: "https://cdn.simpleicons.org/microsoft/F25022" },
+    { name: "RPA", icon: "" },
   ],
   social: {
     github: "https://github.com/DELIRlO",
