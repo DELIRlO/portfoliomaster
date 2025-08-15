@@ -233,15 +233,53 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 color: #66ff66;
               }
 
+              @keyframes subtle-golden-glow {
+                0%,
+                100% {
+                  filter: drop-shadow(0 0 1px rgba(255, 255, 148, 0.5))
+                    drop-shadow(0 0 2px rgba(249, 219, 92, 0.4))
+                    drop-shadow(0 0 3px rgba(239, 184, 16, 0.3))
+                    drop-shadow(0 0 5px rgba(178, 132, 5, 0.2))
+                    drop-shadow(0 0 7px rgba(121, 83, 0, 0.1));
+                }
+                50% {
+                  filter: drop-shadow(0 0 2px rgba(255, 255, 148, 0.8))
+                    drop-shadow(0 0 4px rgba(249, 219, 92, 0.7))
+                    drop-shadow(0 0 6px rgba(239, 184, 16, 0.6))
+                    drop-shadow(0 0 10px rgba(178, 132, 5, 0.4))
+                    drop-shadow(0 0 15px rgba(121, 83, 0, 0.3));
+                }
+              }
+
+              @keyframes subtle-purple-glow {
+                0%,
+                100% {
+                  filter: drop-shadow(0 0 1px rgba(225, 198, 245, 0.5))
+                    drop-shadow(0 0 2px rgba(199, 146, 234, 0.4))
+                    drop-shadow(0 0 3px rgba(162, 105, 194, 0.3))
+                    drop-shadow(0 0 5px rgba(126, 78, 153, 0.2))
+                    drop-shadow(0 0 7px rgba(88, 49, 109, 0.1));
+                }
+                50% {
+                  filter: drop-shadow(0 0 2px rgba(225, 198, 245, 0.8))
+                    drop-shadow(0 0 4px rgba(199, 146, 234, 0.7))
+                    drop-shadow(0 0 6px rgba(162, 105, 194, 0.6))
+                    drop-shadow(0 0 10px rgba(126, 78, 153, 0.4))
+                    drop-shadow(0 0 15px rgba(88, 49, 109, 0.3));
+                }
+              }
+
               .theme-icon-dark {
                 display: inline-block;
-                filter: drop-shadow(0 0 7px #f0b429);
+                color: #efb810; /* Cor base do ícone */
+                animation: subtle-golden-glow 3s ease-in-out infinite;
                 transition: filter 0.3s ease-in-out;
               }
 
               .theme-icon-light {
                 display: inline-block;
-                filter: drop-shadow(0 0 7px #8a2be2);
+                color: #c792ea; /* Cor base do ícone */
+                animation: subtle-purple-glow 3s ease-in-out infinite;
                 transition: filter 0.3s ease-in-out;
               }
             `}</style>
