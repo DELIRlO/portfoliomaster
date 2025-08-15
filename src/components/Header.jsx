@@ -266,10 +266,10 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
             <nav className="flex-1 px-6 py-8">
               <div className="space-y-6">
                 {[
-                  { id: "home", label: "Início", icon: "🏠" },
-                  { id: "about", label: "Sobre", icon: "👨‍💻" },
-                  { id: "projects", label: "Projetos", icon: "🚀" },
-                  { id: "contact", label: "Contato", icon: "📧" },
+                  { id: "home", label: "Início", icon: "fm" },
+                  { id: "about", label: "Sobre", icon: "gh" },
+                  { id: "projects", label: "Projetos", icon: "#" },
+                  { id: "contact", label: "Contato", icon: "mg" },
                 ].map((item, index) => (
                   <button
                     key={item.id}
