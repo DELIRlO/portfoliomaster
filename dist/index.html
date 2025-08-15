@@ -2,15 +2,30 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carlos Filho - Desenvolvedor Full Stack</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!-- Meta Tags Essenciais -->
+    <!-- Primary Meta Tags -->
+    <title>
+      Carlos Filho - Desenvolvedor Full Stack | React | Node.js | TypeScript
+    </title>
+    <meta name="title" content="Carlos Filho - Desenvolvedor Full Stack" />
     <meta
       name="description"
-      content="Portfólio de Carlos Filho - Desenvolvedor Full Stack com experiência em React, Node.js e diversas tecnologias modernas"
+      content="Engenheiro de Computação formado pelo ITA com experiência em desenvolvimento full stack e soluções inovadoras"
     />
+    <meta
+      name="keywords"
+      content="desenvolvedor, portfolio, react, node, javascript, typescript, fullstack"
+    />
+    <meta name="author" content="Carlos Filho" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -21,12 +36,19 @@
     />
     <meta
       property="og:description"
-      content="Portfólio profissional mostrando projetos e habilidades técnicas"
+      content="Portfólio profissional com projetos em React, Node.js e TypeScript"
     />
     <meta
       property="og:image"
-      content="https://carlosfilho.vercel.app/miniatura.png"
+      content="https://carlosfilho.vercel.app/miniatura-social.jpg"
     />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Preview do portfólio de Carlos Filho"
+    />
+    <meta property="og:locale" content="pt_BR" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -37,12 +59,17 @@
     />
     <meta
       name="twitter:description"
-      content="Portfólio profissional mostrando projetos e habilidades técnicas"
+      content="Engenheiro de Computação formado pelo ITA com projetos em desenvolvimento web"
     />
     <meta
       name="twitter:image"
-      content="https://carlosfilho.vercel.app/miniatura.png"
+      content="https://carlosfilho.vercel.app/miniatura-social.jpg"
     />
+    <meta name="twitter:creator" content="@seu_twitter" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#3a3ea6" />
+    <meta name="msapplication-TileColor" content="#3a3ea6" />
 
     <!-- Botão Voltar ao Topo -->
     <style>
@@ -51,32 +78,42 @@
         position: fixed;
         bottom: 2rem;
         right: 2rem;
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         background: #3a3ea6;
         color: white;
         border: none;
-        border-radius: 30%;
+        border-radius: 50%;
         cursor: pointer;
-        opacity: 0.7;
-        transition: opacity 0.3s, transform 0.3s;
+        opacity: 0.8;
+        transition: all 0.3s ease;
         z-index: 1000;
         align-items: center;
         justify-content: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
       .back-to-top:hover {
         opacity: 1;
-        transform: translateY(-2px);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+      .back-to-top:active {
+        transform: translateY(-1px);
       }
       .back-to-top svg {
         width: 20px;
         height: 20px;
       }
     </style>
+
+    <!-- Preload de recursos críticos -->
+    <link rel="preload" href="/src/main.jsx" as="script" />
   </head>
   <body>
     <div id="root"></div>
-    <button id="back-to-top" class="back-to-top">
+
+    <!-- Botão Voltar ao Topo -->
+    <button id="back-to-top" class="back-to-top" aria-label="Voltar ao topo">
       <svg
         width="24"
         height="24"
@@ -93,13 +130,23 @@
         />
       </svg>
     </button>
+
     <script>
-      window.addEventListener("scroll", () => {
+      // Botão Voltar ao Topo otimizado
+      document.addEventListener("DOMContentLoaded", () => {
         const backToTop = document.getElementById("back-to-top");
-        backToTop.style.display = window.scrollY > 300 ? "flex" : "none";
-      });
-      document.getElementById("back-to-top").addEventListener("click", () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        window.addEventListener("scroll", () => {
+          backToTop.style.display = window.scrollY > 300 ? "flex" : "none";
+        });
+
+        backToTop.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        });
       });
     </script>
   </body>
