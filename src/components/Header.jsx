@@ -183,11 +183,11 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 0%,
                 100% {
                   transform: scale(1);
-                  filter: drop-shadow(0 0 2px rgba(255, 50, 50, 0.7));
+                  filter: drop-shadow(0 0 1px rgba(255, 50, 50, 0.4));
                 }
                 50% {
                   transform: scale(1.05);
-                  filter: drop-shadow(0 0 5px rgba(255, 50, 50, 1));
+                  filter: drop-shadow(0 0 3px rgba(255, 50, 50, 0.6));
                 }
               }
 
@@ -195,11 +195,11 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 0%,
                 100% {
                   transform: scale(1);
-                  filter: drop-shadow(0 0 3px rgba(50, 255, 50, 0.8));
+                  filter: drop-shadow(0 0 2px rgba(50, 255, 50, 0.5));
                 }
                 50% {
                   transform: scale(1.1);
-                  filter: drop-shadow(0 0 7px rgba(50, 255, 50, 1));
+                  filter: drop-shadow(0 0 4px rgba(50, 255, 50, 0.6));
                 }
               }
 
@@ -217,7 +217,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 animation: music-off-animation 2s ease-in-out infinite;
                 background: radial-gradient(
                   circle,
-                  rgba(255, 100, 100, 0.3) 0%,
+                  rgba(255, 100, 100, 0.18) 0%,
                   rgba(0, 0, 0, 0) 70%
                 );
                 color: #ff6666;
@@ -227,10 +227,22 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 animation: music-on-animation 1.5s ease-in-out infinite;
                 background: radial-gradient(
                   circle,
-                  rgba(100, 255, 100, 0.4) 0%,
+                  rgba(100, 255, 100, 0.24) 0%,
                   rgba(0, 0, 0, 0) 70%
                 );
                 color: #66ff66;
+              }
+
+              .theme-icon-dark {
+                display: inline-block;
+                filter: drop-shadow(0 0 7px #f0b429);
+                transition: filter 0.3s ease-in-out;
+              }
+
+              .theme-icon-light {
+                display: inline-block;
+                filter: drop-shadow(0 0 7px #8a2be2);
+                transition: filter 0.3s ease-in-out;
               }
             `}</style>
             <Button
@@ -240,9 +252,13 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
               className="hover:bg-primary/10"
             >
               {darkMode ? (
-                <Sun className="h-4 w-4" />
+                <span className="theme-icon-dark">
+                  <Sun className="h-4 w-4" />
+                </span>
               ) : (
-                <Moon className="h-4 w-4" />
+                <span className="theme-icon-light">
+                  <Moon className="h-4 w-4" />
+                </span>
               )}
             </Button>
             <div className="flex items-center space-x-1">
