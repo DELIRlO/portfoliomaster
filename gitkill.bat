@@ -24,7 +24,7 @@ if "%confirm%"=="s" (
     
     echo.
     echo Executando git push...
-    git push origin main
+    call :git_push_with_credentials
     if !errorlevel! neq 0 (
         echo Erro no git push. Tentando git pull primeiro...
         git pull origin main
@@ -34,7 +34,7 @@ if "%confirm%"=="s" (
             goto main
         )
         echo git pull realizado com sucesso. Tentando push novamente...
-        git push origin main
+        call :git_push_with_credentials
         if !errorlevel! neq 0 (
             echo Erro persistente no git push.
             pause
@@ -61,7 +61,11 @@ if !errorlevel! neq 0 (
     )
     echo Configurando repositório remoto...
     set /p remote_url="Informe a URL do repositório remoto: "
-    git remote add origin !remote_url!
+    
+    :: Modifique a URL para incluir suas credenciais
+    set "remote_url=!remote_url:https://=https://Yxk441631%40github.com:Yxk441631@!"
+    
+    git remote add origin "!remote_url!"
     if !errorlevel! neq 0 (
         echo Erro ao configurar repositório remoto.
         pause
@@ -74,4 +78,23 @@ if !errorlevel! neq 0 (
     echo Erro ao fazer pull. Pode ser o primeiro commit.
     git branch -M main
 )
+exit /b
+
+:git_push_with_credentials
+:: Verifica se já existe um remote configurado
+git remote get-url origin >nul 2>&1
+if !errorlevel! equ 0 (
+    :: Obtém a URL atual
+    for /f "delims=" %%a in ('git remote get-url origin') do set "current_url=%%a"
+    
+    :: Se não contiver credenciais, adiciona
+    echo !current_url! | findstr /i /c:"Yxk441631@" >nul
+    if !errorlevel! neq 0 (
+        set "new_url=!current_url:https://=https://Yxk441631%40github.com:Yxk441631@!"
+        git remote set-url origin "!new_url!"
+    )
+)
+
+:: Executa o push
+git push origin main
 exit /b
