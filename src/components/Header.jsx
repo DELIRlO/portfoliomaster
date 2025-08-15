@@ -179,27 +179,75 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
               </span>
             </Button>
             <style jsx>{`
-              @keyframes music-off-animation {
+              @keyframes subtle-golden-glow {
                 0%,
                 100% {
-                  transform: scale(1);
-                  filter: drop-shadow(0 0 1px rgba(255, 50, 50, 0.4));
+                  filter: drop-shadow(0 0 1.5px rgba(255, 255, 148, 0.7))
+                    drop-shadow(0 0 3px rgba(249, 219, 92, 0.6))
+                    drop-shadow(0 0 4.5px rgba(239, 184, 16, 0.5))
+                    drop-shadow(0 0 7.5px rgba(178, 132, 5, 0.3))
+                    drop-shadow(0 0 11px rgba(121, 83, 0, 0.2));
                 }
                 50% {
-                  transform: scale(1.05);
-                  filter: drop-shadow(0 0 3px rgba(255, 50, 50, 0.6));
+                  filter: drop-shadow(0 0 2.5px rgba(255, 255, 148, 0.9))
+                    drop-shadow(0 0 5px rgba(249, 219, 92, 0.8))
+                    drop-shadow(0 0 7.5px rgba(239, 184, 16, 0.7))
+                    drop-shadow(0 0 12.5px rgba(178, 132, 5, 0.5))
+                    drop-shadow(0 0 18px rgba(121, 83, 0, 0.4));
                 }
               }
 
-              @keyframes music-on-animation {
+              @keyframes subtle-purple-glow {
                 0%,
                 100% {
-                  transform: scale(1);
-                  filter: drop-shadow(0 0 2px rgba(50, 255, 50, 0.5));
+                  filter: drop-shadow(0 0 1.5px rgba(225, 198, 245, 0.7))
+                    drop-shadow(0 0 3px rgba(199, 146, 234, 0.6))
+                    drop-shadow(0 0 4.5px rgba(162, 105, 194, 0.5))
+                    drop-shadow(0 0 7.5px rgba(126, 78, 153, 0.3))
+                    drop-shadow(0 0 11px rgba(88, 49, 109, 0.2));
                 }
                 50% {
-                  transform: scale(1.1);
-                  filter: drop-shadow(0 0 4px rgba(50, 255, 50, 0.6));
+                  filter: drop-shadow(0 0 2.5px rgba(225, 198, 245, 0.9))
+                    drop-shadow(0 0 5px rgba(199, 146, 234, 0.8))
+                    drop-shadow(0 0 7.5px rgba(162, 105, 194, 0.7))
+                    drop-shadow(0 0 12.5px rgba(126, 78, 153, 0.5))
+                    drop-shadow(0 0 18px rgba(88, 49, 109, 0.4));
+                }
+              }
+
+              @keyframes subtle-red-glow {
+                0%,
+                100% {
+                  filter: drop-shadow(0 0 1.5px rgba(255, 153, 153, 0.13))
+                    drop-shadow(0 0 3px rgba(255, 77, 77, 0.11))
+                    drop-shadow(0 0 4.5px rgba(255, 0, 0, 0.09))
+                    drop-shadow(0 0 7.5px rgba(204, 0, 0, 0.06))
+                    drop-shadow(0 0 11px rgba(128, 0, 0, 0.05));
+                }
+                50% {
+                  filter: drop-shadow(0 0 2.5px rgba(255, 153, 153, 0.21))
+                    drop-shadow(0 0 5px rgba(255, 77, 77, 0.18))
+                    drop-shadow(0 0 7.5px rgba(255, 0, 0, 0.15))
+                    drop-shadow(0 0 12.5px rgba(204, 0, 0, 0.12))
+                    drop-shadow(0 0 18px rgba(128, 0, 0, 0.09));
+                }
+              }
+
+              @keyframes subtle-green-glow {
+                0%,
+                100% {
+                  filter: drop-shadow(0 0 1.5px rgba(153, 255, 153, 0.13))
+                    drop-shadow(0 0 3px rgba(77, 255, 77, 0.11))
+                    drop-shadow(0 0 4.5px rgba(0, 255, 0, 0.09))
+                    drop-shadow(0 0 7.5px rgba(0, 204, 0, 0.06))
+                    drop-shadow(0 0 11px rgba(0, 128, 0, 0.05));
+                }
+                50% {
+                  filter: drop-shadow(0 0 2.5px rgba(153, 255, 153, 0.21))
+                    drop-shadow(0 0 5px rgba(77, 255, 77, 0.18))
+                    drop-shadow(0 0 7.5px rgba(0, 255, 0, 0.15))
+                    drop-shadow(0 0 12.5px rgba(0, 204, 0, 0.12))
+                    drop-shadow(0 0 18px rgba(0, 128, 0, 0.09));
                 }
               }
 
@@ -214,73 +262,35 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
               }
 
               .music-icon-off {
-                animation: music-off-animation 2s ease-in-out infinite;
                 background: radial-gradient(
                   circle,
                   rgba(255, 100, 100, 0.18) 0%,
                   rgba(0, 0, 0, 0) 70%
                 );
                 color: #ff6666;
+                animation: subtle-red-glow 3s ease-in-out infinite;
               }
 
               .music-icon-on {
-                animation: music-on-animation 1.5s ease-in-out infinite;
                 background: radial-gradient(
                   circle,
                   rgba(100, 255, 100, 0.24) 0%,
                   rgba(0, 0, 0, 0) 70%
                 );
                 color: #66ff66;
-              }
-
-              @keyframes subtle-golden-glow {
-                0%,
-                100% {
-                  filter: drop-shadow(0 0 1px rgba(255, 255, 148, 0.5))
-                    drop-shadow(0 0 2px rgba(249, 219, 92, 0.4))
-                    drop-shadow(0 0 3px rgba(239, 184, 16, 0.3))
-                    drop-shadow(0 0 5px rgba(178, 132, 5, 0.2))
-                    drop-shadow(0 0 7px rgba(121, 83, 0, 0.1));
-                }
-                50% {
-                  filter: drop-shadow(0 0 2px rgba(255, 255, 148, 0.8))
-                    drop-shadow(0 0 4px rgba(249, 219, 92, 0.7))
-                    drop-shadow(0 0 6px rgba(239, 184, 16, 0.6))
-                    drop-shadow(0 0 10px rgba(178, 132, 5, 0.4))
-                    drop-shadow(0 0 15px rgba(121, 83, 0, 0.3));
-                }
-              }
-
-              @keyframes subtle-purple-glow {
-                0%,
-                100% {
-                  filter: drop-shadow(0 0 1px rgba(225, 198, 245, 0.5))
-                    drop-shadow(0 0 2px rgba(199, 146, 234, 0.4))
-                    drop-shadow(0 0 3px rgba(162, 105, 194, 0.3))
-                    drop-shadow(0 0 5px rgba(126, 78, 153, 0.2))
-                    drop-shadow(0 0 7px rgba(88, 49, 109, 0.1));
-                }
-                50% {
-                  filter: drop-shadow(0 0 2px rgba(225, 198, 245, 0.8))
-                    drop-shadow(0 0 4px rgba(199, 146, 234, 0.7))
-                    drop-shadow(0 0 6px rgba(162, 105, 194, 0.6))
-                    drop-shadow(0 0 10px rgba(126, 78, 153, 0.4))
-                    drop-shadow(0 0 15px rgba(88, 49, 109, 0.3));
-                }
+                animation: subtle-green-glow 3s ease-in-out infinite;
               }
 
               .theme-icon-dark {
                 display: inline-block;
-                color: #efb810; /* Cor base do ícone */
+                color: #efb810;
                 animation: subtle-golden-glow 3s ease-in-out infinite;
-                transition: filter 0.3s ease-in-out;
               }
 
               .theme-icon-light {
                 display: inline-block;
-                color: #c792ea; /* Cor base do ícone */
+                color: #c792ea;
                 animation: subtle-purple-glow 3s ease-in-out infinite;
-                transition: filter 0.3s ease-in-out;
               }
             `}</style>
             <Button
