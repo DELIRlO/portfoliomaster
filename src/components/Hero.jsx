@@ -68,6 +68,31 @@ const Hero = () => {
             }
           }
 
+          @keyframes shimmerEffectDiagonal {
+            0% {
+              background-position: -100% -100%;
+            }
+            100% {
+              background-position: 100% 100%;
+            }
+          }
+
+          .name-chrome-effect .letter-effect {
+            background: linear-gradient(
+              135deg,
+              #d4d4d4 0%,
+              #fafafa 25%,
+              #d4d4d4 50%,
+              #fafafa 75%,
+              #d4d4d4 100%
+            );
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerEffectDiagonal 3s ease-in-out infinite;
+          }
+
           .circle-shimmer {
             background: linear-gradient(
               90deg,
