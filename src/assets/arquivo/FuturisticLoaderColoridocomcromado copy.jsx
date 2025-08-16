@@ -35,7 +35,7 @@ const FuturisticLoader = ({ onComplete }) => {
     return () => clearInterval(interval);
   }, [onComplete]);
 
-  // Controla os passos do loading
+  // Controla os passos do loading - mais demorado
   useEffect(() => {
     const stepInterval = setInterval(() => {
       setCurrentStep((prev) => {
@@ -45,9 +45,9 @@ const FuturisticLoader = ({ onComplete }) => {
         }
         return prev + 1;
       });
-    }, 800);
+    }, 1400); // Aumentado de 800ms para 1400ms
 
-    setTimeout(() => setShowText(true), 400);
+    setTimeout(() => setShowText(true), 600); // Aumentado de 400ms para 600ms
 
     return () => clearInterval(stepInterval);
   }, [steps.length]);
@@ -80,7 +80,7 @@ const FuturisticLoader = ({ onComplete }) => {
 
   return (
     <div className="fixed inset-0 z-[9999] bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] backdrop-blur-md flex items-center justify-center overflow-hidden">
-      {/* Grid de fundo animado */}
+      {/* Grid de fundo animado com energia */}
       <div className="absolute inset-0 opacity-10">
         <div
           className="w-full h-full"
@@ -93,10 +93,78 @@ const FuturisticLoader = ({ onComplete }) => {
             animation: "gridMove 20s linear infinite",
           }}
         />
+
+        {/* Quadrados com energia pulsante - apenas azul */}
+        {Array.from({ length: 50 }, (_, i) => {
+          const gridX = (i % 10) * 120;
+          const gridY = Math.floor(i / 10) * 100;
+          return (
+            <div
+              key={`energy-${i}`}
+              className="absolute"
+              style={{
+                left: `${gridX}px`,
+                top: `${gridY}px`,
+                width: "40px",
+                height: "40px",
+                border: "1px solid transparent",
+                background: "transparent",
+                animation: `energyGrid ${
+                  3 + Math.random() * 4
+                }s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 6}s`,
+              }}
+            />
+          );
+        })}
+
+        {/* Ondas de energia atravessando o grid - apenas azul */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 38px,
+                rgba(0, 136, 255, 0.1) 40px,
+                rgba(0, 136, 255, 0.1) 42px,
+                transparent 44px
+              )
+            `,
+            animation: "energyWave 4s linear infinite",
+          }}
+        />
       </div>
 
       {/* Partículas flutuantes */}
       {particles}
+
+      {/* Trilhas de energia - apenas azul */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Trilhas verticais azuis */}
+        {Array.from({ length: 6 }, (_, i) => (
+          <div
+            key={`v-${i}`}
+            className="absolute w-0.5 opacity-25"
+            style={{
+              left: `${15 + i * 15}%`,
+              top: `-100px`,
+              height: "200px",
+              background: `linear-gradient(180deg, 
+                transparent, 
+                #0088ff 20%, 
+                #ffffff 50%, 
+                #0088ff 80%, 
+                transparent)`,
+              animation: `energyFlowV ${
+                2.5 + Math.random() * 2.5
+              }s linear infinite`,
+              animationDelay: `${Math.random() * 3}s`,
+            }}
+          />
+        ))}
+      </div>
 
       {/* Efeito de brilho radial */}
       <div className="absolute inset-0 pointer-events-none">
@@ -356,6 +424,52 @@ const FuturisticLoader = ({ onComplete }) => {
               ${Math.random() * 20 - 10}px,
               ${Math.random() * 20 - 10}px
             );
+          }
+        }
+
+        @keyframes energyFlowV {
+          0% {
+            transform: translateY(-100px);
+            opacity: 0;
+          }
+          20% {
+            opacity: 0.25;
+          }
+          80% {
+            opacity: 0.25;
+          }
+          100% {
+            transform: translateY(calc(100vh + 100px));
+            opacity: 0;
+          }
+        }
+
+        @keyframes energyGrid {
+          0%,
+          90% {
+            border-color: transparent;
+            box-shadow: none;
+            background: transparent;
+          }
+          10% {
+            border-color: rgba(0, 136, 255, 0.6);
+            box-shadow: 0 0 15px rgba(0, 136, 255, 0.4),
+              inset 0 0 15px rgba(0, 136, 255, 0.2);
+            background: rgba(0, 136, 255, 0.1);
+          }
+        }
+
+        @keyframes energyWave {
+          0% {
+            transform: translateX(-100%) translateY(-100%);
+            opacity: 0.3;
+          }
+          50% {
+            opacity: 0.1;
+          }
+          100% {
+            transform: translateX(100%) translateY(100%);
+            opacity: 0.3;
           }
         }
       `}</style>

@@ -14,43 +14,66 @@ const FuturisticLoader = ({ onComplete }) => {
     "Portfolio pronto!",
   ];
 
-  // Controla o progresso da barra
+  // Define os marcos de progresso para cada passo
+  const getTargetProgress = (step) => {
+    const milestones = [15, 30, 50, 70, 85, 100];
+    return milestones[step] || 100;
+  };
+
+  // Efeito principal que controla o progresso
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
-        const increment = Math.random() * 3 + 1.5;
-        const newProgress = prev + increment;
-
-        if (newProgress >= 100) {
+        if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => {
-            if (onComplete) onComplete();
-          }, 800);
           return 100;
         }
+
+        const target = getTargetProgress(currentStep);
+        let increment;
+
+        if (prev < target) {
+          // Avança mais rápido quando está abaixo do alvo do passo atual
+          increment = Math.random() * 2 + 1;
+        } else if (currentStep < steps.length - 1) {
+          // Desacelera quando atingiu o alvo mas ainda não é o último passo
+          increment = Math.random() * 0.3;
+        } else {
+          // Último passo - avança até 100%
+          increment = Math.random() * 1.5 + 0.5;
+        }
+
+        const newProgress = Math.min(prev + increment, 100);
+
+        if (newProgress >= 100 && onComplete) {
+          setTimeout(onComplete, 800);
+        }
+
         return newProgress;
       });
     }, 150);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, [currentStep, onComplete, steps.length]);
 
-  // Controla os passos do loading - mais demorado
+  // Efeito que atualiza os passos conforme o progresso
   useEffect(() => {
-    const stepInterval = setInterval(() => {
-      setCurrentStep((prev) => {
-        if (prev >= steps.length - 1) {
-          clearInterval(stepInterval);
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, 1400); // Aumentado de 800ms para 1400ms
+    const checkStepCompletion = () => {
+      const target = getTargetProgress(currentStep);
+      if (progress >= target && currentStep < steps.length - 1) {
+        setCurrentStep((prev) => prev + 1);
+      }
+    };
 
-    setTimeout(() => setShowText(true), 600); // Aumentado de 400ms para 600ms
+    const checkInterval = setInterval(checkStepCompletion, 100);
+    return () => clearInterval(checkInterval);
+  }, [progress, currentStep]);
 
-    return () => clearInterval(stepInterval);
-  }, [steps.length]);
+  // Mostrar texto após delay
+  useEffect(() => {
+    const timer = setTimeout(() => setShowText(true), 600);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Gera partículas flutuantes
   const particles = Array.from({ length: 30 }, (_, i) => {
@@ -80,7 +103,7 @@ const FuturisticLoader = ({ onComplete }) => {
 
   return (
     <div className="fixed inset-0 z-[9999] bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] backdrop-blur-md flex items-center justify-center overflow-hidden">
-      {/* Grid de fundo animado com energia */}
+      {/* Grid de fundo animado */}
       <div className="absolute inset-0 opacity-10">
         <div
           className="w-full h-full"
@@ -94,7 +117,7 @@ const FuturisticLoader = ({ onComplete }) => {
           }}
         />
 
-        {/* Quadrados com energia pulsante - apenas azul */}
+        {/* Quadrados com energia pulsante */}
         {Array.from({ length: 50 }, (_, i) => {
           const gridX = (i % 10) * 120;
           const gridY = Math.floor(i / 10) * 100;
@@ -118,7 +141,7 @@ const FuturisticLoader = ({ onComplete }) => {
           );
         })}
 
-        {/* Ondas de energia atravessando o grid - apenas azul */}
+        {/* Ondas de energia */}
         <div
           className="absolute inset-0"
           style={{
@@ -140,9 +163,8 @@ const FuturisticLoader = ({ onComplete }) => {
       {/* Partículas flutuantes */}
       {particles}
 
-      {/* Trilhas de energia - apenas azul */}
+      {/* Trilhas de energia */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Trilhas verticais azuis */}
         {Array.from({ length: 6 }, (_, i) => (
           <div
             key={`v-${i}`}
@@ -275,7 +297,6 @@ const FuturisticLoader = ({ onComplete }) => {
                     #2d2d2d 100%)`,
                 }}
               >
-                {/* Efeito brilho */}
                 <div
                   className="absolute inset-0"
                   style={{
@@ -290,13 +311,12 @@ const FuturisticLoader = ({ onComplete }) => {
               </div>
             </div>
 
-            {/* Porcentagem */}
             <div className="absolute -top-8 right-0 text-[#e8e8e8] text-sm font-mono">
               {Math.round(Math.min(progress, 100))}%
             </div>
           </div>
 
-          {/* Steps do loading - SÍMBOLO MINIMALISTA */}
+          {/* Steps do loading */}
           <div className="text-left space-y-2 mb-6">
             {steps.map((step, index) => (
               <div
@@ -318,7 +338,6 @@ const FuturisticLoader = ({ onComplete }) => {
                     }`}
                   />
                 </div>
-                {/* Símbolo minimalista em azul */}
                 <span className="text-blue-400 text-xs mr-1">
                   {index < currentStep
                     ? "✓"
@@ -426,7 +445,6 @@ const FuturisticLoader = ({ onComplete }) => {
             );
           }
         }
-
         @keyframes energyFlowV {
           0% {
             transform: translateY(-100px);
@@ -443,7 +461,6 @@ const FuturisticLoader = ({ onComplete }) => {
             opacity: 0;
           }
         }
-
         @keyframes energyGrid {
           0%,
           90% {
@@ -458,7 +475,6 @@ const FuturisticLoader = ({ onComplete }) => {
             background: rgba(0, 136, 255, 0.1);
           }
         }
-
         @keyframes energyWave {
           0% {
             transform: translateX(-100%) translateY(-100%);
