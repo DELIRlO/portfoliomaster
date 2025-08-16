@@ -67,53 +67,28 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
             <div className="relative group p-2">
               <h1 className="text-xl font-bold">
                 {(() => {
-                  const SmokeText = ({ text }) => {
-                    const gradientColors = [
-                      "#8B4513",
-                      "#A0522D",
-                      "#D2691E",
-                      "#FF7F00",
-                      "#FFA500",
-                      "#FFB347",
-                      "#FFCC00",
-                      "#FFD700",
-                      "#FFFF00",
-                      "#FFF700",
-                      "#FFD700",
-                      "#FFCC00",
-                      "#FFB347",
-                      "#FFA500",
-                      "#FF7F00",
-                      "#D2691E",
-                      "#A0522D",
-                      "#8B4513",
-                    ];
-
-                    const textStyle = {
-                      background: `linear-gradient(90deg, ${gradientColors.join(
-                        ", "
-                      )})`,
-                      backgroundSize: "400% 400%",
-                      animation: "gradientAnimation 10s ease infinite",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      display: "inline-block",
-                    };
-
+                  const ChromeText = ({ text }) => {
                     return (
                       <>
                         <style>{`
-                          @keyframes gradientAnimation {
-                            0% { background-position: 0% 50%; }
-                            50% { background-position: 100% 50%; }
-                            100% { background-position: 0% 50%; }
+                          @keyframes shimmerEffectDiagonal {
+                            0% { background-position: -200% -200%; }
+                            100% { background-position: 200% 200%; }
+                          }
+                          .name-chrome-effect {
+                            background: linear-gradient(135deg, #d4d4d8, #ffffff, #d4d4d8);
+                            background-size: 200% 200%;
+                            animation: shimmerEffectDiagonal 3s linear infinite;
+                            -webkit-background-clip: text;
+                            background-clip: text;
+                            color: transparent;
                           }
                         `}</style>
-                        <span style={textStyle}>{text}</span>
+                        <span className="name-chrome-effect">{text}</span>
                       </>
                     );
                   };
-                  return <SmokeText text="Carlos.Filho" />;
+                  return <ChromeText text="Carlos.Filho" />;
                 })()}
               </h1>
             </div>
