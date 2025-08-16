@@ -65,7 +65,57 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="relative group p-2">
-              <h1 className="text-xl font-bold">Carlos.Filho</h1>
+              <h1 className="text-xl font-bold">
+                {(() => {
+                  const SmokeText = ({ text }) => {
+                    const gradientColors = [
+                      "#8B4513",
+                      "#A0522D",
+                      "#D2691E",
+                      "#FF7F00",
+                      "#FFA500",
+                      "#FFB347",
+                      "#FFCC00",
+                      "#FFD700",
+                      "#FFFF00",
+                      "#FFF700",
+                      "#FFD700",
+                      "#FFCC00",
+                      "#FFB347",
+                      "#FFA500",
+                      "#FF7F00",
+                      "#D2691E",
+                      "#A0522D",
+                      "#8B4513",
+                    ];
+
+                    const textStyle = {
+                      background: `linear-gradient(90deg, ${gradientColors.join(
+                        ", "
+                      )})`,
+                      backgroundSize: "400% 400%",
+                      animation: "gradientAnimation 10s ease infinite",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      display: "inline-block",
+                    };
+
+                    return (
+                      <>
+                        <style>{`
+                          @keyframes gradientAnimation {
+                            0% { background-position: 0% 50%; }
+                            50% { background-position: 100% 50%; }
+                            100% { background-position: 0% 50%; }
+                          }
+                        `}</style>
+                        <span style={textStyle}>{text}</span>
+                      </>
+                    );
+                  };
+                  return <SmokeText text="Carlos.Filho" />;
+                })()}
+              </h1>
             </div>
           </div>
 
