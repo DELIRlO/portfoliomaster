@@ -139,7 +139,7 @@ const Contact = () => {
                   </Card>
                 </div>
 
-                {/* Redes sociais */}
+                {/* Seção Redes Sociais - Nova Abordagem */}
                 <div
                   className={`transition-all duration-1000 delay-400 ${
                     inView ? "animate-fade-in-right" : "opacity-0"
@@ -159,9 +159,34 @@ const Contact = () => {
                             className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-primary/10 transition-colors group"
                           >
                             <div className="flex items-center space-x-3">
-                              <link.icon className="h-5 w-5 text-primary" />
+                              {/* Container do ícone */}
+                              <div className="h-5 w-5 flex items-center justify-center">
+                                {link.label === "Instagram" ? (
+                                  <Instagram className="h-5 w-5 animate-[pulseColors_3s_infinite]" />
+                                ) : link.label === "GitHub" ? (
+                                  <link.icon className="h-5 w-5 animate-[pulseGitHub_3s_infinite]" />
+                                ) : link.label === "LinkedIn" ? (
+                                  <link.icon className="h-5 w-5 animate-[pulseLinkedIn_3s_infinite]" />
+                                ) : (
+                                  <link.icon className="h-5 w-5 text-primary" />
+                                )}
+                              </div>
+
+                              {/* Texto com transição no hover */}
                               <div>
-                                <p className="font-medium">{link.label}</p>
+                                <p
+                                  className={`font-medium ${
+                                    link.label === "Instagram"
+                                      ? "transition-colors duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-yellow-500"
+                                      : link.label === "GitHub"
+                                      ? "transition-colors duration-300 group-hover:text-purple-500"
+                                      : link.label === "LinkedIn"
+                                      ? "transition-colors duration-300 group-hover:text-blue-600"
+                                      : ""
+                                  }`}
+                                >
+                                  {link.label}
+                                </p>
                                 <p className="text-sm text-muted-foreground">
                                   {link.description}
                                 </p>

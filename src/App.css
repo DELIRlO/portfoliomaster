@@ -167,13 +167,32 @@
   animation: fadeInAfterLoad 1s ease-in-out;
 }
 
-@keyframes fadeInAfterLoad {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+@keyframes pulseColors {
+  0%,
+  100% {
+    color: #ec4899; /* Rosa */
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  50% {
+    color: #facc15; /* Amarelo */
+  }
+}
+
+@keyframes pulseGitHub {
+  0%,
+  100% {
+    color: #a78bfa; /* Roxo Claro */
+  }
+  50% {
+    color: #6d28d9; /* Roxo Escuro */
+  }
+}
+
+@keyframes pulseLinkedIn {
+  0%,
+  100% {
+    color: #0a66c2; /* Azul LinkedIn */
+  }
+  50% {
+    color: #3b82f6; /* Azul Claro */
   }
 }
