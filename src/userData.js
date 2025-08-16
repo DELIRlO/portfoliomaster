@@ -33,6 +33,7 @@ const userData = {
     portfolio1: "https://carlosfilho.vercel.app",
     portfolio2: "https://carlosdiniz.vercel.app",
     instagram: "https://www.instagram.com/ysneshy",
+    whatsapp: "https://wa.me/5591988199828",
   },
   projects: [
     {
