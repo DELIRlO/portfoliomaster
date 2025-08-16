@@ -122,6 +122,9 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      pixelarticons:
+        specifier: ^1.8.1
+        version: 1.8.1
       prop-types:
         specifier: ^15.8.1
         version: 15.8.1
@@ -2198,6 +2201,9 @@ packages:
   picomatch@4.0.2:
     resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
     engines: {node: '>=12'}
+
+  pixelarticons@1.8.1:
+    resolution: {integrity: sha512-4taoDCleft9RtzVHLA73VDnRBwJNqlwbW8ShO6S0G9b+bM5ArGe1MVFW9xpromuPvQgVUYCSjRxNAQuNtADqyA==}
 
   pkce-challenge@5.0.0:
     resolution: {integrity: sha512-ueGLflrrnvwB3xuo/uGob5pd5FN7l0MsLf0Z87o/UQmRtwjvfylfc9MurIxRAWywCYTgrvpXBcqjV4OfCYGCIQ==}
@@ -4520,6 +4526,8 @@ snapshots:
   picocolors@1.1.1: {}
 
   picomatch@4.0.2: {}
+
+  pixelarticons@1.8.1: {}
 
   pkce-challenge@5.0.0: {}
 

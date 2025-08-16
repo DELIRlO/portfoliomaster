@@ -27,7 +27,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Open Graph Meta Tags -->
+    <!-- CORREÇÃO: Open Graph Meta Tags com URL absoluta e versioning -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://carlosaugusto.vercel.app/" />
     <meta
@@ -38,23 +38,26 @@
       property="og:description"
       content="Portfólio profissional com projetos em React, Node.js e TypeScript"
     />
+    <!-- CORREÇÃO: URL absoluta com timestamp para forçar atualização -->
     <meta
       property="og:image"
-      content="https://carlosaugusto.vercel.app/miniatura-social.jpg"
+      content="https://carlosaugusto.vercel.app/miniatura-social.jpg?v=3&t=1234567890"
     />
+    <!-- CORREÇÃO: Dimensões corretas para redes sociais -->
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta
       property="og:image:alt"
-      content="Preview do portfólio de Carlos Filho"
+      content="Preview do portfólio de Carlos Filho - Desenvolvedor Full Stack"
     />
     <meta property="og:site_name" content="Portfólio Carlos Filho" />
     <meta property="og:locale" content="pt_BR" />
 
-    <!-- Twitter Meta Tags -->
+    <!-- CORREÇÃO: Twitter Meta Tags com URL absoluta -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@seu_usuario" />
-    <meta name="twitter:creator" content="@seu_usuario" />
+    <meta name="twitter:site" content="@carlosfilho" />
+    <meta name="twitter:creator" content="@carlosfilho" />
     <meta
       name="twitter:title"
       content="Carlos Filho - Desenvolvedor Full Stack"
@@ -65,16 +68,21 @@
     />
     <meta
       name="twitter:image"
-      content="https://carlosaugusto.vercel.app/miniatura-social.jpg"
+      content="https://carlosaugusto.vercel.app/miniatura-social.jpg?v=3&t=1234567890"
     />
     <meta
       name="twitter:image:alt"
-      content="Preview do portfólio de Carlos Filho"
+      content="Preview do portfólio de Carlos Filho - Desenvolvedor Full Stack"
     />
-    <meta
-      property="og:image"
-      content="https://carlosaugusto.vercel.app/miniatura-social.jpg?v=2"
-    />
+
+    <!-- ADIÇÃO: Meta tags adicionais para melhor compatibilidade -->
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://carlosaugusto.vercel.app/" />
+
+    <!-- ADIÇÃO: Preconnect para melhor performance -->
+    <link rel="preconnect" href="https://carlosaugusto.vercel.app" />
+
     <!-- Theme Color -->
     <meta name="theme-color" content="#3a3ea6" />
     <meta name="msapplication-TileColor" content="#3a3ea6" />
