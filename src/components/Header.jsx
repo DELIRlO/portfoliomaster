@@ -65,30 +65,160 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="relative group p-2">
-              <h1 className="text-xl font-bold">
+              <h1 className="text-xl font-bold relative overflow-hidden">
                 {(() => {
-                  const ChromeText = ({ text }) => {
+                  const ReflectiveText = ({ text }) => {
+                    const letters = text.split("");
+
                     return (
                       <>
                         <style>{`
-                          @keyframes shimmerEffectDiagonal {
-                            0% { background-position: -200% -200%; }
-                            100% { background-position: 200% 200%; }
+                          @keyframes cascadeReflection {
+                            0% { 
+                              background-position: -400% -400%;
+                              opacity: 0.8;
+                            }
+                            50% { 
+                              background-position: 0% 0%;
+                              opacity: 1;
+                            }
+                            100% { 
+                              background-position: 400% 400%;
+                              opacity: 0.8;
+                            }
                           }
-                          .name-chrome-effect {
-                            background: linear-gradient(135deg, #d4d4d8, #ffffff, #d4d4d8);
-                            background-size: 200% 200%;
-                            animation: shimmerEffectDiagonal 3s linear infinite;
-                            -webkit-background-clip: text;
-                            background-clip: text;
-                            color: transparent;
+
+                          @keyframes letterGlow {
+                            0%, 100% { 
+                              text-shadow: 
+                                0 0 3px rgba(255, 255, 255, 0.4),
+                                0 0 8px rgba(229, 231, 235, 0.3);
+                              transform: scale(1) translateY(0px) skewX(0deg);
+                            }
+                            50% { 
+                              text-shadow: 
+                                0 0 8px rgba(255, 255, 255, 0.7),
+                                0 0 15px rgba(229, 231, 235, 0.5);
+                              transform: scale(1.03) translateY(-1px) skewX(-2deg);
+                            }
+                          }
+
+                          @keyframes sparkleEffect {
+                            0%, 100% { 
+                              opacity: 0;
+                              transform: scale(0) rotate(0deg);
+                            }
+                            50% { 
+                              opacity: 0.9;
+                              transform: scale(1) rotate(45deg);
+                            }
+                          }
+
+                        .reflective-letter {
+  display: inline-block;
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    #1b1b1b 0%,  
+    #252525 15%,  
+    #353535 25%,  
+    #555555 35%,  
+    #7a7a7a 42%,  
+    #999999 46%,  
+    #ffffff 50%,  
+    #999999 54%,  
+    #7a7a7a 58%,  
+    #555555 65%,  
+    #353535 75%,  
+    #252525 85%,  
+    #1b1b1b 100%  
+  );
+  background-size: 400% 400%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: cascadeReflection 15s ease-in-out infinite;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sparkle {
+  animation: sparkleEffect 12s ease-in-out infinite; /* Sparkles mais lentos */
+}
+
+/* Atrasos maiores entre letras (opcional) */
+.reflective-letter:nth-child(1) { animation-delay: 0s; }
+.reflective-letter:nth-child(2) { animation-delay: 0.4s; }
+.reflective-letter:nth-child(3) { animation-delay: 0.8s; }
+.reflective-letter:nth-child(4) { animation-delay: 1.2s; }
+                          .reflective-letter:nth-child(5) { animation-delay: 1s; }
+                          .reflective-letter:nth-child(6) { animation-delay: 1.25s; }
+                          .reflective-letter:nth-child(7) { animation-delay: 1.5s; }
+                          .reflective-letter:nth-child(8) { animation-delay: 1.75s; }
+                          .reflective-letter:nth-child(9) { animation-delay: 2s; }
+                          .reflective-letter:nth-child(10) { animation-delay: 2.25s; }
+                          .reflective-letter:nth-child(11) { animation-delay: 2.5s; }
+                          .reflective-letter:nth-child(12) { animation-delay: 2.75s; }
+
+                          .reflective-letter:hover {
+                            animation: letterGlow 0.8s ease-in-out infinite alternate;
+                            cursor: default;
+                            transform: translateY(-2px) scale(1.05) skewX(-3deg);
+                          }
+
+                          .sparkle {
+                            position: absolute;
+                            width: 3px;
+                            height: 3px;
+                            background: radial-gradient(circle, #ffffff 0%, #f3f4f6 30%, transparent 70%);
+                            border-radius: 50%;
+                            pointer-events: none;
+                            animation: sparkleEffect 8.75s ease-in-out infinite;
+                          }
+
+                          .sparkle:nth-child(1) { 
+                            top: 8%; left: 15%; 
+                            animation-delay: 0.5s; 
+                          }
+                          .sparkle:nth-child(2) { 
+                            top: 25%; right: 25%; 
+                            animation-delay: 2.75s; 
+                          }
+                          .sparkle:nth-child(3) { 
+                            bottom: 12%; left: 55%; 
+                            animation-delay: 5.75s; 
+                          }
+                          .sparkle:nth-child(4) { 
+                            top: 55%; right: 40%; 
+                            animation-delay: 8.5s;
+                          }
+
+                          @supports not (-webkit-background-clip: text) {
+                            .reflective-letter {
+                              background: none;
+                              color: #ffffff;
+                              text-shadow: 
+                                0 0 3px rgba(255, 255, 255, 0.5),
+                                0 0 8px rgba(229, 231, 235, 0.3);
+                            }
                           }
                         `}</style>
-                        <span className="name-chrome-effect">{text}</span>
+
+                        <div className="relative inline-block">
+                          {letters.map((letter, index) => (
+                            <span key={index} className="reflective-letter">
+                              {letter}
+                            </span>
+                          ))}
+
+                          <div className="sparkle"></div>
+                          <div className="sparkle"></div>
+                          <div className="sparkle"></div>
+                          <div className="sparkle"></div>
+                        </div>
                       </>
                     );
                   };
-                  return <ChromeText text="Carlos.Filho" />;
+                  return <ReflectiveText text="Carlos.Filho" />;
                 })()}
               </h1>
             </div>
