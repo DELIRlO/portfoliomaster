@@ -193,6 +193,34 @@
     color: #0a66c2; /* Azul LinkedIn */
   }
   50% {
-    color: #3b82f6; /* Azul Claro */
+    color: #ffffff; /* Azul Claro */
   }
+}
+
+@keyframes pulseGray {
+  0%,
+  100% {
+    color: #ffffff; /* branco */
+  }
+  50% {
+    color: #4b5563; /* cinza mais escuro */
+  }
+}
+
+.animate-pulse-gray {
+  animation: pulseGray 4s ease-in-out infinite;
+}
+
+@keyframes pulseRed {
+  0%,
+  100% {
+    color: #ff2c2c; /* vermelho escuro */
+  }
+  50% {
+    color: #640b0b; /* vermelho */
+  }
+}
+
+.animate-pulse-red {
+  animation: pulseRed 4s ease-in-out infinite;
 }

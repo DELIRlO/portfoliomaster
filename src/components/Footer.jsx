@@ -161,9 +161,9 @@ const Footer = ({ gaId = "G-KRH5SVFBEB", updateInterval = 300000 }) => {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8">
             {/* Seção 1: Copyright (Esquerda) */}
             <div className="flex-shrink-0 order-1">
-              <p className="text-muted-foreground text-center lg:text-left text-sm">
+              <p className="text-muted-foreground text-center lg:text-left text-sm animate-pulse-gray">
                 © 2025 Carlos Filho. Feito com{" "}
-                <Heart className="inline h-4 w-4 text-red-500 mx-1" />
+                <Heart className="inline h-4 w-4 mx-1 animate-pulse-red" />
                 React - tailwind
               </p>
             </div>
