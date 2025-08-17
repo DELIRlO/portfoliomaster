@@ -212,31 +212,31 @@ const Contact = () => {
                             key={index}
                             className="p-4 rounded-lg bg-muted/50 border border-primary/20 hover:border-primary/40 transition-colors"
                           >
-                            {/* Header do card com ícone e nome */}
+                            {/* Header do card com ícone animado e nome */}
                             <div className="flex items-center space-x-3 mb-3">
                               <div className="h-6 w-6 flex items-center justify-center">
                                 {link.label === "Instagram" ? (
-                                  <Instagram className="h-6 w-6 text-pink-500" />
+                                  <Instagram className="h-6 w-6 animate-[pulseColors_3s_infinite]" />
                                 ) : link.label === "GitHub" ? (
-                                  <link.icon className="h-6 w-6 text-purple-400" />
+                                  <link.icon className="h-6 w-6 animate-[pulseGitHub_3s_infinite]" />
                                 ) : link.label === "LinkedIn" ? (
-                                  <link.icon className="h-6 w-6 text-blue-500" />
+                                  <link.icon className="h-6 w-6 animate-[pulseLinkedIn_3s_infinite]" />
                                 ) : link.label === "Portfólio Lunar" ? (
-                                  <link.icon className="h-6 w-6 text-indigo-400" />
+                                  <link.icon className="h-6 w-6 text-indigo-400 animate-pulse" />
                                 ) : link.label === "Portfólio 8Bits" ? (
-                                  <link.icon className="h-6 w-6 text-green-400" />
+                                  <link.icon className="h-6 w-6 text-green-400 animate-pulse" />
                                 ) : (
-                                  <link.icon className="h-6 w-6 text-primary" />
+                                  <link.icon className="h-6 w-6 text-primary animate-pulse" />
                                 )}
                               </div>
                               <h3
-                                className={`font-semibold text-lg ${
+                                className={`font-semibold text-lg transition-colors duration-300 ${
                                   link.label === "Instagram"
-                                    ? "text-pink-500"
+                                    ? "text-pink-500 animate-[pulseColors_3s_infinite]"
                                     : link.label === "GitHub"
-                                    ? "text-purple-400"
+                                    ? "text-purple-400 animate-[pulseGitHub_3s_infinite]"
                                     : link.label === "LinkedIn"
-                                    ? "text-blue-500"
+                                    ? "text-blue-500 animate-[pulseLinkedIn_3s_infinite]"
                                     : link.label === "Portfólio Lunar"
                                     ? "text-indigo-400"
                                     : link.label === "Portfólio 8Bits"
