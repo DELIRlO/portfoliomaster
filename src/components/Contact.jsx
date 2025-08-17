@@ -139,7 +139,7 @@ const Contact = () => {
                   </Card>
                 </div>
 
-                {/* Seção Redes Sociais - Nova Abordagem */}
+                {/* Seção Redes Sociais - Versão Mobile Otimizada */}
                 <div
                   className={`transition-all duration-1000 delay-400 ${
                     inView ? "animate-fade-in-right" : "opacity-0"
@@ -152,14 +152,14 @@ const Contact = () => {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
-                      <div className="space-y-4">
+                      {/* Versão Desktop - Mantém hover effects */}
+                      <div className="hidden md:block space-y-4">
                         {contactLinks.map((link, index) => (
                           <div
                             key={index}
                             className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-primary/10 transition-colors group"
                           >
                             <div className="flex items-center space-x-3">
-                              {/* Container do ícone */}
                               <div className="h-5 w-5 flex items-center justify-center">
                                 {link.label === "Instagram" ? (
                                   <Instagram className="h-5 w-5 animate-[pulseColors_3s_infinite]" />
@@ -172,7 +172,6 @@ const Contact = () => {
                                 )}
                               </div>
 
-                              {/* Texto com transição no hover */}
                               <div>
                                 <p
                                   className={`font-medium ${
@@ -200,6 +199,92 @@ const Contact = () => {
                                 className="opacity-0 group-hover:opacity-100 transition-opacity"
                               >
                                 <ExternalLink className="h-4 w-4" />
+                              </a>
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Versão Mobile - Todos os botões sempre visíveis e clicáveis */}
+                      <div className="md:hidden space-y-3">
+                        {contactLinks.map((link, index) => (
+                          <div
+                            key={index}
+                            className="p-4 rounded-lg bg-muted/50 border border-primary/20 hover:border-primary/40 transition-colors"
+                          >
+                            {/* Header do card com ícone e nome */}
+                            <div className="flex items-center space-x-3 mb-3">
+                              <div className="h-6 w-6 flex items-center justify-center">
+                                {link.label === "Instagram" ? (
+                                  <Instagram className="h-6 w-6 text-pink-500" />
+                                ) : link.label === "GitHub" ? (
+                                  <link.icon className="h-6 w-6 text-purple-400" />
+                                ) : link.label === "LinkedIn" ? (
+                                  <link.icon className="h-6 w-6 text-blue-500" />
+                                ) : link.label === "Portfólio Lunar" ? (
+                                  <link.icon className="h-6 w-6 text-indigo-400" />
+                                ) : link.label === "Portfólio 8Bits" ? (
+                                  <link.icon className="h-6 w-6 text-green-400" />
+                                ) : (
+                                  <link.icon className="h-6 w-6 text-primary" />
+                                )}
+                              </div>
+                              <h3
+                                className={`font-semibold text-lg ${
+                                  link.label === "Instagram"
+                                    ? "text-pink-500"
+                                    : link.label === "GitHub"
+                                    ? "text-purple-400"
+                                    : link.label === "LinkedIn"
+                                    ? "text-blue-500"
+                                    : link.label === "Portfólio Lunar"
+                                    ? "text-indigo-400"
+                                    : link.label === "Portfólio 8Bits"
+                                    ? "text-green-400"
+                                    : "text-foreground"
+                                }`}
+                              >
+                                {link.label}
+                              </h3>
+                            </div>
+
+                            {/* Descrição (se existir) */}
+                            {link.description && (
+                              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                                {link.description}
+                              </p>
+                            )}
+
+                            {/* Botão sempre visível */}
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className={`w-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 ${
+                                link.label === "Instagram"
+                                  ? "border-pink-500/50 hover:border-pink-500 hover:bg-pink-500/10 text-pink-500"
+                                  : link.label === "GitHub"
+                                  ? "border-purple-400/50 hover:border-purple-400 hover:bg-purple-400/10 text-purple-400"
+                                  : link.label === "LinkedIn"
+                                  ? "border-blue-500/50 hover:border-blue-500 hover:bg-blue-500/10 text-blue-500"
+                                  : link.label === "Portfólio Lunar"
+                                  ? "border-indigo-400/50 hover:border-indigo-400 hover:bg-indigo-400/10 text-indigo-400"
+                                  : link.label === "Portfólio 8Bits"
+                                  ? "border-green-400/50 hover:border-green-400 hover:bg-green-400/10 text-green-400"
+                                  : "border-primary/50 hover:border-primary hover:bg-primary/10"
+                              }`}
+                              asChild
+                            >
+                              <a
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-center"
+                              >
+                                <ExternalLink className="mr-2 h-4 w-4" />
+                                {link.label === "Portfólio Lunar" ||
+                                link.label === "Portfólio 8Bits"
+                                  ? `Acessar ${link.label}`
+                                  : `Seguir no ${link.label}`}
                               </a>
                             </Button>
                           </div>
