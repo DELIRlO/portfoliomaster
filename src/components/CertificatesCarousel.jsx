@@ -111,9 +111,10 @@ const CertificatesCarousel = () => {
                         >
                           <CardContent className="flex flex-col items-center justify-center p-4 gap-4 aspect-square carousel-mobile-aspect overflow-hidden carousel-mobile-card">
                             <div
-                              className="relative w-full h-4/5 overflow-hidden rounded-md carousel-mobile-image"
+                              className="relative w-full h-4/5 overflow-hidden rounded-md carousel-mobile-image cursor-pointer"
                               onMouseEnter={() => setHoveredIndex(index)}
                               onMouseLeave={() => setHoveredIndex(null)}
+                              onClick={() => window.open(certificate.image, '_blank')}
                             >
                               <img
                                 src={certificate.image}
@@ -128,6 +129,27 @@ const CertificatesCarousel = () => {
                                   transformOrigin: "center center",
                                 }}
                               />
+                              {/* Overlay para indicar que é clicável */}
+                              <div className={cn(
+                                "absolute inset-0 bg-black/20 flex items-center justify-center transition-opacity duration-300",
+                                hoveredIndex === index ? "opacity-100" : "opacity-0"
+                              )}>
+                                <div className="bg-white/90 rounded-full p-2">
+                                  <svg 
+                                    className="w-6 h-6 text-gray-800" 
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path 
+                                      strokeLinecap="round" 
+                                      strokeLinejoin="round" 
+                                      strokeWidth={2} 
+                                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" 
+                                    />
+                                  </svg>
+                                </div>
+                              </div>
                             </div>
                             <span className="text-sm font-semibold text-center mt-2 text-muted-foreground h-1/5 carousel-mobile-text">
                               {certificate.name}

@@ -48,38 +48,97 @@
 
 /* Melhorias de responsividade para o carousel de certificados */
 @media (max-width: 640px) {
-  /* Aumenta o tamanho das imagens em dispositivos móveis */
+  /* Aumenta significativamente o tamanho das imagens em dispositivos móveis */
   .carousel-mobile-image {
-    min-height: 200px !important;
-    height: 200px !important;
+    min-height: 280px !important;
+    height: 280px !important;
+    width: 95% !important;
+    margin: 0 auto !important;
   }
   
-  /* Ajusta o padding dos cards em mobile */
+  /* Ajusta o padding dos cards em mobile para dar mais espaço às imagens */
   .carousel-mobile-card {
-    padding: 0.75rem !important;
+    padding: 0.5rem !important;
   }
   
-  /* Melhora o aspect ratio em mobile */
+  /* Melhora o aspect ratio em mobile para acomodar imagens maiores */
   .carousel-mobile-aspect {
     aspect-ratio: 3/4 !important;
+    min-height: 350px !important;
   }
   
-  /* Aumenta o tamanho do texto em mobile */
+  /* Reduz o tamanho do texto para dar mais espaço às imagens */
   .carousel-mobile-text {
-    font-size: 0.875rem !important;
-    line-height: 1.25rem !important;
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+    height: auto !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  /* Prioriza imagens verticais com object-fit cover */
+  .carousel-mobile-image img {
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+  
+  /* Estilo especial para imagens verticais */
+  .carousel-mobile-image img[src*=".jpg"]:not([src*="horizontal"]),
+  .carousel-mobile-image img[src*=".png"]:not([src*="horizontal"]) {
+    object-fit: contain !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 
 @media (max-width: 480px) {
-  /* Para telas muito pequenas, ajusta ainda mais */
+  /* Para telas muito pequenas, mantém imagens grandes */
   .carousel-mobile-image {
-    min-height: 180px !important;
-    height: 180px !important;
+    min-height: 260px !important;
+    height: 260px !important;
+    width: 98% !important;
   }
   
   .carousel-mobile-aspect {
     aspect-ratio: 4/5 !important;
+    min-height: 320px !important;
+  }
+  
+  .carousel-mobile-text {
+    font-size: 0.7rem !important;
+    line-height: 0.9rem !important;
+  }
+}
+
+
+/* Estilos para melhorar a experiência de clique em mobile */
+@media (max-width: 640px) {
+  /* Adiciona feedback visual para toque em mobile */
+  .carousel-mobile-image:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-in-out;
+  }
+  
+  /* Melhora a área de toque */
+  .carousel-mobile-image {
+    touch-action: manipulation;
+  }
+  
+  /* Overlay sempre visível em mobile para indicar que é clicável */
+  .carousel-mobile-image::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23374151'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'%3E%3C/path%3E%3C/svg%3E");
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.8;
+    z-index: 10;
   }
 }
 

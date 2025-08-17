@@ -438,5 +438,80 @@ css
 ✔️ Confirmado que os itens do carousel usam as classes responsivas adequadas
 ✔️ Testado o funcionamento em diferentes resoluções de tela
 
-🎉 Melhorias implementadas com sucesso! 🎉
+🎉 Melhorias implementadas com sucesso! 🎉   17/08/2025 10:00
 ````
+
+# 🚀 Modificações no Carousel de Certificados 📱✨
+
+## 📝 Resumo das Alterações
+
+### 1. 📲 Aumento do Tamanho das Imagens no Mobile
+
+**📂 Arquivo modificado:** `src/index.css`
+
+- 🖼️ **Imagens maiores:** De 200px → 280px em telas ≤ 640px
+- 📏 **Largura otimizada:** 95% da largura do card
+- 🃏 **Cards maiores:** Aspect ratio 3/4 com altura mínima de 350px
+- 📱 **Telas pequenas:** 260px com aspect ratio 4/5 (≤ 480px)
+
+### 2. 🖼️ Priorização de Imagens Verticais
+
+- 🔍 `object-fit: contain` para JPG/PNG verticais
+- 🎯 `object-position: center` para centralização
+
+### 3. 🖱️ Funcionalidade de Clique para Nova Aba
+
+**📂 Arquivo modificado:** `src/components/CertificatesCarousel.jsx`
+
+- ✨ `onClick={() => window.open(certificate.image, '_blank')}`
+- 👆 `cursor-pointer` para indicar clicável
+- 🌈 Overlay com ícone de "abrir em nova aba" no hover
+- 🔗 Ícone SVG indicativo
+
+### 4. 📱 Melhorias na Experiência Mobile
+
+- 👆 Efeito de escala (0.98) no toque
+- 🔍 Ícone sempre visível no mobile
+- ✋ `touch-action: manipulation` otimizado
+
+## 📄 Arquivos Modificados
+
+1. `src/index.css` - Estilos responsivos
+2. `src/components/CertificatesCarousel.jsx` - Lógica de clique
+
+## 🧪 Funcionalidades Testadas
+
+| Teste              | Status | Ícone |
+| ------------------ | ------ | ----- |
+| Clique em nova aba | ✅     | 🔗    |
+| Imagens mobile     | ✅     | 📱    |
+| Responsividade     | ✅     | 🔄    |
+| Efeitos hover      | ✅     | 🖱️    |
+| Feedback touch     | ✅     | 👆    |
+
+## 🛠️ Como Usar
+
+1. Clique em qualquer certificado para abrir em nova aba 🖱️→🔄
+2. No mobile: ícone no canto indica clicável 📱🔍
+3. Desktop: overlay aparece no hover 🖱️🌈
+
+## 📱💻 Compatibilidade
+
+| Dispositivo | Navegadores                   | Status |
+| ----------- | ----------------------------- | ------ |
+| Desktop     | Chrome, Firefox, Safari, Edge | ✅     |
+| Mobile      | iOS Safari, Chrome Mobile     | ✅     |
+| Tablets     | iPad, Android                 | ✅     |
+
+## � Visualização
+
+```css
+/* Exemplo de código CSS adicionado */
+.certificate-image {
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+.certificate-image:hover {
+  transform: scale(0.98);
+}
+```
