@@ -44,3 +44,42 @@
     box-shadow: 0 0 5px rgba(147, 51, 234, 0.3);
   }
 }
+
+
+/* Melhorias de responsividade para o carousel de certificados */
+@media (max-width: 640px) {
+  /* Aumenta o tamanho das imagens em dispositivos móveis */
+  .carousel-mobile-image {
+    min-height: 200px !important;
+    height: 200px !important;
+  }
+  
+  /* Ajusta o padding dos cards em mobile */
+  .carousel-mobile-card {
+    padding: 0.75rem !important;
+  }
+  
+  /* Melhora o aspect ratio em mobile */
+  .carousel-mobile-aspect {
+    aspect-ratio: 3/4 !important;
+  }
+  
+  /* Aumenta o tamanho do texto em mobile */
+  .carousel-mobile-text {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Para telas muito pequenas, ajusta ainda mais */
+  .carousel-mobile-image {
+    min-height: 180px !important;
+    height: 180px !important;
+  }
+  
+  .carousel-mobile-aspect {
+    aspect-ratio: 4/5 !important;
+  }
+}
+

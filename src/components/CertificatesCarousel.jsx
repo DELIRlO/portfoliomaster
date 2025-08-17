@@ -98,7 +98,7 @@ const CertificatesCarousel = () => {
                   {userData.certificates.map((certificate, index) => (
                     <CarouselItem
                       key={index}
-                      className="basis-1/2 md:basis-1/3 lg:basis-1/4 group"
+                      className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 group"
                     >
                       <div className="p-1">
                         <Card
@@ -109,9 +109,9 @@ const CertificatesCarousel = () => {
                               : "border-purple-500/80"
                           )}
                         >
-                          <CardContent className="flex flex-col items-center justify-center p-4 gap-4 aspect-square overflow-hidden">
+                          <CardContent className="flex flex-col items-center justify-center p-4 gap-4 aspect-square carousel-mobile-aspect overflow-hidden carousel-mobile-card">
                             <div
-                              className="relative w-full h-4/5 overflow-hidden rounded-md"
+                              className="relative w-full h-4/5 overflow-hidden rounded-md carousel-mobile-image"
                               onMouseEnter={() => setHoveredIndex(index)}
                               onMouseLeave={() => setHoveredIndex(null)}
                             >
@@ -129,7 +129,7 @@ const CertificatesCarousel = () => {
                                 }}
                               />
                             </div>
-                            <span className="text-sm font-semibold text-center mt-2 text-muted-foreground h-1/5">
+                            <span className="text-sm font-semibold text-center mt-2 text-muted-foreground h-1/5 carousel-mobile-text">
                               {certificate.name}
                             </span>
                           </CardContent>
