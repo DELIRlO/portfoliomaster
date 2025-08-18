@@ -13,7 +13,7 @@ import useBackgroundMusic from "./hooks/useBackgroundMusic";
 
 function App() {
   // Estado para controlar o loading
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Seus hooks originais
   const { darkMode, toggleTheme } = useTheme();
