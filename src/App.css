@@ -224,3 +224,20 @@
 .animate-pulse-red {
   animation: pulseRed 4s ease-in-out infinite;
 }
+
+
+@keyframes pulseMegaMan {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px rgba(0, 112, 255, 0.5)); /* Azul claro */
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(0, 112, 255, 1)); /* Azul mais intenso */
+  }
+}
+
+.animate-pulse-megaman {
+  animation: pulseMegaMan 3s ease-in-out infinite;
+}
+
+

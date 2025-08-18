@@ -562,7 +562,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
         />
 
         <div
-          className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-background backdrop-blur-lg border-l border-primary/20 transform transition-transform duration-300 ease-out ${
+          className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-background/95 backdrop-blur-lg border-l border-primary/20 transform transition-transform duration-300 ease-out ${
             mobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >

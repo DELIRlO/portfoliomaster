@@ -47,26 +47,14 @@ const Contact = () => {
       label: "Portfólio Lunar",
       href: userData.social.portfolio1,
       description: "",
-      customIcon: (
-        <img
-          src="/thumbnails/saturno_minimalista_transparent.png"
-          alt="Saturno"
-          className="h-5 w-5"
-        />
-      ),
+      customIcon: "🪐",
     },
     {
       icon: ExternalLink,
       label: "Portfólio 8Bits",
       href: userData.social.portfolio2,
       description: "",
-      customIcon: (
-        <img
-          src="/thumbnails/megaman_transparent.png"
-          alt="Megaman"
-          className="h-5 w-5"
-        />
-      ),
+      customIcon: "megaman",
     },
   ];
 
@@ -285,16 +273,6 @@ const Contact = () => {
         .professional-button-cv:hover .animated-border-cv {
           opacity: 0.5;
         }
-
-        @keyframes pulseSaturn {
-          0%,
-          100% {
-            filter: drop-shadow(0 0 3px #818cf8);
-          }
-          50% {
-            filter: drop-shadow(0 0 6px #a78bfa);
-          }
-        }
       `}</style>
 
       <PageTransition isVisible={inView}>
@@ -412,13 +390,13 @@ const Contact = () => {
                                   ) : link.label === "LinkedIn" ? (
                                     <link.icon className="h-5 w-5 animate-[pulseLinkedIn_3s_infinite]" />
                                   ) : link.label === "Portfólio Lunar" ? (
-                                    <img
-                                      src="/thumbnails/saturno_minimalista_transparent.png"
-                                      alt="Saturno"
-                                      className="h-6 w-6 animate-[pulseSaturn_3s_infinite]"
-                                    />
+                                    <span className="text-lg animate-pulse">
+                                      🪐
+                                    </span>
                                   ) : link.label === "Portfólio 8Bits" ? (
-                                    link.customIcon
+                                    <span className="text-lg animate-pulse-megaman">
+                                      <img src="/thumbnails/megaman_icon.png" alt="Mega Man Icon" className="h-5 w-5" />
+                                    </span>
                                   ) : (
                                     <link.icon className="h-5 w-5 text-primary" />
                                   )}
@@ -474,13 +452,13 @@ const Contact = () => {
                                   ) : link.label === "LinkedIn" ? (
                                     <link.icon className="h-6 w-6 animate-[pulseLinkedIn_3s_infinite]" />
                                   ) : link.label === "Portfólio Lunar" ? (
-                                    <img
-                                      src="/thumbnails/saturno_minimalista_transparent.png"
-                                      alt="Saturno"
-                                      className="h-7 w-7 animate-[pulseSaturn_3s_infinite]"
-                                    />
+                                    <span className="text-2xl animate-pulse">
+                                      🪐
+                                    </span>
                                   ) : link.label === "Portfólio 8Bits" ? (
-                                    link.customIcon
+                                    <span className="text-2xl animate-pulse-megaman">
+                                      <img src="/thumbnails/megaman_icon.png" alt="Mega Man Icon" className="h-6 w-6" />
+                                    </span>
                                   ) : (
                                     <link.icon className="h-6 w-6 text-primary animate-pulse" />
                                   )}

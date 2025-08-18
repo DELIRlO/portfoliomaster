@@ -83,7 +83,7 @@ const userData = {
       technologies: ["JavaScript"],
       githubLink: "https://github.com/DELIRlO/megaman",
       onlineLink: "https://carlosdiniz.vercel.app",
-      thumbnail: "/thumbnails/megaman_transparent.png",
+      thumbnail: "/thumbnails/megaman.png",
     },
     {
       name: "InstaOrionApp",
