@@ -467,10 +467,10 @@ const FuturisticLoader = ({ onComplete }) => {
             background: transparent;
           }
           10% {
-            border-color: rgba(0, 136, 255, 0.6);
-            box-shadow: 0 0 15px rgba(0, 136, 255, 0.4),
-              inset 0 0 15px rgba(0, 136, 255, 0.2);
-            background: rgba(0, 136, 255, 0.1);
+            border-color: rgba(0, 255, 127, 0.6); /* Verde primavera */
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.4),
+              inset 0 0 15px rgba(0, 255, 127, 0.2);
+            background: rgba(127, 255, 212, 0.15); /* Verde água mais claro */
           }
         }
         @keyframes energyWave {
