@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const FuturisticLoader = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const [showText, setShowText] = useState(false);
+  const canvasRef = useRef(null);
 
   const steps = [
     "Inicializando sistema...",
@@ -75,34 +76,87 @@ const FuturisticLoader = ({ onComplete }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Gera partículas flutuantes
-  const particles = Array.from({ length: 30 }, (_, i) => {
-    const colors = [
-      "bg-[#2d2d2d]",
-      "bg-[#4a4a4a]",
-      "bg-[#6b6b6b]",
-      "bg-[#e8e8e8]",
-      "bg-[#ffffff]",
-    ];
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  // Efeito para a animação de partículas no canvas
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
 
-    return (
-      <div
-        key={i}
-        className={`absolute w-1.5 h-1.5 ${randomColor} rounded-full`}
-        style={{
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-          animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
-          animationDelay: `${Math.random() * 5}s`,
-          opacity: Math.random() * 0.5 + 0.1,
-        }}
-      />
-    );
-  });
+    let animationFrameId;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    const particles = [];
+    const particleCount = 234; // Aumentado em mais 20%
+    const colors = ["#90EE90", "#3CB371", "#006400"]; // Verde claro, médio e escuro
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: canvas.height + Math.random() * canvas.height,
+        vy: -(Math.random() * 6 + 2), // Velocidade aumentada
+        size: Math.random() * 12 + 10,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        opacity: Math.random() * 0.7 + 0.2,
+        char: Math.random() > 0.5 ? "0" : "1",
+        flipInterval: Math.floor(Math.random() * 50 + 20),
+        frameCount: 0,
+      });
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < particleCount; i++) {
+        const p = particles[i];
+        p.y += p.vy;
+        p.frameCount++;
+
+        // Troca o caractere
+        if (p.frameCount >= p.flipInterval) {
+          p.char = p.char === "0" ? "1" : "0";
+          p.frameCount = 0;
+        }
+
+        // Reposiciona a partícula quando sai da tela
+        if (p.y < -p.size) {
+          p.y = canvas.height + p.size;
+          p.x = Math.random() * canvas.width;
+          p.vy = -(Math.random() * 6 + 2); // Velocidade aumentada
+        }
+
+        // Desenha o caractere
+        ctx.font = `bold ${p.size}px monospace`;
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.opacity;
+        ctx.fillText(p.char, p.x, p.y);
+      }
+
+      ctx.globalAlpha = 1.0; // Reseta a opacidade global
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
 
   return (
     <div className="fixed inset-0 z-[9999] bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] backdrop-blur-md flex items-center justify-center overflow-hidden">
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full z-0 opacity-40"
+      />
       {/* Grid de fundo animado */}
       <div className="absolute inset-0 opacity-10">
         <div
@@ -158,34 +212,6 @@ const FuturisticLoader = ({ onComplete }) => {
             animation: "energyWave 4s linear infinite",
           }}
         />
-      </div>
-
-      {/* Partículas flutuantes */}
-      {particles}
-
-      {/* Trilhas de energia */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {Array.from({ length: 6 }, (_, i) => (
-          <div
-            key={`v-${i}`}
-            className="absolute w-0.5 opacity-25"
-            style={{
-              left: `${15 + i * 15}%`,
-              top: `-100px`,
-              height: "200px",
-              background: `linear-gradient(180deg, 
-                transparent, 
-                #0088ff 20%, 
-                #ffffff 50%, 
-                #0088ff 80%, 
-                transparent)`,
-              animation: `energyFlowV ${
-                2.5 + Math.random() * 2.5
-              }s linear infinite`,
-              animationDelay: `${Math.random() * 3}s`,
-            }}
-          />
-        ))}
       </div>
 
       {/* Efeito de brilho radial */}
@@ -274,7 +300,7 @@ const FuturisticLoader = ({ onComplete }) => {
               CARLOS FILHO
             </h2>
             <p className="text-[#6b6b6b] text-sm font-mono">
-              ENGENHEIRO DE COMPUTAÇÃO
+              DESENVOLVEDOR-FRONTEND
             </p>
           </div>
 
@@ -431,34 +457,6 @@ const FuturisticLoader = ({ onComplete }) => {
           100% {
             transform: scale(1.02);
             opacity: 1;
-          }
-        }
-        @keyframes float {
-          0%,
-          100% {
-            transform: translate(0, 0);
-          }
-          50% {
-            transform: translate(
-              ${Math.random() * 20 - 10}px,
-              ${Math.random() * 20 - 10}px
-            );
-          }
-        }
-        @keyframes energyFlowV {
-          0% {
-            transform: translateY(-100px);
-            opacity: 0;
-          }
-          20% {
-            opacity: 0.25;
-          }
-          80% {
-            opacity: 0.25;
-          }
-          100% {
-            transform: translateY(calc(100vh + 100px));
-            opacity: 0;
           }
         }
         @keyframes energyGrid {
