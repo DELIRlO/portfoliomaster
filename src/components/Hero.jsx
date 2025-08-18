@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Button } from "./ui/button";
-import { ArrowDown, Download } from "lucide-react";
+import { ArrowDown, Download, Eye, Briefcase } from "lucide-react";
 import userData from "../userData";
 import PageTransition from "./PageTransition";
 
@@ -169,6 +169,358 @@ const Hero = () => {
               text-shadow: 0 0 4px #ffffff, 0 0 7px #e8e8e8, 0 0 11px #6b6b6b;
             }
           }
+
+          /* Animações profissionais para os botões - REDUZIDO EM 40% */
+          @keyframes professionalGlow {
+            0%,
+            100% {
+              box-shadow: 0 0 3px rgba(59, 130, 246, 0.18),
+                0 0 6px rgba(59, 130, 246, 0.12),
+                0 0 9px rgba(59, 130, 246, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            }
+            50% {
+              box-shadow: 0 0 6px rgba(59, 130, 246, 0.3),
+                0 0 12px rgba(59, 130, 246, 0.18),
+                0 0 18px rgba(59, 130, 246, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            }
+          }
+
+          @keyframes professionalGlowCV {
+            0%,
+            100% {
+              box-shadow: 0 0 3px rgba(34, 197, 94, 0.18),
+                0 0 6px rgba(34, 197, 94, 0.12), 0 0 9px rgba(34, 197, 94, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            }
+            50% {
+              box-shadow: 0 0 6px rgba(34, 197, 94, 0.3),
+                0 0 12px rgba(34, 197, 94, 0.18),
+                0 0 18px rgba(34, 197, 94, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            }
+          }
+
+          @keyframes slideShine {
+            0% {
+              transform: translateX(-100%) skewX(-15deg);
+              opacity: 0.6;
+            }
+            50% {
+              opacity: 1;
+            }
+            100% {
+              transform: translateX(300%) skewX(-15deg);
+              opacity: 0.6;
+            }
+          }
+
+          @keyframes pulseScale {
+            0%,
+            100% {
+              transform: scale(1);
+            }
+            50% {
+              transform: scale(1.02);
+            }
+          }
+
+          @keyframes textShimmer {
+            0% {
+              background-position: -200% center;
+            }
+            100% {
+              background-position: 200% center;
+            }
+          }
+
+          /* Classe base para botões profissionais */
+          .professional-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(
+              145deg,
+              rgba(255, 255, 255, 0.1),
+              rgba(255, 255, 255, 0.05)
+            );
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(0);
+          }
+
+          .professional-button:hover {
+            transform: translateY(-2px);
+            animation: pulseScale 2s ease-in-out infinite;
+          }
+
+          /* Botão Ver Projetos */
+          .projects-button {
+            background: linear-gradient(
+              145deg,
+              rgba(59, 130, 246, 0.1),
+              rgba(37, 99, 235, 0.05)
+            );
+            border: 1px solid rgba(59, 130, 246, 0.3);
+          }
+
+          .projects-button:hover {
+            animation: professionalGlow 2s ease-in-out infinite;
+            background: linear-gradient(
+              145deg,
+              rgba(59, 130, 246, 0.2),
+              rgba(37, 99, 235, 0.1)
+            );
+            border-color: rgba(59, 130, 246, 0.5);
+          }
+
+          /* Botão Baixar CV */
+          .cv-button {
+            background: linear-gradient(
+              145deg,
+              rgba(34, 197, 94, 0.1),
+              rgba(21, 128, 61, 0.05)
+            );
+            border: 1px solid rgba(34, 197, 94, 0.3);
+          }
+
+          .cv-button:hover {
+            animation: professionalGlowCV 2s ease-in-out infinite;
+            background: linear-gradient(
+              145deg,
+              rgba(34, 197, 94, 0.2),
+              rgba(21, 128, 61, 0.1)
+            );
+            border-color: rgba(34, 197, 94, 0.5);
+          }
+
+          /* Efeito de brilho deslizante */
+          .professional-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(255, 255, 255, 0.2),
+              transparent
+            );
+            transition: left 0.5s;
+          }
+
+          .professional-button:hover::before {
+            left: 100%;
+            animation: slideShine 2s ease-in-out infinite;
+          }
+
+          /* Texto e ícones com gradiente animado - ÍCONES AGORA VISÍVEIS */
+          .animated-text {
+            background: linear-gradient(
+              90deg,
+              #ffffff 0%,
+              #e2e8f0 25%,
+              #ffffff 50%,
+              #e2e8f0 75%,
+              #ffffff 100%
+            );
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 3s ease-in-out infinite;
+          }
+
+          .animated-text-blue {
+            background: linear-gradient(
+              90deg,
+              #3b82f6 0%,
+              #1d4ed8 25%,
+              #60a5fa 50%,
+              #3b82f6 75%,
+              #1e40af 100%
+            );
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 3s ease-in-out infinite;
+          }
+
+          .animated-text-green {
+            background: linear-gradient(
+              90deg,
+              #22c55e 0%,
+              #15803d 25%,
+              #4ade80 50%,
+              #22c55e 75%,
+              #166534 100%
+            );
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 3s ease-in-out infinite;
+          }
+
+          /* Ícones com cor visível e efeito shimmer */
+          .icon-shimmer {
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+            transition: all 0.3s ease;
+          }
+
+          .icon-shimmer-blue {
+            color: #60a5fa;
+            filter: drop-shadow(0 0 3px rgba(96, 165, 250, 0.4));
+          }
+
+          .icon-shimmer-green {
+            color: #4ade80;
+            filter: drop-shadow(0 0 3px rgba(74, 222, 128, 0.4));
+          }
+
+          .professional-button:hover .icon-shimmer {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 4px currentColor);
+          }
+
+          /* Partículas flutuantes - AUMENTADO EM 40% */
+          .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+          }
+
+          .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: floatUp 3s ease-out infinite;
+          }
+
+          .particle.blue {
+            background: rgba(59, 130, 246, 0.8);
+          }
+
+          .particle.green {
+            background: rgba(34, 197, 94, 0.8);
+          }
+
+          @keyframes floatUp {
+            0% {
+              opacity: 0;
+              transform: translateY(20px) scale(0);
+            }
+            10% {
+              opacity: 1;
+              transform: translateY(15px) scale(1);
+            }
+            90% {
+              opacity: 1;
+            }
+            100% {
+              opacity: 0;
+              transform: translateY(-20px) scale(0);
+            }
+          }
+
+          /* Efeito de linha brilhante embaixo */
+          .glow-line {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              currentColor,
+              transparent
+            );
+            transition: width 0.4s ease-out;
+          }
+
+          .professional-button:hover .glow-line {
+            width: 80%;
+          }
+
+          /* Borda animada */
+          .animated-border {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(
+              45deg,
+              transparent,
+              currentColor,
+              transparent
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box,
+              linear-gradient(#fff 0 0);
+            -webkit-mask-composite: exclude;
+            mask: linear-gradient(#fff 0 0) content-box,
+              linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+          }
+
+          .professional-button:hover .animated-border {
+            opacity: 0.5;
+            animation: rotate-border 2s linear infinite;
+          }
+
+          @keyframes rotate-border {
+            0% {
+              background: linear-gradient(
+                45deg,
+                transparent,
+                currentColor,
+                transparent
+              );
+            }
+            25% {
+              background: linear-gradient(
+                135deg,
+                transparent,
+                currentColor,
+                transparent
+              );
+            }
+            50% {
+              background: linear-gradient(
+                225deg,
+                transparent,
+                currentColor,
+                transparent
+              );
+            }
+            75% {
+              background: linear-gradient(
+                315deg,
+                transparent,
+                currentColor,
+                transparent
+              );
+            }
+            100% {
+              background: linear-gradient(
+                45deg,
+                transparent,
+                currentColor,
+                transparent
+              );
+            }
+          }
         `}</style>
 
         <div
@@ -208,64 +560,112 @@ const Hero = () => {
               {userData.about}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <div
-                className="relative group"
-                onMouseEnter={() => setHoveredButton("projects")}
-                onMouseLeave={() => setHoveredButton("")}
-              >
+            {/* Botões com animações profissionais */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+              {/* Botão Ver Projetos */}
+              <div className="relative group">
                 <Button
                   size="lg"
-                  className="glow bg-transparent hover:bg-transparent px-6"
+                  className="professional-button projects-button px-8 py-6 text-lg font-semibold relative z-10"
                   asChild
+                  onMouseEnter={() => setHoveredButton("projects")}
+                  onMouseLeave={() => setHoveredButton("")}
                 >
-                  <a href="#projects" className="relative z-10 block">
-                    <span
-                      className={`text-foreground group-hover:text-blue-500 transition-colors duration-300 ${
-                        hoveredButton === "projects" ? "text-blue-500" : ""
+                  <a href="#projects" className="flex items-center gap-3">
+                    <Eye
+                      className={`h-5 w-5 icon-shimmer ${
+                        hoveredButton === "projects" ? "icon-shimmer-blue" : ""
                       }`}
+                    />
+                    <span
+                      className={
+                        hoveredButton === "projects"
+                          ? "animated-text-blue"
+                          : "animated-text"
+                      }
                     >
                       Ver Projetos
                     </span>
                   </a>
                 </Button>
-                <span
-                  className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[3px] w-0 bg-blue-500 group-hover:w-4/5 transition-all duration-400 ${
-                    hoveredButton === "projects" ? "w-4/5" : ""
-                  }`}
-                ></span>
+
+                {/* Partículas flutuantes - AUMENTADO PARA 8 (40% mais que 6) */}
+                {hoveredButton === "projects" && (
+                  <div className="floating-particles">
+                    {[...Array(8)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="particle blue"
+                        style={{
+                          left: `${20 + Math.random() * 60}%`,
+                          animationDelay: `${i * 0.25}s`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Linha brilhante */}
+                <div className="glow-line" style={{ color: "#3b82f6" }}></div>
+
+                {/* Borda animada */}
+                <div
+                  className="animated-border"
+                  style={{ color: "#3b82f6" }}
+                ></div>
               </div>
 
-              <div
-                className="relative group"
-                onMouseEnter={() => setHoveredButton("cv")}
-                onMouseLeave={() => setHoveredButton("")}
-              >
+              {/* Botão Baixar CV */}
+              <div className="relative group">
                 <Button
-                  variant="outline"
                   size="lg"
-                  className="hover:bg-transparent px-6"
+                  className="professional-button cv-button px-8 py-6 text-lg font-semibold relative z-10"
                   asChild
+                  onMouseEnter={() => setHoveredButton("cv")}
+                  onMouseLeave={() => setHoveredButton("")}
                 >
-                  <a
-                    href="#contact"
-                    className="relative z-10 flex items-center"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    <span
-                      className={`text-foreground group-hover:text-blue-500 transition-colors duration-300 ${
-                        hoveredButton === "cv" ? "text-blue-500" : ""
+                  <a href="#contact" className="flex items-center gap-3">
+                    <Download
+                      className={`h-5 w-5 icon-shimmer ${
+                        hoveredButton === "cv" ? "icon-shimmer-green" : ""
                       }`}
+                    />
+                    <span
+                      className={
+                        hoveredButton === "cv"
+                          ? "animated-text-green"
+                          : "animated-text"
+                      }
                     >
                       Baixar CV
                     </span>
                   </a>
                 </Button>
-                <span
-                  className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[3px] w-0 bg-blue-500 group-hover:w-4/5 transition-all duration-400 ${
-                    hoveredButton === "cv" ? "w-4/5" : ""
-                  }`}
-                ></span>
+
+                {/* Partículas flutuantes - AUMENTADO PARA 8 (40% mais que 6) */}
+                {hoveredButton === "cv" && (
+                  <div className="floating-particles">
+                    {[...Array(8)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="particle green"
+                        style={{
+                          left: `${20 + Math.random() * 60}%`,
+                          animationDelay: `${i * 0.25}s`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Linha brilhante */}
+                <div className="glow-line" style={{ color: "#22c55e" }}></div>
+
+                {/* Borda animada */}
+                <div
+                  className="animated-border"
+                  style={{ color: "#22c55e" }}
+                ></div>
               </div>
             </div>
 
@@ -289,4 +689,3 @@ const Hero = () => {
 };
 
 export default Hero;
-2;
