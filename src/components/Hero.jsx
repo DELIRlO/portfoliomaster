@@ -202,6 +202,21 @@ const Hero = () => {
             }
           }
 
+          @keyframes professionalGlowRed {
+            0%,
+            100% {
+              box-shadow: 0 0 3px rgba(255, 0, 0, 0.18),
+                0 0 6px rgba(255, 0, 0, 0.12), 0 0 9px rgba(255, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            }
+            50% {
+              box-shadow: 0 0 6px rgba(255, 0, 0, 0.3),
+                0 0 12px rgba(255, 0, 0, 0.18),
+                0 0 18px rgba(255, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            }
+          }
+
           @keyframes slideShine {
             0% {
               transform: translateX(-100%) skewX(-15deg);
@@ -293,6 +308,26 @@ const Hero = () => {
               rgba(21, 128, 61, 0.1)
             );
             border-color: rgba(34, 197, 94, 0.5);
+          }
+
+          /* Botão CV Vermelho */
+          .cv-button-red {
+            background: linear-gradient(
+              145deg,
+              rgba(255, 0, 0, 0.1),
+              rgba(200, 0, 0, 0.05)
+            );
+            border: 1px solid rgba(255, 0, 0, 0.3);
+          }
+
+          .cv-button-red:hover {
+            animation: professionalGlowRed 2s ease-in-out infinite;
+            background: linear-gradient(
+              145deg,
+              rgba(255, 0, 0, 0.2),
+              rgba(200, 0, 0, 0.1)
+            );
+            border-color: rgba(255, 0, 0, 0.5);
           }
 
           /* Efeito de brilho deslizante */

@@ -323,7 +323,7 @@ const Contact = () => {
                       </p>
 
                       <Button
-                        className="relative cursor-pointer transition-all duration-300 
+                        className="professional-button cv-button-red relative cursor-pointer transition-all duration-300 
                                    hover:scale-105 hover:shadow-lg hover:bg-primary/90 active:scale-95"
                         onClick={() => {
                           const link = document.createElement("a");
