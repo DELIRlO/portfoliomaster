@@ -390,13 +390,9 @@ const Contact = () => {
                                   ) : link.label === "LinkedIn" ? (
                                     <link.icon className="h-5 w-5 animate-[pulseLinkedIn_3s_infinite]" />
                                   ) : link.label === "Portfólio Lunar" ? (
-                                    <span className="text-lg animate-pulse">
-                                      🪐
-                                    </span>
+                                    <img src="/src/assets/saturn_minimalist.jpg" alt="Saturn Icon" className="h-5 w-5 animate-pulse" />
                                   ) : link.label === "Portfólio 8Bits" ? (
-                                    <span className="text-lg animate-pulse">
-                                      🎮
-                                    </span>
+                                    <img src="/src/assets/megaman_pixel.jpg" alt="Megaman Icon" className="h-5 w-5 animate-pulse" />
                                   ) : (
                                     <link.icon className="h-5 w-5 text-primary" />
                                   )}
@@ -452,15 +448,11 @@ const Contact = () => {
                                   ) : link.label === "LinkedIn" ? (
                                     <link.icon className="h-6 w-6 animate-[pulseLinkedIn_3s_infinite]" />
                                   ) : link.label === "Portfólio Lunar" ? (
-                                    <span className="text-2xl animate-pulse">
-                                      🪐
-                                    </span>
+                                    <img src="/src/assets/saturn_minimalist.jpg" alt="Saturn Icon" className="h-6 w-6 animate-pulse" />
                                   ) : link.label === "Portfólio 8Bits" ? (
-                                    <span className="text-2xl animate-pulse">
-                                      🎮
-                                    </span>
+                                    <img src="/src/assets/megaman_pixel.jpg" alt="Megaman Icon" className="h-6 w-6 animate-pulse" />
                                   ) : (
-                                    <link.icon className="h-6 w-6 text-primary animate-pulse" />
+                                    <link.icon className="h-6 w-6 text-primary" />
                                   )}
                                 </div>
                                 <h3

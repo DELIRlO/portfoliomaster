@@ -201,6 +201,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                                 0 0 8px rgba(229, 231, 235, 0.3);
                             }
                           }
+
+                          @media (max-width: 768px) {
+                            .reflective-letter {
+                              font-size: 0.8em; /* Ajuste o tamanho da fonte para mobile */
+                            }
+                          }
                         `}</style>
 
                         <div className="relative inline-block">

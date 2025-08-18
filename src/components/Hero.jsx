@@ -110,6 +110,13 @@ const Hero = () => {
             animation: shimmerEffect 5s ease-in-out infinite;
           }
 
+          @media (max-width: 768px) {
+            .circle-shimmer {
+              transform: scale(1.4); /* Aumenta em 40% */
+              margin-top: 80px; /* Ajusta a posição abaixo do menu mobile */
+            }
+          }
+
           .letter-effect {
             position: relative;
             display: inline-block;
