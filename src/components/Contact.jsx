@@ -324,7 +324,7 @@ const Contact = () => {
 
                       <Button
                         className="professional-button cv-button-red relative cursor-pointer transition-all duration-300 
-                                   hover:scale-105 hover:shadow-lg hover:bg-primary/90 active:scale-95"
+             hover:scale-105 hover:shadow-lg hover:bg-primary/90 active:scale-95"
                         onClick={() => {
                           const link = document.createElement("a");
                           link.href =
@@ -333,8 +333,8 @@ const Contact = () => {
                           link.click();
                         }}
                       >
-                        <FileDown className="mr-2 h-4 w-4" />
-                        Download CV
+                        <FileDown className="mr-2 h-4 w-4 text-red-500" />
+                        <span className="text-red-500">Download CV</span>
                       </Button>
                     </CardContent>
                   </Card>
