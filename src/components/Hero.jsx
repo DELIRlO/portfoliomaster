@@ -53,7 +53,7 @@ const Hero = () => {
     <PageTransition isVisible={inView}>
       <section
         id="home"
-        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 md:pt-0"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10"></div>
 
@@ -142,6 +142,13 @@ const Hero = () => {
             animation-duration: 1s;
           }
 
+          /* Responsividade para mobile */
+          @media (max-width: 768px) {
+            .letter-effect:hover {
+              transform: scale(1.05);
+            }
+          }
+
           /* Efeito diferenciado para cada letra baseado na posição */
           .letter-effect:nth-child(odd) {
             animation-delay: 0.1s;
@@ -211,8 +218,7 @@ const Hero = () => {
             }
             50% {
               box-shadow: 0 0 6px rgba(255, 0, 0, 0.3),
-                0 0 12px rgba(255, 0, 0, 0.18),
-                0 0 18px rgba(255, 0, 0, 0.12),
+                0 0 12px rgba(255, 0, 0, 0.18), 0 0 18px rgba(255, 0, 0, 0.12),
                 inset 0 1px 0 rgba(255, 255, 255, 0.12);
             }
           }
@@ -268,6 +274,18 @@ const Hero = () => {
           .professional-button:hover {
             transform: translateY(-2px);
             animation: pulseScale 2s ease-in-out infinite;
+          }
+
+          /* Responsividade para botões em mobile */
+          @media (max-width: 640px) {
+            .professional-button {
+              padding: 0.75rem 1.5rem !important;
+              font-size: 0.9rem !important;
+            }
+
+            .professional-button:hover {
+              transform: translateY(-1px);
+            }
           }
 
           /* Botão Ver Projetos */
@@ -556,6 +574,76 @@ const Hero = () => {
               );
             }
           }
+
+          /* Responsividade específica para o círculo CF */
+          @media (max-width: 768px) {
+            .hero-circle {
+              width: 5rem !important; /* 80px */
+              height: 5rem !important; /* 80px */
+              margin-bottom: 1rem !important;
+            }
+
+            .hero-circle-text {
+              font-size: 1.5rem !important; /* 24px */
+            }
+          }
+
+          @media (max-width: 640px) {
+            .hero-circle {
+              width: 4rem !important; /* 64px */
+              height: 4rem !important; /* 64px */
+              margin-bottom: 0.75rem !important;
+            }
+
+            .hero-circle-text {
+              font-size: 1.25rem !important; /* 20px */
+            }
+          }
+
+          /* Responsividade para títulos */
+          @media (max-width: 768px) {
+            .hero-main-title {
+              font-size: 2rem !important; /* 32px */
+              line-height: 2.5rem !important;
+              margin-bottom: 0.75rem !important;
+            }
+
+            .hero-typewriter {
+              font-size: 1.125rem !important; /* 18px */
+              line-height: 1.5rem !important;
+              min-height: 1.5rem !important;
+            }
+
+            .hero-description {
+              font-size: 0.875rem !important; /* 14px */
+              line-height: 1.25rem !important;
+              margin-bottom: 1.5rem !important;
+            }
+          }
+
+          @media (max-width: 640px) {
+            .hero-main-title {
+              font-size: 1.75rem !important; /* 28px */
+              line-height: 2rem !important;
+            }
+
+            .hero-typewriter {
+              font-size: 1rem !important; /* 16px */
+            }
+
+            .hero-description {
+              font-size: 0.8rem !important; /* ~13px */
+              padding: 0 0.5rem !important;
+            }
+          }
+
+          /* Ajustes para botões em mobile empilhados */
+          @media (max-width: 640px) {
+            .hero-buttons-container {
+              gap: 1rem !important;
+              margin-bottom: 2rem !important;
+            }
+          }
         `}</style>
 
         <div
@@ -567,48 +655,51 @@ const Hero = () => {
               inView ? "animate-fade-in-up" : "opacity-0"
             }`}
           >
-            <div className="mb-8">
-              <div className="relative group w-32 h-32 mx-auto mb-6">
+            <div className="mb-4 md:mb-8">
+              <div className="relative group hero-circle w-20 h-20 md:w-32 md:h-32 mx-auto mb-3 md:mb-6">
                 <div className="absolute -inset-0.5 circle-shimmer rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative w-full h-full rounded-full bg-background flex items-center justify-center text-4xl font-bold gradient-text">
+                <div className="hero-circle-text relative w-full h-full rounded-full bg-background flex items-center justify-center text-2xl md:text-4xl font-bold gradient-text">
                   {createLetterEffect("CF")}
                 </div>
               </div>
             </div>
 
             {/* Título principal com efeito nas letras */}
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+            <h1 className="hero-main-title text-2xl md:text-4xl lg:text-6xl font-bold mb-2 md:mb-4">
               {createLetterEffect("Olá, eu sou ")}
               <span className="gradient-text">
                 {createLetterEffect(userData.name)}
               </span>
             </h1>
 
-            <div className="h-16 mb-6">
+            <div className="h-12 md:h-16 mb-4 md:mb-6">
               <p
                 ref={typewriterRef}
-                className="text-xl md:text-2xl text-muted-foreground min-h-[2rem]"
+                className="hero-typewriter text-lg md:text-xl lg:text-2xl text-muted-foreground min-h-[1.5rem] md:min-h-[2rem]"
               ></p>
             </div>
 
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="hero-description text-sm md:text-lg text-muted-foreground mb-6 md:mb-8 max-w-2xl mx-auto px-2 md:px-0">
               {userData.about}
             </p>
 
             {/* Botões com animações profissionais */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+            <div className="hero-buttons-container flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center mb-8 md:mb-12">
               {/* Botão Ver Projetos */}
-              <div className="relative group">
+              <div className="relative group w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="professional-button projects-button px-8 py-6 text-lg font-semibold relative z-10"
+                  className="professional-button projects-button w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold relative z-10"
                   asChild
                   onMouseEnter={() => setHoveredButton("projects")}
                   onMouseLeave={() => setHoveredButton("")}
                 >
-                  <a href="#projects" className="flex items-center gap-3">
+                  <a
+                    href="#projects"
+                    className="flex items-center justify-center gap-2 md:gap-3"
+                  >
                     <Eye
-                      className={`h-5 w-5 icon-shimmer ${
+                      className={`h-4 w-4 md:h-5 md:w-5 icon-shimmer ${
                         hoveredButton === "projects" ? "icon-shimmer-blue" : ""
                       }`}
                     />
@@ -651,17 +742,20 @@ const Hero = () => {
               </div>
 
               {/* Botão Baixar CV */}
-              <div className="relative group">
+              <div className="relative group w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="professional-button cv-button px-8 py-6 text-lg font-semibold relative z-10"
+                  className="professional-button cv-button w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold relative z-10"
                   asChild
                   onMouseEnter={() => setHoveredButton("cv")}
                   onMouseLeave={() => setHoveredButton("")}
                 >
-                  <a href="#contact" className="flex items-center gap-3">
+                  <a
+                    href="#contact"
+                    className="flex items-center justify-center gap-2 md:gap-3"
+                  >
                     <Download
-                      className={`h-5 w-5 icon-shimmer ${
+                      className={`h-4 w-4 md:h-5 md:w-5 icon-shimmer ${
                         hoveredButton === "cv" ? "icon-shimmer-green" : ""
                       }`}
                     />
@@ -707,7 +801,7 @@ const Hero = () => {
             <div className="animate-bounce">
               <Button variant="ghost" size="icon" asChild>
                 <a href="#about">
-                  <ArrowDown className="h-6 w-6" />
+                  <ArrowDown className="h-5 w-5 md:h-6 md:w-6" />
                 </a>
               </Button>
             </div>
@@ -715,9 +809,9 @@ const Hero = () => {
         </div>
 
         {/* Floating elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-32 h-32 bg-accent/20 rounded-full blur-xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-primary/10 rounded-full blur-lg animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-10 w-12 h-12 md:w-20 md:h-20 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-16 h-16 md:w-32 md:h-32 bg-accent/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/4 w-10 h-10 md:w-16 md:h-16 bg-primary/10 rounded-full blur-lg animate-pulse delay-500"></div>
       </section>
     </PageTransition>
   );
