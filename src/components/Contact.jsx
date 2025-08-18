@@ -556,10 +556,10 @@ const Contact = () => {
                           Clique na imagem para visualizar em tela cheia
                         </p>
 
-                        {/* Botão Download CV com todas as animações */}
+                        {/* Botão Download CV com todas as animações - REDUZIDO 40% */}
                         <div className="relative group">
                           <Button
-                            className="professional-button-cv cv-button-red relative cursor-pointer px-8 py-6 text-lg font-semibold z-10 w-full"
+                            className="professional-button-cv cv-button-red relative cursor-pointer px-5 py-3 text-base font-medium z-10 w-auto mx-auto"
                             onClick={() => {
                               const link = document.createElement("a");
                               link.href =
@@ -571,7 +571,7 @@ const Contact = () => {
                             onMouseLeave={() => setHoveredButton("")}
                           >
                             <FileDown
-                              className={`mr-2 h-5 w-5 icon-shimmer transition-all duration-300 ${
+                              className={`mr-2 h-4 w-4 icon-shimmer transition-all duration-300 ${
                                 hoveredButton === "downloadcv"
                                   ? "icon-shimmer-red"
                                   : ""
