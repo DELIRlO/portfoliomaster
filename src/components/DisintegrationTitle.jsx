@@ -17,7 +17,7 @@ const DisintegrationTitle = ({
     triggerOnce: false,
   });
 
-  // Gerar partículas baseadas no texto
+  // Gerar partículas redondas
   const generateParticles = () => {
     const newParticles = [];
     for (let i = 0; i < particleCount; i++) {
@@ -28,7 +28,8 @@ const DisintegrationTitle = ({
         size: Math.random() * 4 + 2,
         opacity: Math.random() * 0.8 + 0.2,
         delay: Math.random() * 500,
-        color: `hsl(${Math.random() * 60 + 200}, 70%, ${Math.random() * 30 + 50}%)`,
+        // Tons de cinza variados
+        color: `rgb(${120 + Math.random() * 60}, ${120 + Math.random() * 60}, ${120 + Math.random() * 60})`,
       });
     }
     setParticles(newParticles);
@@ -68,13 +69,13 @@ const DisintegrationTitle = ({
         {children}
       </div>
 
-      {/* Partículas de desintegração */}
+      {/* Partículas redondas de desintegração */}
       {isAnimating && (
         <div className="absolute inset-0 pointer-events-none">
           {particles.map((particle) => (
             <div
               key={particle.id}
-              className="absolute w-1 h-1 rounded-full animate-particle-float"
+              className="absolute rounded-full animate-particle-float"
               style={{
                 left: `${particle.x}%`,
                 top: `${particle.y}%`,
@@ -90,12 +91,6 @@ const DisintegrationTitle = ({
         </div>
       )}
 
-      {/* Efeito de onda energética */}
-      {isAnimating && (
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-energy-wave" />
-        </div>
-      )}
 
       <style jsx>{`
         @keyframes disintegrate {
@@ -167,19 +162,6 @@ const DisintegrationTitle = ({
           }
         }
 
-        @keyframes energy-wave {
-          0% {
-            transform: translateX(-100%) skewX(-15deg);
-            opacity: 0;
-          }
-          50% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateX(200%) skewX(-15deg);
-            opacity: 0;
-          }
-        }
 
         .animate-disintegrate {
           animation: disintegrate 2s ease-in-out;
@@ -191,10 +173,6 @@ const DisintegrationTitle = ({
 
         .animate-particle-float {
           animation: particle-float 2s ease-in-out;
-        }
-
-        .animate-energy-wave {
-          animation: energy-wave 2s ease-in-out;
         }
       `}</style>
     </div>
