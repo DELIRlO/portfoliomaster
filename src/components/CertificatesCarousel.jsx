@@ -14,6 +14,7 @@ import {
 import userData from "../userData";
 import { cn } from "@/lib/utils";
 import PageTransition from "./PageTransition";
+import DisintegrationTitle from "./DisintegrationTitle";
 
 const CertificatesCarousel = () => {
   const [api, setApi] = React.useState();
@@ -76,10 +77,14 @@ const CertificatesCarousel = () => {
             }`}
           >
             <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3">
-                <Award className="h-8 w-8 md:h-10 md:w-10 text-primary" />
+              <DisintegrationTitle 
+                className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3"
+                icon={<Award className="h-8 w-8 md:h-10 md:w-10 text-primary" />}
+                delay={350}
+                particleCount={40}
+              >
                 Certificados
-              </h2>
+              </DisintegrationTitle>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Minha jornada de aprendizado contínuo e conquistas.
               </p>

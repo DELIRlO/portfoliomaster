@@ -6,6 +6,7 @@ import { Badge } from './ui/badge';
 import { Github, ExternalLink, Star, GitFork } from 'lucide-react';
 import useGitHubRepos from '../hooks/useGitHubRepos';
 import PageTransition from './PageTransition';
+import DisintegrationTitle from './DisintegrationTitle';
 
 const GitHubProjects = () => {
   const { ref, inView } = useInView({
@@ -279,10 +280,14 @@ const GitHubProjects = () => {
         <section className="py-12">
         <div ref={ref} className={`transition-all duration-1000 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`}>
           <div className="text-center mb-12">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 gradient-text flex items-center justify-center gap-3">
-              <Github className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+            <DisintegrationTitle 
+              className="text-2xl md:text-3xl font-bold mb-4 gradient-text flex items-center justify-center gap-3"
+              icon={<Github className="h-6 w-6 md:h-8 md:w-8 text-primary" />}
+              delay={500}
+              particleCount={35}
+            >
               Repositórios do GitHub
-            </h3>
+            </DisintegrationTitle>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Meus projetos mais recentes e populares no GitHub
             </p>

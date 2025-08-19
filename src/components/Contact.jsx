@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import userData from "../userData";
 import PageTransition from "./PageTransition";
+import DisintegrationTitle from "./DisintegrationTitle";
 
 const Contact = () => {
   const { ref, inView } = useInView({
@@ -288,10 +289,14 @@ const Contact = () => {
               }`}
             >
               <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3">
-                  <MessageCircle className="h-8 w-8 md:h-10 md:w-10 text-primary" />
+                <DisintegrationTitle 
+                  className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3"
+                  icon={<MessageCircle className="h-8 w-8 md:h-10 md:w-10 text-primary" />}
+                  delay={400}
+                  particleCount={45}
+                >
                   Vamos Conversar?
-                </h2>
+                </DisintegrationTitle>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                   Estou sempre aberto a novas oportunidades e colaborações.
                   Entre em contato!

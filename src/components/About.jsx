@@ -3,6 +3,7 @@ import { Card, CardContent } from "./ui/card";
 import userData from "../userData";
 import PageTransition from "./PageTransition";
 import Typewriter from "./Typewriter";
+import DisintegrationTitle from "./DisintegrationTitle";
 import { BarChart4, Bot, User, MapPin, GraduationCap, Cog, BookOpen } from "lucide-react"; // BarChart4 para Power BI, Bot para RPA, User para Sobre Mim
 
 // Configuração completa de cores para todas as linguagens
@@ -101,10 +102,14 @@ const About = () => {
             }`}
           >
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3">
-                <User className="h-8 w-8 md:h-10 md:w-10 text-primary" />
+              <DisintegrationTitle 
+                className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3"
+                icon={<User className="h-8 w-8 md:h-10 md:w-10 text-primary" />}
+                delay={200}
+                particleCount={40}
+              >
                 Sobre Mim
-              </h2>
+              </DisintegrationTitle>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Conheça um pouco mais sobre minha trajetória e habilidades
               </p>
@@ -119,10 +124,14 @@ const About = () => {
               >
                 <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
                   <CardContent className="p-0">
-                    <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                      <BookOpen className="h-6 w-6 text-primary" />
+                    <DisintegrationTitle 
+                      className="text-2xl font-bold mb-4 flex items-center gap-2"
+                      icon={<BookOpen className="h-6 w-6 text-primary" />}
+                      delay={600}
+                      particleCount={25}
+                    >
                       Minha História
-                    </h3>
+                    </DisintegrationTitle>
                     <div className="text-muted-foreground mb-4">
                       <p className="font-bold">
                         Tecnologia da Informação com expertise em:
