@@ -1,6 +1,7 @@
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { useInView } from "react-intersection-observer";
+import { Award } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -75,7 +76,8 @@ const CertificatesCarousel = () => {
             }`}
           >
             <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3">
+                <Award className="h-8 w-8 md:h-10 md:w-10 text-primary" />
                 Certificados
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

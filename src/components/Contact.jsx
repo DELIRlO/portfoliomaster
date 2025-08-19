@@ -11,6 +11,9 @@ import {
   ExternalLink,
   FileDown,
   MapPin,
+  MessageCircle,
+  Users,
+  FileText,
 } from "lucide-react";
 import userData from "../userData";
 import PageTransition from "./PageTransition";
@@ -285,7 +288,8 @@ const Contact = () => {
               }`}
             >
               <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3">
+                  <MessageCircle className="h-8 w-8 md:h-10 md:w-10 text-primary" />
                   Vamos Conversar?
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -304,7 +308,8 @@ const Contact = () => {
                   >
                     <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20 h-full">
                       <CardHeader className="p-0 mb-6">
-                        <CardTitle className="text-2xl gradient-text">
+                        <CardTitle className="text-2xl gradient-text flex items-center gap-2">
+                          <Mail className="h-6 w-6 text-primary" />
                           Entre em Contato
                         </CardTitle>
                       </CardHeader>
@@ -369,7 +374,8 @@ const Contact = () => {
                   >
                     <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20 h-full">
                       <CardHeader className="p-0 mb-6">
-                        <CardTitle className="text-2xl gradient-text">
+                        <CardTitle className="text-2xl gradient-text flex items-center gap-2">
+                          <Users className="h-6 w-6 text-primary" />
                           Redes Sociais
                         </CardTitle>
                       </CardHeader>
@@ -536,7 +542,8 @@ const Contact = () => {
                   >
                     <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20 h-full text-center">
                       <CardHeader className="p-0 mb-6">
-                        <CardTitle className="text-2xl gradient-text">
+                        <CardTitle className="text-2xl gradient-text flex items-center gap-2">
+                          <FileText className="h-6 w-6 text-primary" />
                           Currículo
                         </CardTitle>
                       </CardHeader>

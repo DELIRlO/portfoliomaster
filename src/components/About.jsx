@@ -3,7 +3,7 @@ import { Card, CardContent } from "./ui/card";
 import userData from "../userData";
 import PageTransition from "./PageTransition";
 import Typewriter from "./Typewriter";
-import { BarChart4, Bot } from "lucide-react"; // BarChart4 para Power BI, Bot para RPA
+import { BarChart4, Bot, User, MapPin, GraduationCap, Cog, BookOpen } from "lucide-react"; // BarChart4 para Power BI, Bot para RPA, User para Sobre Mim
 
 // Configuração completa de cores para todas as linguagens
 const skillStyles = {
@@ -101,7 +101,8 @@ const About = () => {
             }`}
           >
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3">
+                <User className="h-8 w-8 md:h-10 md:w-10 text-primary" />
                 Sobre Mim
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -118,7 +119,10 @@ const About = () => {
               >
                 <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
                   <CardContent className="p-0">
-                    <h3 className="text-2xl font-bold mb-4">Minha História</h3>
+                    <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                      <BookOpen className="h-6 w-6 text-primary" />
+                      Minha História
+                    </h3>
                     <div className="text-muted-foreground mb-4">
                       <p className="font-bold">
                         Tecnologia da Informação com expertise em:
@@ -271,16 +275,24 @@ const About = () => {
                 {/* Seção "Localização" */}
                 <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20 mt-6">
                   <CardContent className="p-0">
-                    <h3 className="text-2xl font-bold mb-4">Localização</h3>
-                    <p className="text-muted-foreground">
-                      📍 Belém, Pará - Brasil
-                    </p>
-                    <p className="text-muted-foreground">
-                      🎓 ITA - Instituto de Tecnologia da Aeronáutica
-                    </p>
-                    <p className="text-muted-foreground">
-                      👨‍💻 39 anos, Engenheiro de Computação
-                    </p>
+                    <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                      <MapPin className="h-6 w-6 text-primary" />
+                      Localização
+                    </h3>
+                    <div className="space-y-3">
+                      <p className="text-muted-foreground flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-blue-500" />
+                        Belém, Pará - Brasil
+                      </p>
+                      <p className="text-muted-foreground flex items-center gap-2">
+                        <GraduationCap className="h-4 w-4 text-green-500" />
+                        ITA - Instituto de Tecnologia da Aeronáutica
+                      </p>
+                      <p className="text-muted-foreground flex items-center gap-2">
+                        <Cog className="h-4 w-4 text-orange-500 animate-spin-slow" />
+                        39 anos, Engenheiro de Computação
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
               </div>

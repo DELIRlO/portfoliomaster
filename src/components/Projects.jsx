@@ -2,7 +2,7 @@ import { useInView } from 'react-intersection-observer';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Github, ExternalLink, Eye } from 'lucide-react';
+import { Github, ExternalLink, Eye, FolderOpen } from 'lucide-react';
 import GitHubProjects from './GitHubProjects';
 import userData from '../userData';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
@@ -53,7 +53,10 @@ const Projects = () => {
         <div className="container mx-auto px-4">
           <div ref={ref} className={`transition-all duration-1000 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`}>
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">Projetos</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3">
+                <FolderOpen className="h-8 w-8 md:h-10 md:w-10 text-primary" />
+                Projetos
+              </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Alguns dos projetos que desenvolvi ao longo da minha carreira
               </p>
@@ -61,7 +64,10 @@ const Projects = () => {
 
             {/* Featured Projects */}
             <div className="mb-16" ref={projectsRef}>
-              <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center gradient-text">Projetos em Destaque</h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center gradient-text flex items-center justify-center gap-3">
+                <Eye className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+                Projetos em Destaque
+              </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {featuredProjects.map((project, index) => (
                   <div

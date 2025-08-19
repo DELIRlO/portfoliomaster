@@ -1,4 +1,5 @@
 import { useInView } from 'react-intersection-observer';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -11,6 +12,8 @@ const GitHubProjects = () => {
     threshold: 0.1,
     triggerOnce: false,
   });
+
+  const [hoveredButton, setHoveredButton] = useState("");
 
   const { repos, loading, error } = useGitHubRepos('DELIRlO');
 
@@ -56,11 +59,230 @@ const GitHubProjects = () => {
   }
 
   return (
-    <PageTransition isVisible={inView}>
-      <section className="py-12">
+    <>
+      {/* Estilos CSS para as animações */}
+      <style jsx>{`
+        @keyframes textShimmer {
+          0% {
+            background-position: -200% center;
+          }
+          100% {
+            background-position: 200% center;
+          }
+        }
+
+        @keyframes floatUp {
+          0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0);
+          }
+          10% {
+            opacity: 1;
+            transform: translateY(15px) scale(1);
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-20px) scale(0);
+          }
+        }
+
+        @keyframes pulseScale {
+          0%,
+          100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.02);
+          }
+        }
+
+        @keyframes professionalGlowRed {
+          0%,
+          100% {
+            box-shadow: 0 0 3px rgba(239, 68, 68, 0.18),
+              0 0 6px rgba(239, 68, 68, 0.12), 0 0 9px rgba(239, 68, 68, 0.06),
+              inset 0 1px 0 rgba(255, 255, 255, 0.06);
+          }
+          50% {
+            box-shadow: 0 0 6px rgba(239, 68, 68, 0.3),
+              0 0 12px rgba(239, 68, 68, 0.18), 0 0 18px rgba(239, 68, 68, 0.12),
+              inset 0 1px 0 rgba(255, 255, 255, 0.12);
+          }
+        }
+
+        @keyframes slideShine {
+          0% {
+            transform: translateX(-100%) skewX(-15deg);
+            opacity: 0.6;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(300%) skewX(-15deg);
+            opacity: 0.6;
+          }
+        }
+
+        /* Classe base para botões profissionais */
+        .professional-button-repos {
+          position: relative;
+          overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          background: linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.05)
+          );
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          transform: translateY(0);
+        }
+
+        .professional-button-repos:hover {
+          transform: translateY(-2px);
+          animation: pulseScale 2s ease-in-out infinite,
+            professionalGlowRed 2s ease-in-out infinite;
+        }
+
+        /* Efeito de brilho deslizante */
+        .professional-button-repos::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(239, 68, 68, 0.2),
+            transparent
+          );
+          transition: left 0.5s;
+        }
+
+        .professional-button-repos:hover::before {
+          left: 100%;
+          animation: slideShine 2s ease-in-out infinite;
+        }
+
+        /* Texto com gradiente animado vermelho */
+        .animated-text-red {
+          background: linear-gradient(
+            90deg,
+            #ef4444 0%,
+            #ffffff 25%,
+            #ef4444 50%,
+            #ffffff 75%,
+            #ef4444 100%
+          );
+          background-size: 200% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: textShimmer 2s ease-in-out infinite;
+        }
+
+        .animated-text {
+          background: linear-gradient(
+            90deg,
+            #ffffff 0%,
+            #e2e8f0 25%,
+            #ffffff 50%,
+            #e2e8f0 75%,
+            #ffffff 100%
+          );
+          background-size: 200% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: textShimmer 3s ease-in-out infinite;
+        }
+
+        /* Ícone com cor vermelha e efeito shimmer */
+        .icon-shimmer {
+          filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+          transition: all 0.3s ease;
+          color: #ffffff;
+        }
+
+        .icon-shimmer-red {
+          color: #ef4444;
+          filter: drop-shadow(0 0 3px rgba(239, 68, 68, 0.4));
+        }
+
+        .professional-button-repos:hover .icon-shimmer {
+          transform: scale(1.1);
+          filter: drop-shadow(0 0 4px currentColor);
+        }
+
+        /* Partículas flutuantes vermelhas */
+        .floating-particles-repos {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .particle-repos {
+          position: absolute;
+          width: 3px;
+          height: 3px;
+          background: rgba(239, 68, 68, 0.8);
+          border-radius: 50%;
+          animation: floatUp 3s ease-out infinite;
+        }
+
+        /* Efeito de linha brilhante embaixo */
+        .glow-line-repos {
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 0;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, #ef4444, transparent);
+          transition: width 0.4s ease-out;
+        }
+
+        .professional-button-repos:hover .glow-line-repos {
+          width: 80%;
+        }
+
+        /* Borda animada vermelha */
+        .animated-border-repos {
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          padding: 1px;
+          background: linear-gradient(45deg, transparent, #ef4444, transparent);
+          -webkit-mask: linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+          -webkit-mask-composite: exclude;
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask-composite: exclude;
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+
+        .professional-button-repos:hover .animated-border-repos {
+          opacity: 0.5;
+        }
+      `}</style>
+
+      <PageTransition isVisible={inView}>
+        <section className="py-12">
         <div ref={ref} className={`transition-all duration-1000 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`}>
           <div className="text-center mb-12">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 gradient-text">Repositórios do GitHub</h3>
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 gradient-text flex items-center justify-center gap-3">
+              <Github className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+              Repositórios do GitHub
+            </h3>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Meus projetos mais recentes e populares no GitHub
             </p>
@@ -169,16 +391,61 @@ const GitHubProjects = () => {
           </div>
 
           <div className="text-center mt-4">
-            <Button variant="outline" size="lg" asChild>
-              <a href="https://github.com/DELIRlO" target="_blank" rel="noopener noreferrer">
-                <Github className="mr-2 h-4 w-4" />
-                Ver todos os repositórios
-              </a>
-            </Button>
+            <div className="relative group">
+              <Button
+                className="professional-button-repos relative cursor-pointer px-6 py-3 text-base font-medium z-10 w-auto mx-auto"
+                size="lg"
+                onMouseEnter={() => setHoveredButton("repos")}
+                onMouseLeave={() => setHoveredButton("")}
+                asChild
+              >
+                <a href="https://github.com/DELIRlO" target="_blank" rel="noopener noreferrer">
+                  <Github
+                    className={`mr-2 h-4 w-4 icon-shimmer transition-all duration-300 ${
+                      hoveredButton === "repos"
+                        ? "icon-shimmer-red"
+                        : ""
+                    }`}
+                  />
+                  <span
+                    className={
+                      hoveredButton === "repos"
+                        ? "animated-text-red"
+                        : "animated-text"
+                    }
+                  >
+                    Ver todos os repositórios
+                  </span>
+                </a>
+              </Button>
+
+              {/* Partículas flutuantes vermelhas */}
+              {hoveredButton === "repos" && (
+                <div className="floating-particles-repos">
+                  {[...Array(8)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="particle-repos"
+                      style={{
+                        left: `${20 + Math.random() * 60}%`,
+                        animationDelay: `${i * 0.25}s`,
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Linha brilhante vermelha */}
+              <div className="glow-line-repos"></div>
+
+              {/* Borda animada vermelha */}
+              <div className="animated-border-repos"></div>
+            </div>
           </div>
         </div>
       </section>
     </PageTransition>
+    </>
   );
 };
 
