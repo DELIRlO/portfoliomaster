@@ -1,4 +1,4 @@
-// src/App.jsx - VERSÃO ATUALIZADA
+// src/App.jsx - VERSÃO CORRIGIDA
 import { useState, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
@@ -9,13 +9,13 @@ import CertificatesCarousel from "./components/CertificatesCarousel";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import FuturisticLoader from "./components/FuturisticLoader";
-import ParticleBackground from "./components/ParticleBackground"; // NOVO IMPORT
+import ParticleBackground from "./components/ParticleBackground";
 import useTheme from "./hooks/useTheme";
 import useBackgroundMusic from "./hooks/useBackgroundMusic";
 
 function App() {
   // Estado para controlar o loading
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Mudei para false para testar
 
   // Seus hooks originais
   const { darkMode, toggleTheme } = useTheme();
@@ -26,16 +26,6 @@ function App() {
     setIsLoading(false);
   };
 
-  // Tempo máximo de loading como fallback (opcional)
-  useEffect(() => {
-    const maxLoadingTime = setTimeout(() => {
-      setIsLoading(false);
-    }, 8000); // 8 segundos máximo
-
-    // Cleanup do timeout
-    return () => clearTimeout(maxLoadingTime);
-  }, []);
-
   // Se ainda está carregando, mostra o loading futurista
   if (isLoading) {
     return <FuturisticLoader onComplete={handleLoadingComplete} />;
@@ -43,25 +33,30 @@ function App() {
 
   // Quando termina o loading, mostra seu portfolio original
   return (
-    <div className="min-h-screen bg-background text-foreground fade-in-after-loading relative">
-      {/* NOVO COMPONENTE DE PARTÍCULAS */}
+    <>
+      {/* COMPONENTE DE PARTÍCULAS FORA DO DIV PRINCIPAL */}
       <ParticleBackground />
-      
-      <Header
-        darkMode={darkMode}
-        toggleDarkMode={toggleTheme}
-        musicPlaying={isPlaying}
-        toggleMusic={toggleMusic}
-      />
-      <main className="relative z-10">
-        <Hero />
-        <About />
-        <Projects />
-        <CertificatesCarousel />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+
+      <div
+        className="min-h-screen text-foreground fade-in-after-loading relative"
+        style={{ background: "transparent" }}
+      >
+        <Header
+          darkMode={darkMode}
+          toggleDarkMode={toggleTheme}
+          musicPlaying={isPlaying}
+          toggleMusic={toggleMusic}
+        />
+        <main className="relative z-10">
+          <Hero />
+          <About />
+          <Projects />
+          <CertificatesCarousel />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
 
