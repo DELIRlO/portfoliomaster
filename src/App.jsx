@@ -1,5 +1,4 @@
-// src/App.jsx - VERSÃO CORRIGIDA
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -15,7 +14,7 @@ import useBackgroundMusic from "./hooks/useBackgroundMusic";
 
 function App() {
   // Estado para controlar o loading
-  const [isLoading, setIsLoading] = useState(false); // Mudei para false para testar
+  const [isLoading, setIsLoading] = useState(false);
 
   // Seus hooks originais
   const { darkMode, toggleTheme } = useTheme();
@@ -34,7 +33,6 @@ function App() {
   // Quando termina o loading, mostra seu portfolio original
   return (
     <>
-      {/* COMPONENTE DE PARTÍCULAS FORA DO DIV PRINCIPAL */}
       <ParticleBackground />
 
       <div

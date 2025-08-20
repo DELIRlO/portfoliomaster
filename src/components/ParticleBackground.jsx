@@ -26,10 +26,10 @@ const ParticleBackground = () => {
       }
 
       reset() {
-        // Posição inicial dispersa - evita o centro completamente
+        // Posição inicial dispersa - evita o centro completamente (raios reduzidos em 30%)
         const angle = Math.random() * Math.PI * 2;
-        const minRadius = 200; // Raio mínimo para evitar o centro
-        const maxRadius = 800; // Raio máximo
+        const minRadius = 140; // Reduzido de 200 para 140 (30% menor)
+        const maxRadius = 560; // Reduzido de 800 para 560 (30% menor)
         const radius = minRadius + Math.random() * (maxRadius - minRadius);
 
         this.x = canvas.width / 2 + Math.cos(angle) * radius;
@@ -42,9 +42,9 @@ const ParticleBackground = () => {
         // Velocidade de aproximação
         this.speed = Math.random() * 8 + 2;
 
-        // Posição 3D original (antes da projeção) - evita o centro
+        // Posição 3D original (antes da projeção) - evita o centro (raios reduzidos em 30%)
         const angle3d = Math.random() * Math.PI * 2;
-        const radius3d = 1000 + Math.random() * 2000; // Mínimo de 1000 para evitar centro
+        const radius3d = 700 + Math.random() * 1400; // Reduzido de 1000-3000 para 700-2100 (30% menor)
         this.x3d = Math.cos(angle3d) * radius3d;
         this.y3d = Math.sin(angle3d) * radius3d;
 
@@ -140,8 +140,8 @@ const ParticleBackground = () => {
           }
         }
 
-        // Glow effect baseado no tamanho (mais sutil)
-        const glowSize = this.size * 2.4; // Reduzido de 3 para 2.4
+        // Glow effect baseado no tamanho (reduzido em 30%)
+        const glowSize = this.size * 1.68; // Reduzido de 2.4 para 1.68 (30% menor)
         ctx.shadowColor = this.color;
         ctx.shadowBlur = glowSize;
 
@@ -157,12 +157,12 @@ const ParticleBackground = () => {
       }
     }
 
-    // Create particles
+    // Create particles (reduzido em 30%)
     const createParticles = () => {
       const particleCount = Math.min(
-        120,
-        Math.floor((canvas.width * canvas.height) / 8000)
-      );
+        84,
+        Math.floor(((canvas.width * canvas.height) / 8000) * 0.7)
+      ); // 120 * 0.7 = 84
       particlesRef.current = [];
 
       for (let i = 0; i < particleCount; i++) {
@@ -222,7 +222,7 @@ const ParticleBackground = () => {
         width: "100vw",
         height: "100vh",
         zIndex: -10,
-        background: "#000000",
+        background: "transparent",
         pointerEvents: "none",
       }}
     >
