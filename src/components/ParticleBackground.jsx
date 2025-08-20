@@ -16,7 +16,7 @@ const ParticleBackground = () => {
     
     // Configurações das partículas
     const config = {
-      particleCount: 60, // Reduzido em 40% (de 100 para 60)
+      particleCount: 48, // Reduzido em 20% (de 60 para 48)
       connectionDistance: 100,
       particleSpeed: 2,
       mouseRadius: 100

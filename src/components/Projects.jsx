@@ -15,7 +15,10 @@ const Projects = () => {
     triggerOnce: false,
   });
 
-  const { ref: projectsRef, hasIntersected } = useIntersectionObserver();
+  const { ref: projectsRef, hasIntersected } = useIntersectionObserver({
+    threshold: 0.1,
+    rootMargin: '0px'
+  });
 
   const getTechColor = (tech) => {
     const colors = {
