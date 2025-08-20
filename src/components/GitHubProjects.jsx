@@ -1,12 +1,11 @@
-import { useInView } from 'react-intersection-observer';
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { Github, ExternalLink, Star, GitFork } from 'lucide-react';
-import useGitHubRepos from '../hooks/useGitHubRepos';
-import PageTransition from './PageTransition';
-import DisintegrationTitle from './DisintegrationTitle';
+import { useInView } from "react-intersection-observer";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { Github, ExternalLink, Star, GitFork } from "lucide-react";
+import useGitHubRepos from "../hooks/useGitHubRepos";
+import DisintegrationTitle from "./DisintegrationTitle";
 
 const GitHubProjects = () => {
   const { ref, inView } = useInView({
@@ -15,30 +14,50 @@ const GitHubProjects = () => {
   });
 
   const [hoveredButton, setHoveredButton] = useState("");
+  const [transitionStage, setTransitionStage] = useState(0);
 
-  const { repos, loading, error } = useGitHubRepos('DELIRlO');
+  const { repos, loading, error } = useGitHubRepos("DELIRlO");
+
+  // Controla a animação de transição metálica
+  useEffect(() => {
+    if (!inView) {
+      setTransitionStage(0);
+      return;
+    }
+
+    setTransitionStage(1);
+    const timer1 = setTimeout(() => setTransitionStage(2), 300);
+    const timer2 = setTimeout(() => setTransitionStage(3), 600);
+    const timer3 = setTimeout(() => setTransitionStage(4), 900);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
+  }, [inView]);
 
   const getLanguageColor = (language) => {
     const colors = {
-      'JavaScript': 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
-      'Python': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-      'TypeScript': 'bg-blue-700/20 text-blue-400 border-blue-700/30',
-      'HTML': 'bg-orange-500/20 text-orange-300 border-orange-500/30',
-      'CSS': 'bg-blue-600/20 text-blue-400 border-blue-600/30',
-      'Java': 'bg-red-500/20 text-red-300 border-red-500/30',
-      'C++': 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-      'C#': 'bg-green-500/20 text-green-300 border-green-500/30',
-      'PHP': 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
-      'Ruby': 'bg-red-600/20 text-red-400 border-red-600/30',
+      JavaScript: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
+      Python: "bg-blue-500/20 text-blue-300 border-blue-500/30",
+      TypeScript: "bg-blue-700/20 text-blue-400 border-blue-700/30",
+      HTML: "bg-orange-500/20 text-orange-300 border-orange-500/30",
+      CSS: "bg-blue-600/20 text-blue-400 border-blue-600/30",
+      Java: "bg-red-500/20 text-red-300 border-red-500/30",
+      "C++": "bg-purple-500/20 text-purple-300 border-purple-500/30",
+      "C#": "bg-green-500/20 text-green-300 border-green-500/30",
+      PHP: "bg-indigo-500/20 text-indigo-300 border-indigo-500/30",
+      Ruby: "bg-red-600/20 text-red-400 border-red-600/30",
     };
-    return colors[language] || 'bg-primary/20 text-primary border-primary/30';
+    return colors[language] || "bg-primary/20 text-primary border-primary/30";
   };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('pt-BR', { 
-      year: 'numeric', 
-      month: 'short' 
+    return date.toLocaleDateString("pt-BR", {
+      year: "numeric",
+      month: "short",
     });
   };
 
@@ -54,7 +73,9 @@ const GitHubProjects = () => {
   if (error) {
     return (
       <div className="text-center py-8">
-        <p className="text-muted-foreground">Erro ao carregar repositórios do GitHub</p>
+        <p className="text-muted-foreground">
+          Erro ao carregar repositórios do GitHub
+        </p>
       </div>
     );
   }
@@ -125,6 +146,30 @@ const GitHubProjects = () => {
           100% {
             transform: translateX(300%) skewX(-15deg);
             opacity: 0.6;
+          }
+        }
+
+        /* Animações da transição metálica */
+        @keyframes cascadeReflection {
+          0% {
+            background-position: 0% 0%;
+          }
+          100% {
+            background-position: 400% 400%;
+          }
+        }
+
+        @keyframes particleFade {
+          0% {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          50% {
+            opacity: 0.6;
+          }
+          100% {
+            opacity: 0;
+            transform: scale(1.2);
           }
         }
 
@@ -276,183 +321,296 @@ const GitHubProjects = () => {
         }
       `}</style>
 
-      <PageTransition isVisible={inView}>
-        <section className="py-12">
-        <div ref={ref} className={`transition-all duration-1000 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`}>
-          <div className="text-center mb-12">
-            <DisintegrationTitle 
-              className="text-2xl md:text-3xl font-bold mb-4 gradient-text flex items-center justify-center gap-3"
-              icon={<Github className="h-6 w-6 md:h-8 md:w-8 text-primary" />}
-              delay={500}
-              particleCount={35}
-            >
-              Repositórios do GitHub
-            </DisintegrationTitle>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Meus projetos mais recentes e populares no GitHub
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {repos.map((repo, index) => (
+      {/* Container com transição metálica integrada */}
+      <div className="relative w-full h-full overflow-hidden">
+        {/* Conteúdo principal */}
+        <div
+          className={`relative z-0 transition-opacity duration-500 ${
+            transitionStage === 4 ? "opacity-100" : "opacity-70"
+          }`}
+        >
+          <section className="py-12 w-full">
+            <div className="container mx-auto px-4">
               <div
-                key={repo.id}
+                ref={ref}
                 className={`transition-all duration-1000 ${
-                  inView ? 'animate-fade-in-up' : 'opacity-0'
+                  inView ? "animate-fade-in-up" : "opacity-0"
                 }`}
-                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <Card className="h-full bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
-                  <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      <span className="gradient-text group-hover:text-primary transition-colors text-lg">
-                        {repo.name}
-                      </span>
-                      <div className="flex space-x-2">
-                        <Button variant="ghost" size="icon" asChild>
-                          <a 
-                            href={repo.html_url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="hover:text-primary"
-                          >
-                            <Github className="h-4 w-4" />
-                          </a>
-                        </Button>
-                        {repo.homepage && (
-                          <Button variant="ghost" size="icon" asChild>
-                            <a 
-                              href={repo.homepage} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="hover:text-primary"
-                            >
-                              <ExternalLink className="h-4 w-4" />
-                            </a>
-                          </Button>
-                        )}
-                      </div>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground mb-4 min-h-[3rem] text-sm">
-                      {repo.description || 'Sem descrição disponível'}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {repo.language && (
-                        <Badge 
-                          variant="outline" 
-                          className={`${getLanguageColor(repo.language)} text-xs`}
-                        >
-                          {repo.language}
-                        </Badge>
-                      )}
-                      {repo.topics && repo.topics.slice(0, 2).map((topic, topicIndex) => (
-                        <Badge 
-                          key={topicIndex} 
-                          variant="outline" 
-                          className="bg-muted/50 text-muted-foreground border-muted text-xs"
-                        >
-                          {topic}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="flex items-center space-x-1">
-                          <Star className="h-3 w-3" />
-                          <span>{repo.stargazers_count}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <GitFork className="h-3 w-3" />
-                          <span>{repo.forks_count}</span>
-                        </div>
-                      </div>
-                      <span>{formatDate(repo.updated_at)}</span>
-                    </div>
-
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm" className="flex-1" asChild>
-                        <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
-                          <Github className="mr-2 h-3 w-3" />
-                          Código
-                        </a>
-                      </Button>
-                      {repo.homepage && (
-                        <Button size="sm" className="flex-1" asChild>
-                          <a href={repo.homepage} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="mr-2 h-3 w-3" />
-                            Demo
-                          </a>
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-4">
-            <div className="relative group">
-              <Button
-                className="professional-button-repos relative cursor-pointer px-6 py-3 text-base font-medium z-10 w-auto mx-auto"
-                size="lg"
-                onMouseEnter={() => setHoveredButton("repos")}
-                onMouseLeave={() => setHoveredButton("")}
-                asChild
-              >
-                <a href="https://github.com/DELIRlO" target="_blank" rel="noopener noreferrer">
-                  <Github
-                    className={`mr-2 h-4 w-4 icon-shimmer transition-all duration-300 ${
-                      hoveredButton === "repos"
-                        ? "icon-shimmer-red"
-                        : ""
-                    }`}
-                  />
-                  <span
-                    className={
-                      hoveredButton === "repos"
-                        ? "animated-text-red"
-                        : "animated-text"
+                <div className="text-center mb-12">
+                  <DisintegrationTitle
+                    className="text-2xl md:text-3xl font-bold mb-4 gradient-text flex items-center justify-center gap-3"
+                    icon={
+                      <Github className="h-6 w-6 md:h-8 md:w-8 text-primary" />
                     }
+                    delay={500}
+                    particleCount={35}
                   >
-                    Ver todos os repositórios
-                  </span>
-                </a>
-              </Button>
+                    Repositórios do GitHub
+                  </DisintegrationTitle>
+                  <p className="text-muted-foreground max-w-2xl mx-auto">
+                    Meus projetos mais recentes e populares no GitHub
+                  </p>
+                </div>
 
-              {/* Partículas flutuantes vermelhas */}
-              {hoveredButton === "repos" && (
-                <div className="floating-particles-repos">
-                  {[...Array(8)].map((_, i) => (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {repos.map((repo, index) => (
                     <div
-                      key={i}
-                      className="particle-repos"
-                      style={{
-                        left: `${20 + Math.random() * 60}%`,
-                        animationDelay: `${i * 0.25}s`,
-                      }}
-                    />
+                      key={repo.id}
+                      className={`transition-all duration-1000 ${
+                        inView ? "animate-fade-in-up" : "opacity-0"
+                      }`}
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                      <Card className="h-full bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+                        <CardHeader>
+                          <CardTitle className="flex items-center justify-between">
+                            <span className="gradient-text group-hover:text-primary transition-colors text-lg">
+                              {repo.name}
+                            </span>
+                            <div className="flex space-x-2">
+                              <Button variant="ghost" size="icon" asChild>
+                                <a
+                                  href={repo.html_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="hover:text-primary"
+                                >
+                                  <Github className="h-4 w-4" />
+                                </a>
+                              </Button>
+                              {repo.homepage && (
+                                <Button variant="ghost" size="icon" asChild>
+                                  <a
+                                    href={repo.homepage}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:text-primary"
+                                  >
+                                    <ExternalLink className="h-4 w-4" />
+                                  </a>
+                                </Button>
+                              )}
+                            </div>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-muted-foreground mb-4 min-h-[3rem] text-sm">
+                            {repo.description || "Sem descrição disponível"}
+                          </p>
+
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {repo.language && (
+                              <Badge
+                                variant="outline"
+                                className={`${getLanguageColor(
+                                  repo.language
+                                )} text-xs`}
+                              >
+                                {repo.language}
+                              </Badge>
+                            )}
+                            {repo.topics &&
+                              repo.topics
+                                .slice(0, 2)
+                                .map((topic, topicIndex) => (
+                                  <Badge
+                                    key={topicIndex}
+                                    variant="outline"
+                                    className="bg-muted/50 text-muted-foreground border-muted text-xs"
+                                  >
+                                    {topic}
+                                  </Badge>
+                                ))}
+                          </div>
+
+                          <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
+                            <div className="flex items-center space-x-3">
+                              <div className="flex items-center space-x-1">
+                                <Star className="h-3 w-3" />
+                                <span>{repo.stargazers_count}</span>
+                              </div>
+                              <div className="flex items-center space-x-1">
+                                <GitFork className="h-3 w-3" />
+                                <span>{repo.forks_count}</span>
+                              </div>
+                            </div>
+                            <span>{formatDate(repo.updated_at)}</span>
+                          </div>
+
+                          <div className="flex space-x-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="flex-1"
+                              asChild
+                            >
+                              <a
+                                href={repo.html_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <Github className="mr-2 h-3 w-3" />
+                                Código
+                              </a>
+                            </Button>
+                            {repo.homepage && (
+                              <Button size="sm" className="flex-1" asChild>
+                                <a
+                                  href={repo.homepage}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <ExternalLink className="mr-2 h-3 w-3" />
+                                  Demo
+                                </a>
+                              </Button>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
                   ))}
                 </div>
-              )}
 
-              {/* Linha brilhante vermelha */}
-              <div className="glow-line-repos"></div>
+                <div className="text-center mt-8">
+                  <div className="relative group">
+                    <Button
+                      className="professional-button-repos relative cursor-pointer px-6 py-3 text-base font-medium z-10 w-auto mx-auto"
+                      size="lg"
+                      onMouseEnter={() => setHoveredButton("repos")}
+                      onMouseLeave={() => setHoveredButton("")}
+                      asChild
+                    >
+                      <a
+                        href="https://github.com/DELIRlO"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Github
+                          className={`mr-2 h-4 w-4 icon-shimmer transition-all duration-300 ${
+                            hoveredButton === "repos" ? "icon-shimmer-red" : ""
+                          }`}
+                        />
+                        <span
+                          className={
+                            hoveredButton === "repos"
+                              ? "animated-text-red"
+                              : "animated-text"
+                          }
+                        >
+                          Ver todos os repositórios
+                        </span>
+                      </a>
+                    </Button>
 
-              {/* Borda animada vermelha */}
-              <div className="animated-border-repos"></div>
+                    {/* Partículas flutuantes vermelhas */}
+                    {hoveredButton === "repos" && (
+                      <div className="floating-particles-repos">
+                        {[...Array(8)].map((_, i) => (
+                          <div
+                            key={i}
+                            className="particle-repos"
+                            style={{
+                              left: `${20 + Math.random() * 60}%`,
+                              animationDelay: `${i * 0.25}s`,
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Linha brilhante vermelha */}
+                    <div className="glow-line-repos"></div>
+
+                    {/* Borda animada vermelha */}
+                    <div className="animated-border-repos"></div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </section>
         </div>
-      </section>
-    </PageTransition>
+
+        {/* Efeito de reflexo metálico */}
+        {transitionStage > 0 && (
+          <div
+            className={`absolute inset-0 z-10 pointer-events-none ${
+              transitionStage < 4 ? "opacity-100" : "opacity-0"
+            } transition-opacity duration-700`}
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `
+                linear-gradient(
+                  135deg,
+                  #1b1b1b 0%,  
+                  #252525 15%,  
+                  #353535 25%,  
+                  #555555 35%,  
+                  #7a7a7a 42%,  
+                  #999999 46%,  
+                  #ffffff 50%,  
+                  #999999 54%,  
+                  #7a7a7a 58%,  
+                  #555555 65%,  
+                  #353535 75%,  
+                  #252525 85%,  
+                  #1b1b1b 100%  
+                )`,
+                backgroundSize: "400% 400%",
+                animation: "cascadeReflection 5s linear infinite",
+                mixBlendMode: "overlay",
+              }}
+            ></div>
+
+            {/* Efeito de partículas */}
+            {[...Array(30)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute bg-white rounded-full"
+                style={{
+                  width: `${Math.random() * 4 + 1}px`,
+                  height: `${Math.random() * 4 + 1}px`,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  opacity: 0,
+                  animation: `particleFade ${
+                    0.5 + Math.random() * 1
+                  }s ease-in-out infinite alternate`,
+                  animationDelay: `${Math.random() * 0.5}s`,
+                }}
+              />
+            ))}
+
+            {/* Efeito de borda luminosa */}
+            <div
+              className={`absolute inset-0 border-2 ${
+                transitionStage === 2 ? "opacity-80" : "opacity-0"
+              } transition-opacity duration-300`}
+              style={{
+                borderImage: `
+                linear-gradient(
+                  to right,
+                  #2d2d2d 0%,
+                  #4a4a4a 15%,
+                  #6b6b6b 30%,
+                  #e8e8e8 45%,
+                  #ffffff 50%,
+                  #e8e8e8 55%,
+                  #6b6b6b 70%,
+                  #4a4a4a 85%,
+                  #2d2d2d 100%
+                ) 1`,
+                mixBlendMode: "screen",
+              }}
+            ></div>
+          </div>
+        )}
+      </div>
     </>
   );
 };
 
 export default GitHubProjects;
-

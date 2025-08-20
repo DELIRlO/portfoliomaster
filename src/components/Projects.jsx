@@ -1,13 +1,13 @@
-import { useInView } from 'react-intersection-observer';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { Github, ExternalLink, Eye, FolderOpen } from 'lucide-react';
-import GitHubProjects from './GitHubProjects';
-import userData from '../userData';
-import useIntersectionObserver from '../hooks/useIntersectionObserver';
-import PageTransition from './PageTransition';
-import DisintegrationTitle from './DisintegrationTitle';
+import { useInView } from "react-intersection-observer";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { Github, ExternalLink, Eye, FolderOpen } from "lucide-react";
+import GitHubProjects from "./GitHubProjects";
+import userData from "../userData";
+import useIntersectionObserver from "../hooks/useIntersectionObserver";
+import PageTransition from "./PageTransition";
+import DisintegrationTitle from "./DisintegrationTitle";
 
 const Projects = () => {
   const { ref, inView } = useInView({
@@ -17,35 +17,25 @@ const Projects = () => {
 
   const { ref: projectsRef, hasIntersected } = useIntersectionObserver({
     threshold: 0.1,
-    rootMargin: '0px'
+    rootMargin: "0px",
   });
 
   const getTechColor = (tech) => {
     const colors = {
-      'JavaScript': 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
-      'Python': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-      'React': 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
-      'HTML': 'bg-orange-500/20 text-orange-300 border-orange-500/30',
-      'CSS': 'bg-blue-600/20 text-blue-400 border-blue-600/30',
-      'TypeScript': 'bg-blue-700/20 text-blue-400 border-blue-700/30',
+      JavaScript: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
+      Python: "bg-blue-500/20 text-blue-300 border-blue-500/30",
+      React: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
+      HTML: "bg-orange-500/20 text-orange-300 border-orange-500/30",
+      CSS: "bg-blue-600/20 text-blue-400 border-blue-600/30",
+      TypeScript: "bg-blue-700/20 text-blue-400 border-blue-700/30",
     };
-    return colors[tech] || 'bg-primary/20 text-primary border-primary/30';
-  };
-
-  // Mapeamento de projetos para suas imagens
-  const projectThumbnails = {
-    'portfoliomaster': '/thumbnails/portfoliomaster.png',
-    'wordinvert': '/thumbnails/wordinvert.png',
-    'DELIRIO': '/thumbnails/DELIRIO.png',
-    'megaman': '/thumbnails/megaman.png',
-    'InstaOrionApp': '/thumbnails/InstaOrionApp.png',
-    'crypto-react': '/thumbnails/crypto-react.png'
+    return colors[tech] || "bg-primary/20 text-primary border-primary/30";
   };
 
   // Função para obter a imagem do projeto
   const getProjectThumbnail = (project) => {
     // Usar a thumbnail do projeto se existir, senão usar fallback
-    return project.thumbnail || '/thumbnails/portfoliomaster.png';
+    return project.thumbnail || "/thumbnails/portfoliomaster.png";
   };
 
   // Featured projects (manually curated)
@@ -55,11 +45,18 @@ const Projects = () => {
     <PageTransition isVisible={inView}>
       <section id="projects" className="py-20">
         <div className="container mx-auto px-4">
-          <div ref={ref} className={`transition-all duration-1000 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`}>
+          <div
+            ref={ref}
+            className={`transition-all duration-1000 ${
+              inView ? "animate-fade-in-up" : "opacity-0"
+            }`}
+          >
             <div className="text-center mb-16">
-              <DisintegrationTitle 
+              <DisintegrationTitle
                 className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3"
-                icon={<FolderOpen className="h-8 w-8 md:h-10 md:w-10 text-primary" />}
+                icon={
+                  <FolderOpen className="h-8 w-8 md:h-10 md:w-10 text-primary" />
+                }
                 delay={300}
                 particleCount={35}
               >
@@ -72,7 +69,7 @@ const Projects = () => {
 
             {/* Featured Projects */}
             <div className="mb-16" ref={projectsRef}>
-              <DisintegrationTitle 
+              <DisintegrationTitle
                 className="text-2xl md:text-3xl font-bold mb-8 text-center gradient-text flex items-center justify-center gap-3"
                 icon={<Eye className="h-6 w-6 md:h-8 md:w-8 text-primary" />}
                 delay={800}
@@ -85,7 +82,7 @@ const Projects = () => {
                   <div
                     key={index}
                     className={`transition-all duration-1000 ${
-                      hasIntersected ? 'animate-fade-in-up' : 'opacity-0'
+                      hasIntersected ? "animate-fade-in-up" : "opacity-0"
                     }`}
                     style={{ animationDelay: `${index * 150}ms` }}
                   >
@@ -97,8 +94,8 @@ const Projects = () => {
                           alt={`${project.name} thumbnail`}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                           onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
+                            e.target.style.display = "none";
+                            e.target.nextSibling.style.display = "flex";
                           }}
                         />
                         {/* Fallback quando a imagem não carrega */}
@@ -107,13 +104,18 @@ const Projects = () => {
                             {project.name.charAt(0).toUpperCase()}
                           </div>
                         </div>
-                        
+
                         {/* Overlay com botões */}
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-3">
-                          <Button variant="secondary" size="sm" asChild className="smooth-transition">
-                            <a 
-                              href={project.githubLink} 
-                              target="_blank" 
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            asChild
+                            className="smooth-transition"
+                          >
+                            <a
+                              href={project.githubLink}
+                              target="_blank"
                               rel="noopener noreferrer"
                               className="flex items-center space-x-2"
                             >
@@ -122,10 +124,14 @@ const Projects = () => {
                             </a>
                           </Button>
                           {project.onlineLink && (
-                            <Button size="sm" asChild className="smooth-transition">
-                              <a 
-                                href={project.onlineLink} 
-                                target="_blank" 
+                            <Button
+                              size="sm"
+                              asChild
+                              className="smooth-transition"
+                            >
+                              <a
+                                href={project.onlineLink}
+                                target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center space-x-2"
                               >
@@ -143,10 +149,15 @@ const Projects = () => {
                             {project.name}
                           </span>
                           <div className="flex space-x-1">
-                            <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
-                              <a 
-                                href={project.githubLink} 
-                                target="_blank" 
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8"
+                              asChild
+                            >
+                              <a
+                                href={project.githubLink}
+                                target="_blank"
                                 rel="noopener noreferrer"
                                 className="hover:text-primary smooth-transition"
                               >
@@ -154,10 +165,15 @@ const Projects = () => {
                               </a>
                             </Button>
                             {project.onlineLink && (
-                              <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
-                                <a 
-                                  href={project.onlineLink} 
-                                  target="_blank" 
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                                asChild
+                              >
+                                <a
+                                  href={project.onlineLink}
+                                  target="_blank"
                                   rel="noopener noreferrer"
                                   className="hover:text-primary smooth-transition"
                                 >
@@ -168,18 +184,21 @@ const Projects = () => {
                           </div>
                         </CardTitle>
                       </CardHeader>
-                      
+
                       <CardContent className="pt-0">
                         <p className="text-muted-foreground mb-4 text-sm leading-relaxed min-h-[2.5rem]">
-                          {project.description || 'Projeto em desenvolvimento...'}
+                          {project.description ||
+                            "Projeto em desenvolvimento..."}
                         </p>
-                        
+
                         <div className="flex flex-wrap gap-1.5 mb-4">
                           {project.technologies.map((tech, techIndex) => (
-                            <Badge 
-                              key={techIndex} 
-                              variant="outline" 
-                              className={`${getTechColor(tech)} text-xs px-2 py-1 smooth-transition hover:scale-105`}
+                            <Badge
+                              key={techIndex}
+                              variant="outline"
+                              className={`${getTechColor(
+                                tech
+                              )} text-xs px-2 py-1 smooth-transition hover:scale-105`}
                             >
                               {tech}
                             </Badge>
@@ -187,15 +206,32 @@ const Projects = () => {
                         </div>
 
                         <div className="flex space-x-2">
-                          <Button variant="outline" size="sm" className="flex-1 smooth-transition" asChild>
-                            <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="flex-1 smooth-transition"
+                            asChild
+                          >
+                            <a
+                              href={project.githubLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
                               <Github className="mr-2 h-3 w-3" />
                               Código
                             </a>
                           </Button>
                           {project.onlineLink && (
-                            <Button size="sm" className="flex-1 smooth-transition" asChild>
-                              <a href={project.onlineLink} target="_blank" rel="noopener noreferrer">
+                            <Button
+                              size="sm"
+                              className="flex-1 smooth-transition"
+                              asChild
+                            >
+                              <a
+                                href={project.onlineLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
                                 <ExternalLink className="mr-2 h-3 w-3" />
                                 Demo
                               </a>
@@ -208,15 +244,14 @@ const Projects = () => {
                 ))}
               </div>
             </div>
-
-            {/* GitHub Projects */}
-            <GitHubProjects />
           </div>
         </div>
       </section>
+
+      {/* GitHub Projects - SEM PageTransition aqui, pois ele já tem seu próprio controle de animação */}
+      <GitHubProjects />
     </PageTransition>
   );
 };
 
 export default Projects;
-
