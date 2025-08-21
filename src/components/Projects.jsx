@@ -92,7 +92,7 @@ const Projects = () => {
                         <img
                           src={getProjectThumbnail(project)}
                           alt={`${project.name} thumbnail`}
-                          className="w-full h-full object-cover transition-transform duration-500 transform scale-50 group-hover:scale-55"
+                          className="w-full h-full object-cover transition-transform duration-500 transform scale-75 group-hover:scale-90"
                           onError={(e) => {
                             e.target.style.display = "none";
                             e.target.nextSibling.style.display = "flex";
