@@ -46,7 +46,7 @@ function App() {
     <div className="min-h-screen bg-background text-foreground fade-in-after-loading relative">
       {/* NOVO COMPONENTE DE PARTÍCULAS */}
       <ParticleBackground />
-      
+
       <Header
         darkMode={darkMode}
         toggleDarkMode={toggleTheme}
