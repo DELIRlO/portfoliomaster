@@ -1,4 +1,5 @@
-import { useState } from "react";
+// src/App.jsx - VERSÃO ATUALIZADA
+import { useState, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -8,7 +9,7 @@ import CertificatesCarousel from "./components/CertificatesCarousel";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import FuturisticLoader from "./components/FuturisticLoader";
-import ParticleBackground from "./components/ParticleBackground";
+import ParticleBackground from "./components/ParticleBackground"; // NOVO IMPORT
 import useTheme from "./hooks/useTheme";
 import useBackgroundMusic from "./hooks/useBackgroundMusic";
 
@@ -25,6 +26,16 @@ function App() {
     setIsLoading(false);
   };
 
+  // Tempo máximo de loading como fallback (opcional)
+  useEffect(() => {
+    const maxLoadingTime = setTimeout(() => {
+      setIsLoading(false);
+    }, 8000); // 8 segundos máximo
+
+    // Cleanup do timeout
+    return () => clearTimeout(maxLoadingTime);
+  }, []);
+
   // Se ainda está carregando, mostra o loading futurista
   if (isLoading) {
     return <FuturisticLoader onComplete={handleLoadingComplete} />;
@@ -32,29 +43,25 @@ function App() {
 
   // Quando termina o loading, mostra seu portfolio original
   return (
-    <>
+    <div className="min-h-screen bg-background text-foreground fade-in-after-loading relative">
+      {/* NOVO COMPONENTE DE PARTÍCULAS */}
       <ParticleBackground />
-
-      <div
-        className="min-h-screen text-foreground fade-in-after-loading relative"
-        style={{ background: "transparent" }}
-      >
-        <Header
-          darkMode={darkMode}
-          toggleDarkMode={toggleTheme}
-          musicPlaying={isPlaying}
-          toggleMusic={toggleMusic}
-        />
-        <main className="relative z-10">
-          <Hero />
-          <About />
-          <Projects />
-          <CertificatesCarousel />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
-    </>
+      
+      <Header
+        darkMode={darkMode}
+        toggleDarkMode={toggleTheme}
+        musicPlaying={isPlaying}
+        toggleMusic={toggleMusic}
+      />
+      <main className="relative z-10">
+        <Hero />
+        <About />
+        <Projects />
+        <CertificatesCarousel />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
   );
 }
 
