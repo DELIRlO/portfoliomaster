@@ -247,29 +247,34 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 icon: <Mail className="h-4 w-4" />,
               },
             ].map((item) => (
-              <a key={item.id} href={`#${item.id}`} className="relative group">
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className="relative group overflow-hidden"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></span>
                 <span className="relative z-10 flex items-center gap-2 px-3 py-2">
                   {item.icon}
                   <span className="text-foreground/90 group-hover:text-primary font-medium transition-all duration-500 relative">
                     {item.label}
                   </span>
                 </span>
-                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-primary via-blue-500 to-purple-500 group-hover:w-full transition-all duration-700 ease-out">
+                <span className="fixed bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-primary via-red-500 to-black-500 group-hover:w-full transition-all duration-700 ease-out">
                   <span
                     className="absolute inset-0 animate-pulse"
                     style={{
                       background: `
                         linear-gradient(
                           to right,
-                          #2d2d2d 0%,
+                          #4a4a4a 0%,
                           #4a4a4a 15%,
                           #6b6b6b 30%,
                           #e8e8e8 45%,
-                          #ffffff 50%,
+                          #4a4a4a 50%,
                           #e8e8e8 55%,
                           #6b6b6b 70%,
                           #4a4a4a 85%,
-                          #2d2d2d 100%
+                          #4a4a4a 100%
                         )`,
                       opacity: 0.7,
                       mixBlendMode: "screen",
@@ -486,7 +491,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                     }`}
                   />
                   <span
-                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-purple-600 group-hover:w-full transition-all duration-300 ${
+                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-purple-600 group-hover:w-full transition-all duration-300 rounded-full ${
                       hoveredIcon === "github" ? "w-full" : ""
                     }`}
                   ></span>
@@ -513,7 +518,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                     }`}
                   />
                   <span
-                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300 ${
+                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300 rounded-full ${
                       hoveredIcon === "linkedin" ? "w-full" : ""
                     }`}
                   ></span>
@@ -540,7 +545,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                     }`}
                   />
                   <span
-                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-pink-500 to-yellow-500 group-hover:w-full transition-all duration-300 ${
+                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-pink-500 to-yellow-500 group-hover:w-full transition-all duration-300 rounded-full ${
                       hoveredIcon === "instagram" ? "w-full" : ""
                     }`}
                   ></span>
