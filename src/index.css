@@ -45,6 +45,18 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 0.25s infinite;
+}
 
 /* Melhorias de responsividade para o carousel de certificados */
 @media (max-width: 640px) {
@@ -55,18 +67,18 @@
     width: 95% !important;
     margin: 0 auto !important;
   }
-  
+
   /* Ajusta o padding dos cards em mobile para dar mais espaço às imagens */
   .carousel-mobile-card {
     padding: 0.5rem !important;
   }
-  
+
   /* Melhora o aspect ratio em mobile para acomodar imagens maiores */
   .carousel-mobile-aspect {
     aspect-ratio: 3/4 !important;
     min-height: 350px !important;
   }
-  
+
   /* Reduz o tamanho do texto para dar mais espaço às imagens */
   .carousel-mobile-text {
     font-size: 0.75rem !important;
@@ -74,13 +86,13 @@
     height: auto !important;
     margin-top: 0.5rem !important;
   }
-  
+
   /* Prioriza imagens verticais com object-fit cover */
   .carousel-mobile-image img {
     object-fit: cover !important;
     object-position: center !important;
   }
-  
+
   /* Estilo especial para imagens verticais */
   .carousel-mobile-image img[src*=".jpg"]:not([src*="horizontal"]),
   .carousel-mobile-image img[src*=".png"]:not([src*="horizontal"]) {
@@ -97,18 +109,17 @@
     height: 260px !important;
     width: 98% !important;
   }
-  
+
   .carousel-mobile-aspect {
     aspect-ratio: 4/5 !important;
     min-height: 320px !important;
   }
-  
+
   .carousel-mobile-text {
     font-size: 0.7rem !important;
     line-height: 0.9rem !important;
   }
 }
-
 
 /* Estilos para melhorar a experiência de clique em mobile */
 @media (max-width: 640px) {
@@ -117,15 +128,15 @@
     transform: scale(0.98);
     transition: transform 0.1s ease-in-out;
   }
-  
+
   /* Melhora a área de toque */
   .carousel-mobile-image {
     touch-action: manipulation;
   }
-  
+
   /* Overlay sempre visível em mobile para indicar que é clicável */
   .carousel-mobile-image::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 8px;
     right: 8px;
@@ -141,4 +152,3 @@
     z-index: 10;
   }
 }
-

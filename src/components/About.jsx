@@ -4,7 +4,15 @@ import userData from "../userData";
 import PageTransition from "./PageTransition";
 import Typewriter from "./Typewriter";
 import DisintegrationTitle from "./DisintegrationTitle";
-import { BarChart4, Bot, User, MapPin, GraduationCap, Cog, BookOpen } from "lucide-react"; // BarChart4 para Power BI, Bot para RPA, User para Sobre Mim
+import {
+  BarChart4,
+  Bot,
+  User,
+  MapPin,
+  GraduationCap,
+  Cog,
+  BookOpen,
+} from "lucide-react"; // BarChart4 para Power BI, Bot para RPA, User para Sobre Mim
 
 // Configuração completa de cores para todas as linguagens
 const skillStyles = {
@@ -102,7 +110,7 @@ const About = () => {
             }`}
           >
             <div className="text-center mb-16">
-              <DisintegrationTitle 
+              <DisintegrationTitle
                 className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3"
                 icon={<User className="h-8 w-8 md:h-10 md:w-10 text-primary" />}
                 delay={200}
@@ -124,7 +132,7 @@ const About = () => {
               >
                 <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
                   <CardContent className="p-0">
-                    <DisintegrationTitle 
+                    <DisintegrationTitle
                       className="text-2xl font-bold mb-4 flex items-center gap-2"
                       icon={<BookOpen className="h-6 w-6 text-primary" />}
                       delay={600}
@@ -242,15 +250,16 @@ const About = () => {
                             {/* Animação de traço colorido */}
                             <div
                               className={`absolute -inset-0.5 rounded-lg bg-gradient-to-r ${style.gradient} 
-                              opacity-75 group-hover:opacity-100 blur-sm group-hover:blur-none 
-                              transition-all duration-300 animate-pulse group-hover:animate-none`}
+                              opacity-50 group-hover:opacity-70 blur-sm group-hover:blur-none 
+                              transition-all duration-300 animate-pulse`}
                             ></div>
 
                             {/* Card da habilidade */}
                             <div
                               className={`relative bg-card rounded-lg px-3 py-2 text-sm font-medium 
                                 border ${style.border} group-hover:border-transparent transition-all duration-300
-                                hover:scale-105 hover:shadow-lg flex items-center justify-start space-x-2`}
+                                hover:scale-105 hover:shadow-lg flex items-center justify-start space-x-2
+                                  overflow-hidden`} // Adicionado overflow-hidden
                             >
                               {style.icon ? (
                                 style.icon
@@ -265,10 +274,18 @@ const About = () => {
                                 {skill.name}
                               </span>
 
+                              {/* Efeito de espelhamento */}
+                              <span
+                                className={`absolute top-0 left-0 w-full h-full bg-gradient-to-r ${style.gradient} 
+                                  opacity-0 group-hover:opacity-20 transition-all duration-500 transform -translate-x-full 
+                                  group-hover:translate-x-0 animate-shimmer`}
+                                style={{ animationDuration: "3s" }}
+                              ></span>
+
                               {/* Animação de brilho interno */}
                               <div
                                 className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-20 
-                                transition-opacity duration-500"
+                                  transition-opacity duration-500"
                                 style={{
                                   background: `radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 70%)`,
                                 }}
@@ -295,11 +312,12 @@ const About = () => {
                       </p>
                       <p className="text-muted-foreground flex items-center gap-2">
                         <GraduationCap className="h-4 w-4 text-green-500" />
-                        ITA - Instituto de Tecnologia da Aeronáutica
+                        ESTACIO - IESAM Instituto de Tecnologia e Engenharia
                       </p>
                       <p className="text-muted-foreground flex items-center gap-2">
                         <Cog className="h-4 w-4 text-orange-500 animate-spin-slow" />
-                        39 anos, Engenheiro de Computação
+                        39 anos, Engenheiro de Computação e Analise de Dados e
+                        Programação
                       </p>
                     </div>
                   </CardContent>

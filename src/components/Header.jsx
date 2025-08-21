@@ -252,7 +252,8 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 href={`#${item.id}`}
                 className="relative group overflow-hidden"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></span>
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform ease-in-out duration-0 group-hover:duration-1000"></span>
+                <span className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/30 opacity-0 group-hover:opacity-25 group-hover:animate-pulse-glow blur-md"></span>
                 <span className="relative z-10 flex items-center gap-2 px-3 py-2">
                   {item.icon}
                   <span className="text-foreground/90 group-hover:text-primary font-medium transition-all duration-500 relative">
