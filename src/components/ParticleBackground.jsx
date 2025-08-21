@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 const CircuitBoardEnergy = () => {
   const canvasRef = useRef(null);
-  const [energyPulses, setEnergyPulses] = useState([]);
+  const energyPulsesRef = useRef([]);
+  const animationIdRef = useRef(null);
+  const pulseIntervalRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    let animationId;
-    let pulseInterval; // Removida a variável 'time' não utilizada
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -18,18 +18,17 @@ const CircuitBoardEnergy = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    // Criar caminhos para os pulsos de energia
+    // Criar caminhos para os pulsos de energia (20% menos elementos)
     const createEnergyPaths = () => {
       const paths = [];
       const w = canvas.width;
       const h = canvas.height;
-      const margin = 50;
+      const margin = 40;
 
-      // Caminhos horizontais
-      const layers = 12;
+      // Reduzir em 20% o número de caminhos horizontais
+      const layers = 14;
       for (let i = 0; i < layers; i++) {
         const y = margin + ((h - 2 * margin) / (layers - 1)) * i;
-
         paths.push({
           points: [
             { x: margin, y },
@@ -39,11 +38,10 @@ const CircuitBoardEnergy = () => {
         });
       }
 
-      // Caminhos verticais
-      const vLayers = 8;
+      // Reduzir em 20% o número de caminhos verticais
+      const vLayers = 11;
       for (let i = 0; i < vLayers; i++) {
         const x = margin + ((w - 2 * margin) / (vLayers - 1)) * i;
-
         paths.push({
           points: [
             { x, y: margin },
@@ -53,7 +51,7 @@ const CircuitBoardEnergy = () => {
         });
       }
 
-      // Conexões diagonais
+      // Reduzir em 20% o número de conexões diagonais
       for (let i = 1; i < layers - 1; i += 3) {
         const y1 = margin + ((h - 2 * margin) / (layers - 1)) * i;
         const y2 = margin + ((h - 2 * margin) / (layers - 1)) * (i + 1);
@@ -69,6 +67,14 @@ const CircuitBoardEnergy = () => {
             ],
             type: "diagonal",
           });
+
+          paths.push({
+            points: [
+              { x: x2, y: y1 },
+              { x: x1, y: y2 },
+            ],
+            type: "diagonal",
+          });
         }
       }
 
@@ -77,26 +83,38 @@ const CircuitBoardEnergy = () => {
 
     const energyPaths = createEnergyPaths();
 
-    // Gerar pulsos de energia
+    // Gerar pulsos de energia com maior velocidade
     const generateEnergyPulse = () => {
-      const path = energyPaths[Math.floor(Math.random() * energyPaths.length)];
-      if (path.points.length < 2) return;
+      const numPulses = 1 + Math.floor(Math.random() * 2);
 
-      const newPulse = {
-        id: Date.now() + Math.random(),
-        path: path,
-        currentSegment: 0,
-        progress: 0,
-        speed: 1.2 + Math.random() * 0.8,
-        intensity: 0.8 + Math.random() * 0.2,
-        size: 2 + Math.random() * 2,
-        color: [0, 180, 255], // Azul para todos os pulsos
-      };
+      for (let i = 0; i < numPulses; i++) {
+        const path =
+          energyPaths[Math.floor(Math.random() * energyPaths.length)];
+        if (path.points.length < 2) continue;
 
-      setEnergyPulses((prev) => [...prev.slice(-50), newPulse]);
+        const newPulse = {
+          id: Date.now() + Math.random() + i,
+          path: path,
+          currentSegment: 0,
+          progress: 0,
+          // Aumentar a velocidade em 40%
+          speed: 1.7 + Math.random() * 1.1,
+          intensity: 0.8 + Math.random() * 0.2,
+          size: 2 + Math.random() * 2,
+          color: [0, 180, 255],
+        };
+
+        // Manter apenas os 60 pulsos mais recentes (reduzido de 80)
+        if (energyPulsesRef.current.length >= 60) {
+          energyPulsesRef.current = [
+            ...energyPulsesRef.current.slice(1),
+            newPulse,
+          ];
+        } else {
+          energyPulsesRef.current = [...energyPulsesRef.current, newPulse];
+        }
+      }
     };
-
-    pulseInterval = setInterval(generateEnergyPulse, 150 + Math.random() * 300);
 
     const animate = () => {
       // Limpeza completa do canvas
@@ -106,15 +124,21 @@ const CircuitBoardEnergy = () => {
       ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Desenhar pulsos de energia seguindo caminhos
-      energyPulses.forEach((pulse, index) => {
+      // Filtra pulsos completos para remoção
+      const pulsesToRemove = [];
+
+      // Desenhar pulsos de energia
+      energyPulsesRef.current.forEach((pulse, index) => {
         const path = pulse.path;
-        if (path.points.length < 2) return;
+        if (path.points.length < 2) {
+          pulsesToRemove.push(pulse.id);
+          return;
+        }
 
         // Calcular posição atual no caminho
         const segmentIndex = pulse.currentSegment;
         if (segmentIndex >= path.points.length - 1) {
-          setEnergyPulses((prev) => prev.filter((p) => p.id !== pulse.id));
+          pulsesToRemove.push(pulse.id);
           return;
         }
 
@@ -184,31 +208,63 @@ const CircuitBoardEnergy = () => {
         ctx.arc(currentX, currentY, pulse.size * 0.7, 0, Math.PI * 2);
         ctx.fill();
 
-        // Atualizar progresso (usando cópia do array para evitar mutação direta)
-        const updatedPulses = [...energyPulses];
-        updatedPulses[index].progress += pulse.speed;
-        if (updatedPulses[index].progress >= 100) {
-          updatedPulses[index].progress = 0;
-          updatedPulses[index].currentSegment++;
+        // Atualizar progresso diretamente na referência
+        energyPulsesRef.current[index].progress += pulse.speed;
+        if (energyPulsesRef.current[index].progress >= 100) {
+          energyPulsesRef.current[index].progress = 0;
+          energyPulsesRef.current[index].currentSegment++;
         }
-        setEnergyPulses(updatedPulses);
       });
 
-      animationId = requestAnimationFrame(animate);
+      // Remover pulsos completos
+      if (pulsesToRemove.length > 0) {
+        energyPulsesRef.current = energyPulsesRef.current.filter(
+          (p) => !pulsesToRemove.includes(p.id)
+        );
+      }
+
+      animationIdRef.current = requestAnimationFrame(animate);
     };
 
+    // Iniciar a geração de pulsos com intervalo reduzido para compensar a maior velocidade
+    pulseIntervalRef.current = setInterval(
+      generateEnergyPulse,
+      100 + Math.random() * 150
+    );
+
+    // Iniciar animação
     animate();
 
+    // Cleanup
     return () => {
       window.removeEventListener("resize", resize);
-      clearInterval(pulseInterval);
-      cancelAnimationFrame(animationId);
+      clearInterval(pulseIntervalRef.current);
+      cancelAnimationFrame(animationIdRef.current);
     };
-  }, [energyPulses]);
+  }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full overflow-hidden bg-black">
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+        background: "black",
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
     </div>
   );
 };
