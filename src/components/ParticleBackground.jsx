@@ -18,15 +18,15 @@ const CircuitBoardEnergy = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    // Criar caminhos para os pulsos de energia (20% menos elementos)
+    // Criar caminhos para os pulsos de energia (30% menos elementos)
     const createEnergyPaths = () => {
       const paths = [];
       const w = canvas.width;
       const h = canvas.height;
       const margin = 40;
 
-      // Reduzir em 20% o número de caminhos horizontais
-      const layers = 14;
+      // Reduzir em 30% o número de caminhos horizontais
+      const layers = Math.max(3, Math.floor(14 * 0.7)); // 10 camadas (30% menos)
       for (let i = 0; i < layers; i++) {
         const y = margin + ((h - 2 * margin) / (layers - 1)) * i;
         paths.push({
@@ -38,8 +38,8 @@ const CircuitBoardEnergy = () => {
         });
       }
 
-      // Reduzir em 20% o número de caminhos verticais
-      const vLayers = 11;
+      // Reduzir em 30% o número de caminhos verticais
+      const vLayers = Math.max(3, Math.floor(11 * 0.7)); // 8 camadas (30% menos)
       for (let i = 0; i < vLayers; i++) {
         const x = margin + ((w - 2 * margin) / (vLayers - 1)) * i;
         paths.push({
@@ -51,12 +51,14 @@ const CircuitBoardEnergy = () => {
         });
       }
 
-      // Reduzir em 20% o número de conexões diagonais
-      for (let i = 1; i < layers - 1; i += 3) {
+      // Reduzir em 30% o número de conexões diagonais
+      for (let i = 1; i < layers - 1; i += 4) {
+        // Aumentado de 3 para 4
         const y1 = margin + ((h - 2 * margin) / (layers - 1)) * i;
         const y2 = margin + ((h - 2 * margin) / (layers - 1)) * (i + 1);
 
-        for (let j = 1; j < vLayers - 1; j += 2) {
+        for (let j = 1; j < vLayers - 1; j += 3) {
+          // Aumentado de 2 para 3
           const x1 = margin + ((w - 2 * margin) / (vLayers - 1)) * j;
           const x2 = margin + ((w - 2 * margin) / (vLayers - 1)) * (j + 1);
 
@@ -85,7 +87,7 @@ const CircuitBoardEnergy = () => {
 
     // Gerar pulsos de energia com maior velocidade
     const generateEnergyPulse = () => {
-      const numPulses = 1 + Math.floor(Math.random() * 2);
+      const numPulses = 1; // Reduzido de 1-2 para apenas 1
 
       for (let i = 0; i < numPulses; i++) {
         const path =
@@ -97,15 +99,14 @@ const CircuitBoardEnergy = () => {
           path: path,
           currentSegment: 0,
           progress: 0,
-          // Aumentar a velocidade em 40%
           speed: 1.7 + Math.random() * 1.1,
           intensity: 0.8 + Math.random() * 0.2,
           size: 2 + Math.random() * 2,
           color: [0, 180, 255],
         };
 
-        // Manter apenas os 60 pulsos mais recentes (reduzido de 80)
-        if (energyPulsesRef.current.length >= 60) {
+        // Reduzir em 30% o número máximo de pulsos (de 60 para 42)
+        if (energyPulsesRef.current.length >= 42) {
           energyPulsesRef.current = [
             ...energyPulsesRef.current.slice(1),
             newPulse,
@@ -151,8 +152,8 @@ const CircuitBoardEnergy = () => {
         const currentY =
           startPoint.y + (endPoint.y - startPoint.y) * segmentProgress;
 
-        // Trilha de energia
-        const trailLength = 8;
+        // Trilha de energia (reduzida em 30%)
+        const trailLength = 6; // Reduzido de 8 para 6
         for (let i = 0; i < trailLength; i++) {
           const trailProgress = Math.max(0, segmentProgress - i * 0.1);
           const trailX =
@@ -226,10 +227,10 @@ const CircuitBoardEnergy = () => {
       animationIdRef.current = requestAnimationFrame(animate);
     };
 
-    // Iniciar a geração de pulsos com intervalo reduzido para compensar a maior velocidade
+    // Reduzir frequência de geração de pulsos em 30%
     pulseIntervalRef.current = setInterval(
       generateEnergyPulse,
-      100 + Math.random() * 150
+      200 + Math.random() * 200 // Aumentado de 100-250 para 200-400
     );
 
     // Iniciar animação

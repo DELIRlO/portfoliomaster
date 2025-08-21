@@ -218,7 +218,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                       </>
                     );
                   };
-                  return <ReflectiveText text="Carlos.Dev" />;
+                  return <ReflectiveText text="CarlosDev" />;
                 })()}
               </h1>
             </div>
