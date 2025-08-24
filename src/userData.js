@@ -311,6 +311,10 @@ const userData = {
       name: "Francês 2",
       image: "/cursos/frances2.jpeg",
     },
+    {
+      name: "Java Script Avançado",
+      image: "/cursos/jva.jpg",
+    },
   ],
 };
 
