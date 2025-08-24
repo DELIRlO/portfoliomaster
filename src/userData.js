@@ -303,6 +303,14 @@ const userData = {
       name: "Windows Server 2016",
       image: "/cursos/windows service 2016.jpg",
     },
+    {
+      name: "Francês",
+      image: "/cursos/frances.jpeg",
+    },
+    {
+      name: "Francês 2",
+      image: "/cursos/frances2.jpeg",
+    },
   ],
 };
 

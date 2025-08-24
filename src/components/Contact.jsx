@@ -289,9 +289,11 @@ const Contact = () => {
               }`}
             >
               <div className="text-center mb-16">
-                <DisintegrationTitle 
+                <DisintegrationTitle
                   className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3"
-                  icon={<MessageCircle className="h-8 w-8 md:h-10 md:w-10 text-primary" />}
+                  icon={
+                    <MessageCircle className="h-8 w-8 md:h-10 md:w-10 text-primary" />
+                  }
                   delay={400}
                   particleCount={45}
                 >
@@ -406,7 +408,11 @@ const Contact = () => {
                                     </span>
                                   ) : link.label === "Portfólio 8Bits" ? (
                                     <span className="text-lg animate-pulse-megaman">
-                                      <img src="/thumbnails/megaman_icon.png" alt="Mega Man Icon" className="h-5 w-5" />
+                                      <img
+                                        src="/thumbnails/megaman_icon.png"
+                                        alt="Mega Man Icon"
+                                        className="h-5 w-5"
+                                      />
                                     </span>
                                   ) : (
                                     <link.icon className="h-5 w-5 text-primary" />
@@ -468,7 +474,11 @@ const Contact = () => {
                                     </span>
                                   ) : link.label === "Portfólio 8Bits" ? (
                                     <span className="text-2xl animate-pulse-megaman">
-                                      <img src="/thumbnails/megaman_icon.png" alt="Mega Man Icon" className="h-6 w-6" />
+                                      <img
+                                        src="/thumbnails/megaman_icon.png"
+                                        alt="Mega Man Icon"
+                                        className="h-6 w-6"
+                                      />
                                     </span>
                                   ) : (
                                     <link.icon className="h-6 w-6 text-primary animate-pulse" />
@@ -575,7 +585,7 @@ const Contact = () => {
                             onClick={() => {
                               const link = document.createElement("a");
                               link.href =
-                                "https://drive.google.com/uc?export=download&id=1SgJETTmBMuwfhpDUp0DLn3v08SBc27EO";
+                                "https://drive.google.com/uc?export=download&id=1frKopK3El5HF0bf0_zCZ3z3P-fEdaylM";
                               link.download = "carlosfilho2025.pdf";
                               link.click();
                             }}
