@@ -86,45 +86,19 @@ const ParticleBackground = () => {
         }
       }
 
-      // Pontos de conexão (componentes simulados)
+      // Pontos de conexão (componentes simulados) - REMOVIDO OS 3 CHIPS GRANDES
       ctx.fillStyle = "rgba(59, 130, 246, 0.25)";
       for (let i = 1; i < mainVerticalLines; i += 2) {
         for (let j = 1; j < mainHorizontalLines; j += 2) {
           const x = (w / (mainVerticalLines + 1)) * (i + 1);
           const y = (h / (mainHorizontalLines + 1)) * (j + 1);
 
-          // Pequenos quadrados como componentes
-          ctx.fillRect(x - 3, y - 3, 6, 6);
-
-          // Círculos menores como pontos de solda
+          // Apenas círculos pequenos como pontos de solda
           ctx.beginPath();
           ctx.arc(x, y, 1.5, 0, Math.PI * 2);
           ctx.fill();
         }
       }
-
-      // Adicionar alguns componentes maiores (chips simulados)
-      ctx.fillStyle = "rgba(59, 130, 246, 0.12)";
-      ctx.strokeStyle = "rgba(59, 130, 246, 0.3)";
-      ctx.lineWidth = 1;
-
-      // Chip no canto superior esquerdo
-      const chip1X = w * 0.15;
-      const chip1Y = h * 0.2;
-      ctx.fillRect(chip1X - 20, chip1Y - 15, 40, 30);
-      ctx.strokeRect(chip1X - 20, chip1Y - 15, 40, 30);
-
-      // Chip no centro
-      const chip2X = w * 0.5;
-      const chip2Y = h * 0.5;
-      ctx.fillRect(chip2X - 25, chip2Y - 18, 50, 36);
-      ctx.strokeRect(chip2X - 25, chip2Y - 18, 50, 36);
-
-      // Chip no canto inferior direito
-      const chip3X = w * 0.85;
-      const chip3Y = h * 0.8;
-      ctx.fillRect(chip3X - 18, chip3Y - 12, 36, 24);
-      ctx.strokeRect(chip3X - 18, chip3Y - 12, 36, 24);
     };
 
     // Criar caminhos de circuito para os pulsos de energia
@@ -160,7 +134,7 @@ const ParticleBackground = () => {
         });
       }
 
-      // Caminhos L-shaped (mais complexos, seguindo o desenho do circuito)
+      // Caminhos L-shaped e diagonais (mais complexos, seguindo o desenho do circuito)
       for (let i = 1; i < mainVerticalLines - 1; i += 3) {
         for (let j = 1; j < mainHorizontalLines - 1; j += 2) {
           const startX = (w / (mainVerticalLines + 1)) * (i + 1);
@@ -180,6 +154,34 @@ const ParticleBackground = () => {
         }
       }
 
+      // NOVOS CAMINHOS DIAGONAIS
+      for (let i = 1; i < mainVerticalLines - 2; i += 2) {
+        for (let j = 1; j < mainHorizontalLines - 2; j += 2) {
+          const startX = (w / (mainVerticalLines + 1)) * (i + 1);
+          const startY = (h / (mainHorizontalLines + 1)) * (j + 1);
+          const endX = (w / (mainVerticalLines + 1)) * (i + 3);
+          const endY = (h / (mainHorizontalLines + 1)) * (j + 3);
+
+          // Diagonal descendente
+          paths.push({
+            points: [
+              { x: startX, y: startY },
+              { x: endX, y: endY },
+            ],
+            type: "diagonal-down",
+          });
+
+          // Diagonal ascendente
+          paths.push({
+            points: [
+              { x: startX, y: endY },
+              { x: endX, y: startY },
+            ],
+            type: "diagonal-up",
+          });
+        }
+      }
+
       return paths;
     };
 
@@ -187,29 +189,39 @@ const ParticleBackground = () => {
 
     // Gerar pulsos de energia seguindo os caminhos do circuito
     const generateEnergyPulse = () => {
-      const path =
-        circuitPaths[Math.floor(Math.random() * circuitPaths.length)];
-      if (path.points.length < 2) return;
+      const numPulses = 1; // Mantém 1 pulso por geração
 
-      const newPulse = {
-        id: Date.now() + Math.random(),
-        path: path,
-        currentSegment: 0,
-        progress: 0,
-        speed: 0.8 + Math.random() * 0.6, // Mais lento e suave
-        intensity: 0.6 + Math.random() * 0.3,
-        size: 1.5 + Math.random() * 1,
-        color: [59, 130, 246], // Azul consistente com o tema
-      };
+      for (let i = 0; i < numPulses; i++) {
+        const path =
+          circuitPaths[Math.floor(Math.random() * circuitPaths.length)];
+        if (path.points.length < 2) continue;
 
-      // Limitar número de pulsos
-      if (energyPulsesRef.current.length >= 25) {
-        energyPulsesRef.current = [
-          ...energyPulsesRef.current.slice(1),
-          newPulse,
-        ];
-      } else {
-        energyPulsesRef.current = [...energyPulsesRef.current, newPulse];
+        const newPulse = {
+          id: Date.now() + Math.random() + i,
+          path: path,
+          currentSegment: 0,
+          progress: 0,
+          speed: 1.69 + Math.random() * 1.17, // Aumentado mais 30% (era 1.3-2.2, agora 1.69-2.86)
+          intensity: 0.6 + Math.random() * 0.3,
+          size: 1.5 + Math.random() * 1,
+          color: [59, 130, 246],
+          // NOVO: Estados para o efeito de piscar
+          isBlinking: false,
+          blinkCount: 0,
+          blinkTimer: 0,
+          blinkPhase: 0, // 0 = visível, 1 = invisível
+          finalPosition: null,
+        };
+
+        // Aumentar número de pulsos em 40% adicional (era 30, agora 42)
+        if (energyPulsesRef.current.length >= 42) {
+          energyPulsesRef.current = [
+            ...energyPulsesRef.current.slice(1),
+            newPulse,
+          ];
+        } else {
+          energyPulsesRef.current = [...energyPulsesRef.current, newPulse];
+        }
       }
     };
 
@@ -235,13 +247,90 @@ const ParticleBackground = () => {
           return;
         }
 
-        // Calcular posição atual no caminho
+        // Verificar se chegou no final do caminho
         const segmentIndex = pulse.currentSegment;
         if (segmentIndex >= path.points.length - 1) {
-          pulsesToRemove.push(pulse.id);
+          // NOVO: Iniciar efeito de piscar se ainda não começou
+          if (!pulse.isBlinking) {
+            energyPulsesRef.current[index].isBlinking = true;
+            energyPulsesRef.current[index].blinkTimer = 0;
+            energyPulsesRef.current[index].blinkCount = 0;
+            // Definir posição final
+            const finalPoint = path.points[path.points.length - 1];
+            energyPulsesRef.current[index].finalPosition = {
+              x: finalPoint.x,
+              y: finalPoint.y,
+            };
+          }
+
+          // NOVO: Lógica de piscar
+          if (pulse.isBlinking) {
+            energyPulsesRef.current[index].blinkTimer += 1;
+
+            // Alternar entre visível/invisível a cada 8 frames (~133ms a 60fps)
+            if (energyPulsesRef.current[index].blinkTimer >= 8) {
+              energyPulsesRef.current[index].blinkTimer = 0;
+              energyPulsesRef.current[index].blinkPhase =
+                energyPulsesRef.current[index].blinkPhase === 0 ? 1 : 0;
+
+              // Contar uma piscada completa (visível -> invisível)
+              if (energyPulsesRef.current[index].blinkPhase === 1) {
+                energyPulsesRef.current[index].blinkCount += 1;
+              }
+            }
+
+            // Após 3 piscadas completas, remover
+            if (pulse.blinkCount >= 3) {
+              pulsesToRemove.push(pulse.id);
+              return;
+            }
+
+            // Desenhar pulso piscando na posição final
+            if (pulse.blinkPhase === 0) {
+              // Apenas quando visível
+              const currentX = pulse.finalPosition.x;
+              const currentY = pulse.finalPosition.y;
+
+              // Pulso principal com glow mais intenso durante o piscar
+              const gradient = ctx.createRadialGradient(
+                currentX,
+                currentY,
+                0,
+                currentX,
+                currentY,
+                pulse.size * 6
+              );
+              gradient.addColorStop(
+                0,
+                `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, ${pulse.intensity})`
+              );
+              gradient.addColorStop(
+                0.3,
+                `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${
+                  pulse.color[2]
+                }, ${pulse.intensity * 0.6})`
+              );
+              gradient.addColorStop(
+                1,
+                `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, 0)`
+              );
+
+              ctx.fillStyle = gradient;
+              ctx.beginPath();
+              ctx.arc(currentX, currentY, pulse.size * 6, 0, Math.PI * 2);
+              ctx.fill();
+
+              // Núcleo brilhante mais intenso
+              ctx.fillStyle = `rgba(255, 255, 255, ${pulse.intensity})`;
+              ctx.beginPath();
+              ctx.arc(currentX, currentY, pulse.size, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
           return;
         }
 
+        // Lógica normal para pulsos em movimento
         const startPoint = path.points[segmentIndex];
         const endPoint = path.points[segmentIndex + 1];
         const segmentProgress = pulse.progress / 100;
@@ -310,11 +399,13 @@ const ParticleBackground = () => {
         ctx.arc(currentX, currentY, pulse.size * 0.5, 0, Math.PI * 2);
         ctx.fill();
 
-        // Atualizar progresso
-        energyPulsesRef.current[index].progress += pulse.speed;
-        if (energyPulsesRef.current[index].progress >= 100) {
-          energyPulsesRef.current[index].progress = 0;
-          energyPulsesRef.current[index].currentSegment++;
+        // Atualizar progresso apenas se não estiver piscando
+        if (!pulse.isBlinking) {
+          energyPulsesRef.current[index].progress += pulse.speed;
+          if (energyPulsesRef.current[index].progress >= 100) {
+            energyPulsesRef.current[index].progress = 0;
+            energyPulsesRef.current[index].currentSegment++;
+          }
         }
       });
 
@@ -328,10 +419,10 @@ const ParticleBackground = () => {
       animationIdRef.current = requestAnimationFrame(animate);
     };
 
-    // Gerar pulsos com menor frequência para manter discrição
+    // Frequência reduzida para compensar o aumento de pulsos simultâneos
     pulseIntervalRef.current = setInterval(
       generateEnergyPulse,
-      400 + Math.random() * 400
+      300 + Math.random() * 300 // Reduzido para gerar mais frequentemente
     );
 
     // Iniciar animação
