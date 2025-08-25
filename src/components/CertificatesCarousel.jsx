@@ -23,7 +23,7 @@ const CertificatesCarousel = () => {
   const [hoveredIndex, setHoveredIndex] = React.useState(null);
   const autoplay = React.useRef(
     Autoplay(
-      { delay: 2000, stopOnInteraction: true, stopOnMouseEnter: true },
+      { delay: 2000, stopOnInteraction: false },
       (emblaRoot) => emblaRoot.parentElement
     )
   );
@@ -77,11 +77,9 @@ const CertificatesCarousel = () => {
             }`}
           >
             <div className="text-center mb-8">
-              <DisintegrationTitle
+              <DisintegrationTitle 
                 className="text-3xl md:text-4xl font-bold mb-4 gradient-text flex items-center justify-center gap-3"
-                icon={
-                  <Award className="h-8 w-8 md:h-10 md:w-10 text-primary" />
-                }
+                icon={<Award className="h-8 w-8 md:h-10 md:w-10 text-primary" />}
                 delay={350}
                 particleCount={40}
               >
@@ -123,9 +121,7 @@ const CertificatesCarousel = () => {
                               className="relative w-full h-4/5 overflow-hidden rounded-md carousel-mobile-image cursor-pointer"
                               onMouseEnter={() => setHoveredIndex(index)}
                               onMouseLeave={() => setHoveredIndex(null)}
-                              onClick={() =>
-                                window.open(certificate.image, "_blank")
-                              }
+                              onClick={() => window.open(certificate.image, '_blank')}
                             >
                               <img
                                 src={certificate.image}
@@ -141,26 +137,22 @@ const CertificatesCarousel = () => {
                                 }}
                               />
                               {/* Overlay para indicar que é clicável */}
-                              <div
-                                className={cn(
-                                  "absolute inset-0 bg-black/20 flex items-center justify-center transition-opacity duration-300",
-                                  hoveredIndex === index
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              >
+                              <div className={cn(
+                                "absolute inset-0 bg-black/20 flex items-center justify-center transition-opacity duration-300",
+                                hoveredIndex === index ? "opacity-100" : "opacity-0"
+                              )}>
                                 <div className="bg-white/90 rounded-full p-2">
-                                  <svg
-                                    className="w-6 h-6 text-gray-800"
-                                    fill="none"
-                                    stroke="currentColor"
+                                  <svg 
+                                    className="w-6 h-6 text-gray-800" 
+                                    fill="none" 
+                                    stroke="currentColor" 
                                     viewBox="0 0 24 24"
                                   >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    <path 
+                                      strokeLinecap="round" 
+                                      strokeLinejoin="round" 
+                                      strokeWidth={2} 
+                                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" 
                                     />
                                   </svg>
                                 </div>

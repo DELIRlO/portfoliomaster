@@ -10,90 +10,86 @@ const ParticleBackground = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
+    // ====== GRID (compartilhado entre desenho e caminhos) ======
+    const MARGIN = 50;
+    const ROWS = 8; // mesmas 8 linhas da sua placa
+    const COLS = 12; // mesmas 12 colunas da sua placa
+
+    const gridX = (i) => (canvas.width / (COLS + 1)) * (i + 1);
+    const gridY = (j) => (canvas.height / (ROWS + 1)) * (j + 1);
+
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-
     resize();
     window.addEventListener("resize", resize);
 
-    // Desenhar placa de circuito estática no fundo
+    // ====== FUNDO: placa de circuito (sem trilha zig-zag amarela) ======
     const drawCircuitBoard = () => {
       const w = canvas.width;
       const h = canvas.height;
 
-      // Configuração das linhas do circuito
-      ctx.strokeStyle = "rgba(59, 130, 246, 0.15)"; // Azul muito sutil
+      ctx.strokeStyle = "rgba(59,130,246,0.15)";
       ctx.lineWidth = 0.5;
       ctx.lineCap = "round";
 
-      // Grid base - linhas horizontais principais
-      const mainHorizontalLines = 8;
-      for (let i = 0; i < mainHorizontalLines; i++) {
-        const y = (h / (mainHorizontalLines + 1)) * (i + 1);
+      // Linhas horizontais principais
+      for (let j = 0; j < ROWS; j++) {
+        const y = gridY(j);
         ctx.beginPath();
-        ctx.moveTo(50, y);
-        ctx.lineTo(w - 50, y);
+        ctx.moveTo(MARGIN, y);
+        ctx.lineTo(w - MARGIN, y);
         ctx.stroke();
 
-        // Pequenas ramificações nas linhas principais
-        for (let branch = 100; branch < w - 100; branch += 120) {
-          // Ramificação para cima
-          if (i > 0) {
+        // Ramificações sutis
+        for (let x = 100; x < w - 100; x += 120) {
+          if (j > 0) {
             ctx.beginPath();
-            ctx.moveTo(branch, y);
-            ctx.lineTo(branch, y - 30);
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y - 30);
             ctx.stroke();
           }
-
-          // Ramificação para baixo
-          if (i < mainHorizontalLines - 1) {
+          if (j < ROWS - 1) {
             ctx.beginPath();
-            ctx.moveTo(branch + 60, y);
-            ctx.lineTo(branch + 60, y + 30);
+            ctx.moveTo(x + 60, y);
+            ctx.lineTo(x + 60, y + 30);
             ctx.stroke();
           }
         }
       }
 
-      // Grid base - linhas verticais principais
-      const mainVerticalLines = 12;
-      for (let i = 0; i < mainVerticalLines; i++) {
-        const x = (w / (mainVerticalLines + 1)) * (i + 1);
+      // Linhas verticais principais
+      for (let i = 0; i < COLS; i++) {
+        const x = gridX(i);
         ctx.beginPath();
-        ctx.moveTo(x, 50);
-        ctx.lineTo(x, h - 50);
+        ctx.moveTo(x, MARGIN);
+        ctx.lineTo(x, h - MARGIN);
         ctx.stroke();
 
-        // Pequenas ramificações nas linhas verticais
-        for (let branch = 100; branch < h - 100; branch += 100) {
-          // Ramificação para esquerda
+        // Ramificações sutis
+        for (let y = 100; y < h - 100; y += 100) {
           if (i > 0) {
             ctx.beginPath();
-            ctx.moveTo(x, branch);
-            ctx.lineTo(x - 25, branch);
+            ctx.moveTo(x, y);
+            ctx.lineTo(x - 25, y);
             ctx.stroke();
           }
-
-          // Ramificação para direita
-          if (i < mainVerticalLines - 1) {
+          if (i < COLS - 1) {
             ctx.beginPath();
-            ctx.moveTo(x, branch + 50);
-            ctx.lineTo(x + 25, branch + 50);
+            ctx.moveTo(x, y + 50);
+            ctx.lineTo(x + 25, y + 50);
             ctx.stroke();
           }
         }
       }
 
-      // Pontos de conexão (componentes simulados) - REMOVIDO OS 3 CHIPS GRANDES
-      ctx.fillStyle = "rgba(59, 130, 246, 0.25)";
-      for (let i = 1; i < mainVerticalLines; i += 2) {
-        for (let j = 1; j < mainHorizontalLines; j += 2) {
-          const x = (w / (mainVerticalLines + 1)) * (i + 1);
-          const y = (h / (mainHorizontalLines + 1)) * (j + 1);
-
-          // Apenas círculos pequenos como pontos de solda
+      // Pontos de solda discretos
+      ctx.fillStyle = "rgba(59,130,246,0.25)";
+      for (let i = 1; i < COLS; i += 2) {
+        for (let j = 1; j < ROWS; j += 2) {
+          const x = gridX(i);
+          const y = gridY(j);
           ctx.beginPath();
           ctx.arc(x, y, 1.5, 0, Math.PI * 2);
           ctx.fill();
@@ -101,334 +97,354 @@ const ParticleBackground = () => {
       }
     };
 
-    // Criar caminhos de circuito para os pulsos de energia
+    // ====== CAMINHOS ======
     const createCircuitPaths = () => {
       const paths = [];
-      const w = canvas.width;
-      const h = canvas.height;
-      const margin = 50;
 
-      // Caminhos horizontais principais
-      const mainHorizontalLines = 8;
-      for (let i = 0; i < mainHorizontalLines; i++) {
-        const y = (h / (mainHorizontalLines + 1)) * (i + 1);
+      // Horizontais
+      for (let j = 0; j < ROWS; j++) {
         paths.push({
-          points: [
-            { x: margin, y },
-            { x: w - margin, y },
-          ],
           type: "horizontal",
-        });
-      }
-
-      // Caminhos verticais principais
-      const mainVerticalLines = 12;
-      for (let i = 0; i < mainVerticalLines; i++) {
-        const x = (w / (mainVerticalLines + 1)) * (i + 1);
-        paths.push({
           points: [
-            { x, y: margin },
-            { x, y: h - margin },
+            { x: MARGIN, y: gridY(j) },
+            { x: canvas.width - MARGIN, y: gridY(j) },
           ],
-          type: "vertical",
         });
       }
 
-      // Caminhos L-shaped e diagonais (mais complexos, seguindo o desenho do circuito)
-      for (let i = 1; i < mainVerticalLines - 1; i += 3) {
-        for (let j = 1; j < mainHorizontalLines - 1; j += 2) {
-          const startX = (w / (mainVerticalLines + 1)) * (i + 1);
-          const startY = (h / (mainHorizontalLines + 1)) * (j + 1);
-          const midX = (w / (mainVerticalLines + 1)) * (i + 2);
-          const endY = (h / (mainHorizontalLines + 1)) * (j + 2);
+      // Verticais
+      for (let i = 0; i < COLS; i++) {
+        paths.push({
+          type: "vertical",
+          points: [
+            { x: gridX(i), y: MARGIN },
+            { x: gridX(i), y: canvas.height - MARGIN },
+          ],
+        });
+      }
 
-          // Caminho em L
+      // Em L (como no seu código)
+      for (let i = 1; i < COLS - 1; i += 3) {
+        for (let j = 1; j < ROWS - 1; j += 2) {
+          const startX = gridX(i);
+          const startY = gridY(j);
+          const midX = gridX(i + 1);
+          const endY = gridY(j + 1);
           paths.push({
+            type: "L-shape",
             points: [
               { x: startX, y: startY },
               { x: midX, y: startY },
               { x: midX, y: endY },
             ],
-            type: "L-shape",
           });
         }
       }
 
-      // NOVOS CAMINHOS DIAGONAIS
-      for (let i = 1; i < mainVerticalLines - 2; i += 2) {
-        for (let j = 1; j < mainHorizontalLines - 2; j += 2) {
-          const startX = (w / (mainVerticalLines + 1)) * (i + 1);
-          const startY = (h / (mainHorizontalLines + 1)) * (j + 1);
-          const endX = (w / (mainVerticalLines + 1)) * (i + 3);
-          const endY = (h / (mainHorizontalLines + 1)) * (j + 3);
-
-          // Diagonal descendente
-          paths.push({
-            points: [
-              { x: startX, y: startY },
-              { x: endX, y: endY },
-            ],
-            type: "diagonal-down",
-          });
-
-          // Diagonal ascendente
-          paths.push({
-            points: [
-              { x: startX, y: endY },
-              { x: endX, y: startY },
-            ],
-            type: "diagonal-up",
-          });
+      // ===== Zig-zag DENTRO do circuito (staircase em cruzamentos) =====
+      // helper: cria caminho “escada” alternando X e Y em passos de 1 célula
+      const stairPath = (ci, rj, dx, dy, steps) => {
+        const pts = [{ x: gridX(ci), y: gridY(rj) }];
+        let c = ci,
+          r = rj;
+        for (let s = 0; s < steps; s++) {
+          // passo horizontal
+          c += dx;
+          if (c < 0 || c >= COLS) break;
+          pts.push({ x: gridX(c), y: gridY(r) });
+          // passo vertical
+          r += dy;
+          if (r < 0 || r >= ROWS) break;
+          pts.push({ x: gridX(c), y: gridY(r) });
         }
-      }
+        return pts.length > 1 ? pts : null;
+      };
+
+      const addStair = (ci, rj, dx, dy, steps) => {
+        const p = stairPath(ci, rj, dx, dy, steps);
+        if (p) paths.push({ type: "zigzag", points: p });
+      };
+
+      const stepsAcross = Math.min(6, Math.floor(Math.min(COLS, ROWS) / 2));
+
+      // variações pedidas:
+      addStair(1, 1, +1, +1, stepsAcross); // direita-baixo-direita...
+      addStair(COLS - 2, 1, -1, +1, stepsAcross); // esquerda-baixo-esquerda...
+      addStair(1, ROWS - 2, +1, -1, stepsAcross); // direita-cima-direita...
+      addStair(COLS - 2, ROWS - 2, -1, -1, stepsAcross); // esquerda-cima-esquerda...
+
+      // mais alguns no meio para densidade
+      addStair(
+        Math.floor(COLS / 3),
+        Math.floor(ROWS / 3),
+        +1,
+        +1,
+        stepsAcross - 1
+      );
+      addStair(
+        Math.floor((2 * COLS) / 3),
+        Math.floor(ROWS / 2),
+        -1,
+        +1,
+        stepsAcross - 1
+      );
 
       return paths;
     };
 
     const circuitPaths = createCircuitPaths();
 
-    // Gerar pulsos de energia seguindo os caminhos do circuito
-    const generateEnergyPulse = () => {
-      const numPulses = 1; // Mantém 1 pulso por geração
+    // garante partículas nos zig-zags
+    const initializeZigzagParticles = () => {
+      const zigzagPaths = circuitPaths.filter((p) => p.type === "zigzag");
 
-      for (let i = 0; i < numPulses; i++) {
-        const path =
-          circuitPaths[Math.floor(Math.random() * circuitPaths.length)];
-        if (path.points.length < 2) continue;
-
-        const newPulse = {
-          id: Date.now() + Math.random() + i,
-          path: path,
+      // Partículas originais
+      zigzagPaths.forEach((path, index) => {
+        energyPulsesRef.current.push({
+          id: `zigzag-${Date.now()}-${index}`,
+          path,
           currentSegment: 0,
-          progress: 0,
-          speed: 1.69 + Math.random() * 1.17, // Aumentado mais 30% (era 1.3-2.2, agora 1.69-2.86)
-          intensity: 0.6 + Math.random() * 0.3,
-          size: 1.5 + Math.random() * 1,
-          color: [59, 130, 246],
-          // NOVO: Estados para o efeito de piscar
+          progress: Math.random() * 100,
+          speed: 1.68 + Math.random() * 1.12, // Aumentado em 40%
+          intensity: 0.85,
+          size: 2.2,
+          color: [255, 215, 0], // dourado
           isBlinking: false,
           blinkCount: 0,
           blinkTimer: 0,
-          blinkPhase: 0, // 0 = visível, 1 = invisível
+          blinkPhase: 0,
           finalPosition: null,
-        };
+        });
+      });
 
-        // Aumentar número de pulsos em 40% adicional (era 30, agora 42)
-        if (energyPulsesRef.current.length >= 42) {
-          energyPulsesRef.current = [
-            ...energyPulsesRef.current.slice(1),
-            newPulse,
-          ];
-        } else {
-          energyPulsesRef.current = [...energyPulsesRef.current, newPulse];
+      // 2 partículas extras em direções opostas
+      if (zigzagPaths.length > 0) {
+        for (let i = 0; i < 2; i++) {
+          const originalPath = zigzagPaths[i % zigzagPaths.length];
+          const reversedPath = {
+            ...originalPath,
+            points: [...originalPath.points].reverse(),
+          };
+
+          energyPulsesRef.current.push({
+            id: `zigzag-rev-${Date.now()}-${i}`,
+            path: reversedPath,
+            currentSegment: 0,
+            progress: Math.random() * 100,
+            speed: 1.68 + Math.random() * 1.12, // Aumentado em 40%
+            intensity: 0.85,
+            size: 2.2,
+            color: [255, 215, 0],
+            isBlinking: false,
+            blinkCount: 0,
+            blinkTimer: 0,
+            blinkPhase: 0,
+            finalPosition: null,
+          });
         }
       }
     };
+    initializeZigzagParticles();
 
+    // gera pulsos
+    const generateEnergyPulse = () => {
+      const path =
+        circuitPaths[Math.floor(Math.random() * circuitPaths.length)];
+      if (!path || path.points.length < 2) return;
+
+      const isZig = path.type === "zigzag";
+      const newPulse = {
+        id: Date.now() + Math.random(),
+        path,
+        currentSegment: 0,
+        progress: 0,
+        speed: isZig
+          ? 2.37 + Math.random() * 1.64 // Aumentado em 40% para amarelos
+          : 1.69 + Math.random() * 1.17, // Velocidade original para azuis
+        intensity: isZig ? 0.85 : 0.7,
+        size: isZig ? 2.4 : 1.8,
+        color: isZig ? [255, 215, 0] : [59, 130, 246],
+        isBlinking: false,
+        blinkCount: 0,
+        blinkTimer: 0,
+        blinkPhase: 0,
+        finalPosition: null,
+      };
+
+      if (energyPulsesRef.current.length >= 42) {
+        energyPulsesRef.current = [
+          ...energyPulsesRef.current.slice(1),
+          newPulse,
+        ];
+      } else {
+        energyPulsesRef.current = [...energyPulsesRef.current, newPulse];
+      }
+    };
+
+    // ====== ANIMAÇÃO ======
     const animate = () => {
-      // Limpeza completa do canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Fundo escuro
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = "#000";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Desenhar a placa de circuito estática
       drawCircuitBoard();
 
-      // Filtra pulsos completos para remoção
-      const pulsesToRemove = [];
+      const toRemove = [];
 
-      // Desenhar pulsos de energia seguindo os caminhos do circuito
-      energyPulsesRef.current.forEach((pulse, index) => {
+      energyPulsesRef.current.forEach((pulse, idx) => {
         const path = pulse.path;
         if (path.points.length < 2) {
-          pulsesToRemove.push(pulse.id);
+          toRemove.push(pulse.id);
           return;
         }
 
-        // Verificar se chegou no final do caminho
         const segmentIndex = pulse.currentSegment;
+
+        // chegou ao final do caminho -> piscar e sumir
         if (segmentIndex >= path.points.length - 1) {
-          // NOVO: Iniciar efeito de piscar se ainda não começou
           if (!pulse.isBlinking) {
-            energyPulsesRef.current[index].isBlinking = true;
-            energyPulsesRef.current[index].blinkTimer = 0;
-            energyPulsesRef.current[index].blinkCount = 0;
-            // Definir posição final
             const finalPoint = path.points[path.points.length - 1];
-            energyPulsesRef.current[index].finalPosition = {
+            energyPulsesRef.current[idx].isBlinking = true;
+            energyPulsesRef.current[idx].blinkTimer = 0;
+            energyPulsesRef.current[idx].blinkCount = 0;
+            energyPulsesRef.current[idx].finalPosition = {
               x: finalPoint.x,
               y: finalPoint.y,
             };
           }
 
-          // NOVO: Lógica de piscar
           if (pulse.isBlinking) {
-            energyPulsesRef.current[index].blinkTimer += 1;
-
-            // Alternar entre visível/invisível a cada 8 frames (~133ms a 60fps)
-            if (energyPulsesRef.current[index].blinkTimer >= 8) {
-              energyPulsesRef.current[index].blinkTimer = 0;
-              energyPulsesRef.current[index].blinkPhase =
-                energyPulsesRef.current[index].blinkPhase === 0 ? 1 : 0;
-
-              // Contar uma piscada completa (visível -> invisível)
-              if (energyPulsesRef.current[index].blinkPhase === 1) {
-                energyPulsesRef.current[index].blinkCount += 1;
+            energyPulsesRef.current[idx].blinkTimer += 1;
+            if (energyPulsesRef.current[idx].blinkTimer >= 8) {
+              energyPulsesRef.current[idx].blinkTimer = 0;
+              energyPulsesRef.current[idx].blinkPhase =
+                energyPulsesRef.current[idx].blinkPhase === 0 ? 1 : 0;
+              if (energyPulsesRef.current[idx].blinkPhase === 1) {
+                energyPulsesRef.current[idx].blinkCount += 1;
               }
             }
-
-            // Após 3 piscadas completas, remover
             if (pulse.blinkCount >= 3) {
-              pulsesToRemove.push(pulse.id);
+              toRemove.push(pulse.id);
               return;
             }
-
-            // Desenhar pulso piscando na posição final
             if (pulse.blinkPhase === 0) {
-              // Apenas quando visível
-              const currentX = pulse.finalPosition.x;
-              const currentY = pulse.finalPosition.y;
-
-              // Pulso principal com glow mais intenso durante o piscar
-              const gradient = ctx.createRadialGradient(
-                currentX,
-                currentY,
+              const { x: cx, y: cy } = pulse.finalPosition;
+              const g = ctx.createRadialGradient(
+                cx,
+                cy,
                 0,
-                currentX,
-                currentY,
+                cx,
+                cy,
                 pulse.size * 6
               );
-              gradient.addColorStop(
+              g.addColorStop(
                 0,
-                `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, ${pulse.intensity})`
+                `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},${pulse.intensity})`
               );
-              gradient.addColorStop(
+              g.addColorStop(
                 0.3,
-                `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${
-                  pulse.color[2]
-                }, ${pulse.intensity * 0.6})`
+                `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},${
+                  pulse.intensity * 0.6
+                })`
               );
-              gradient.addColorStop(
+              g.addColorStop(
                 1,
-                `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, 0)`
+                `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},0)`
               );
-
-              ctx.fillStyle = gradient;
+              ctx.fillStyle = g;
               ctx.beginPath();
-              ctx.arc(currentX, currentY, pulse.size * 6, 0, Math.PI * 2);
+              ctx.arc(cx, cy, pulse.size * 6, 0, Math.PI * 2);
               ctx.fill();
 
-              // Núcleo brilhante mais intenso
-              ctx.fillStyle = `rgba(255, 255, 255, ${pulse.intensity})`;
+              ctx.fillStyle = `rgba(255,255,255,${pulse.intensity})`;
               ctx.beginPath();
-              ctx.arc(currentX, currentY, pulse.size, 0, Math.PI * 2);
+              ctx.arc(cx, cy, pulse.size, 0, Math.PI * 2);
               ctx.fill();
             }
           }
           return;
         }
 
-        // Lógica normal para pulsos em movimento
-        const startPoint = path.points[segmentIndex];
-        const endPoint = path.points[segmentIndex + 1];
-        const segmentProgress = pulse.progress / 100;
+        // em movimento
+        const A = path.points[segmentIndex];
+        const B = path.points[segmentIndex + 1];
+        const t = pulse.progress / 100;
+        const x = A.x + (B.x - A.x) * t;
+        const y = A.y + (B.y - A.y) * t;
 
-        const currentX =
-          startPoint.x + (endPoint.x - startPoint.x) * segmentProgress;
-        const currentY =
-          startPoint.y + (endPoint.y - startPoint.y) * segmentProgress;
-
-        // Trilha de energia mais sutil
-        const trailLength = 4;
-        for (let i = 0; i < trailLength; i++) {
-          const trailProgress = Math.max(0, segmentProgress - i * 0.15);
-          const trailX =
-            startPoint.x + (endPoint.x - startPoint.x) * trailProgress;
-          const trailY =
-            startPoint.y + (endPoint.y - startPoint.y) * trailProgress;
-
-          const trailAlpha = (1 - i / trailLength) * pulse.intensity * 0.3;
-          ctx.fillStyle = `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, ${trailAlpha})`;
+        // trilha
+        const trailLen = 4;
+        for (let i = 0; i < trailLen; i++) {
+          const tp = Math.max(0, t - i * 0.15);
+          const tx = A.x + (B.x - A.x) * tp;
+          const ty = A.y + (B.y - A.y) * tp;
+          const alpha = (1 - i / trailLen) * pulse.intensity * 0.3;
+          ctx.fillStyle = `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},${alpha})`;
           ctx.beginPath();
           ctx.arc(
-            trailX,
-            trailY,
-            pulse.size * (1 - (i / trailLength) * 0.3),
+            tx,
+            ty,
+            pulse.size * (1 - (i / trailLen) * 0.3),
             0,
             Math.PI * 2
           );
           ctx.fill();
         }
 
-        // Pulso principal com glow mais suave
-        const gradient = ctx.createRadialGradient(
-          currentX,
-          currentY,
+        // glow principal
+        const g = ctx.createRadialGradient(x, y, 0, x, y, pulse.size * 4);
+        g.addColorStop(
           0,
-          currentX,
-          currentY,
-          pulse.size * 4
-        );
-        gradient.addColorStop(
-          0,
-          `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, ${
+          `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},${
             pulse.intensity * 0.8
           })`
         );
-        gradient.addColorStop(
+        g.addColorStop(
           0.3,
-          `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, ${
+          `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},${
             pulse.intensity * 0.4
           })`
         );
-        gradient.addColorStop(
+        g.addColorStop(
           1,
-          `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, 0)`
+          `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},0)`
         );
-
-        ctx.fillStyle = gradient;
+        ctx.fillStyle = g;
         ctx.beginPath();
-        ctx.arc(currentX, currentY, pulse.size * 4, 0, Math.PI * 2);
+        ctx.arc(x, y, pulse.size * 4, 0, Math.PI * 2);
         ctx.fill();
 
-        // Núcleo brilhante menor
-        ctx.fillStyle = `rgba(255, 255, 255, ${pulse.intensity * 0.6})`;
+        // núcleo
+        ctx.fillStyle = `rgba(255,255,255,${pulse.intensity * 0.6})`;
         ctx.beginPath();
-        ctx.arc(currentX, currentY, pulse.size * 0.5, 0, Math.PI * 2);
+        ctx.arc(x, y, pulse.size * 0.5, 0, Math.PI * 2);
         ctx.fill();
 
-        // Atualizar progresso apenas se não estiver piscando
+        // progresso
         if (!pulse.isBlinking) {
-          energyPulsesRef.current[index].progress += pulse.speed;
-          if (energyPulsesRef.current[index].progress >= 100) {
-            energyPulsesRef.current[index].progress = 0;
-            energyPulsesRef.current[index].currentSegment++;
+          energyPulsesRef.current[idx].progress += pulse.speed;
+          if (energyPulsesRef.current[idx].progress >= 100) {
+            energyPulsesRef.current[idx].progress = 0;
+            energyPulsesRef.current[idx].currentSegment++;
           }
         }
       });
 
-      // Remover pulsos completos
-      if (pulsesToRemove.length > 0) {
+      if (toRemove.length > 0) {
         energyPulsesRef.current = energyPulsesRef.current.filter(
-          (p) => !pulsesToRemove.includes(p.id)
+          (p) => !toRemove.includes(p.id)
         );
       }
 
       animationIdRef.current = requestAnimationFrame(animate);
     };
 
-    // Frequência reduzida para compensar o aumento de pulsos simultâneos
-    pulseIntervalRef.current = setInterval(
-      generateEnergyPulse,
-      300 + Math.random() * 300 // Reduzido para gerar mais frequentemente
-    );
+    pulseIntervalRef.current = setInterval(() => {
+      generateEnergyPulse();
+    }, 200 + Math.random() * 200);
 
-    // Iniciar animação
     animate();
 
-    // Cleanup
     return () => {
       window.removeEventListener("resize", resize);
       clearInterval(pulseIntervalRef.current);
@@ -446,8 +462,8 @@ const ParticleBackground = () => {
         height: "100%",
         overflow: "hidden",
         background: "black",
-        zIndex: 0, // Mudado para 0 para ficar visível
-        pointerEvents: "none", // Não interferir com interações
+        zIndex: 0,
+        pointerEvents: "none",
       }}
     >
       <canvas
