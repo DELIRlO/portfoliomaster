@@ -5,7 +5,7 @@ import { ArrowDown, Download, Eye, Briefcase } from "lucide-react";
 import userData from "../userData";
 import PageTransition from "./PageTransition";
 
-const Hero = () => {
+const Hero = ({ darkMode = true }) => {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: false,
@@ -245,6 +245,16 @@ const Hero = () => {
             50% {
               transform: scale(1.02);
             }
+            ${darkMode
+              ? ""
+              : `
+              0%, 100% {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+              }
+              50% {
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+              }
+            `}
           }
 
           @keyframes textShimmer {
@@ -261,14 +271,31 @@ const Hero = () => {
             position: relative;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            transform: translateY(0);
+          }
+
+          /* Estilos para MODO ESCURO (padrão) */
+          .professional-button.dark {
             background: linear-gradient(
               145deg,
               rgba(255, 255, 255, 0.1),
               rgba(255, 255, 255, 0.05)
             );
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transform: translateY(0);
+            color: white;
+          }
+
+          /* Estilos para MODO CLARO */
+          .professional-button.light {
+            background: linear-gradient(
+              145deg,
+              rgba(255, 255, 255, 0.9),
+              rgba(255, 255, 255, 0.8)
+            );
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #2d2d2d;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
           }
 
           .professional-button:hover {
@@ -290,42 +317,46 @@ const Hero = () => {
 
           /* Botão Ver Projetos */
           .projects-button {
-            background: linear-gradient(
-              145deg,
-              rgba(59, 130, 246, 0.1),
-              rgba(37, 99, 235, 0.05)
-            );
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: ${darkMode
+              ? "linear-gradient(145deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05))"
+              : "linear-gradient(145deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.1))"};
+            border: 1px solid
+              ${darkMode
+                ? "rgba(59, 130, 246, 0.3)"
+                : "rgba(59, 130, 246, 0.4)"};
+            color: ${darkMode ? "white" : "#1e40af"};
           }
 
           .projects-button:hover {
             animation: professionalGlow 2s ease-in-out infinite;
-            background: linear-gradient(
-              145deg,
-              rgba(59, 130, 246, 0.2),
-              rgba(37, 99, 235, 0.1)
-            );
-            border-color: rgba(59, 130, 246, 0.5);
+            background: ${darkMode
+              ? "linear-gradient(145deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1))"
+              : "linear-gradient(145deg, rgba(59, 130, 246, 0.25), rgba(37, 99, 235, 0.15))"};
+            border-color: ${darkMode
+              ? "rgba(59, 130, 246, 0.5)"
+              : "rgba(59, 130, 246, 0.6)"};
+            color: ${darkMode ? "white" : "#1e40af"};
           }
 
           /* Botão Baixar CV */
           .cv-button {
-            background: linear-gradient(
-              145deg,
-              rgba(34, 197, 94, 0.1),
-              rgba(21, 128, 61, 0.05)
-            );
-            border: 1px solid rgba(34, 197, 94, 0.3);
+            background: ${darkMode
+              ? "linear-gradient(145deg, rgba(34, 197, 94, 0.1), rgba(21, 128, 61, 0.05))"
+              : "linear-gradient(145deg, rgba(34, 197, 94, 0.15), rgba(21, 128, 61, 0.1))"};
+            border: 1px solid
+              ${darkMode ? "rgba(34, 197, 94, 0.3)" : "rgba(34, 197, 94, 0.4)"};
+            color: ${darkMode ? "white" : "#166534"};
           }
 
           .cv-button:hover {
             animation: professionalGlowCV 2s ease-in-out infinite;
-            background: linear-gradient(
-              145deg,
-              rgba(34, 197, 94, 0.2),
-              rgba(21, 128, 61, 0.1)
-            );
-            border-color: rgba(34, 197, 94, 0.5);
+            background: ${darkMode
+              ? "linear-gradient(145deg, rgba(34, 197, 94, 0.2), rgba(21, 128, 61, 0.1))"
+              : "linear-gradient(145deg, rgba(34, 197, 94, 0.25), rgba(21, 128, 61, 0.15))"};
+            border-color: ${darkMode
+              ? "rgba(34, 197, 94, 0.5)"
+              : "rgba(34, 197, 94, 0.6)"};
+            color: ${darkMode ? "white" : "#166534"};
           }
 
           /* Botão CV Vermelho */
@@ -359,7 +390,9 @@ const Hero = () => {
             background: linear-gradient(
               90deg,
               transparent,
-              rgba(255, 255, 255, 0.2),
+              ${darkMode
+                ? "rgba(255, 255, 255, 0.2)"
+                : "rgba(59, 130, 246, 0.2)"},
               transparent
             );
             transition: left 0.5s;
@@ -372,14 +405,9 @@ const Hero = () => {
 
           /* Texto e ícones com gradiente animado - ÍCONES AGORA VISÍVEIS */
           .animated-text {
-            background: linear-gradient(
-              90deg,
-              #ffffff 0%,
-              #e2e8f0 25%,
-              #ffffff 50%,
-              #e2e8f0 75%,
-              #ffffff 100%
-            );
+            background: ${darkMode
+              ? "linear-gradient(90deg, #ffffff 0%, #e2e8f0 25%, #ffffff 50%, #e2e8f0 75%, #ffffff 100%)"
+              : "linear-gradient(90deg, #1e40af 0%, #3b82f6 25%, #1e40af 50%, #3b82f6 75%, #1e40af 100%)"};
             background-size: 200% 100%;
             -webkit-background-clip: text;
             background-clip: text;
@@ -423,6 +451,7 @@ const Hero = () => {
           .icon-shimmer {
             filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
             transition: all 0.3s ease;
+            color: ${darkMode ? "white" : "#3b82f6"};
           }
 
           .icon-shimmer-blue {
@@ -689,7 +718,9 @@ const Hero = () => {
               <div className="relative group w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="professional-button projects-button w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold relative z-10"
+                  className={`professional-button ${
+                    darkMode ? "dark" : "light"
+                  } projects-button w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold relative z-10`}
                   asChild
                   onMouseEnter={() => setHoveredButton("projects")}
                   onMouseLeave={() => setHoveredButton("")}
@@ -745,7 +776,9 @@ const Hero = () => {
               <div className="relative group w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="professional-button cv-button w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold relative z-10"
+                  className={`professional-button ${
+                    darkMode ? "dark" : "light"
+                  } cv-button w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold relative z-10`}
                   asChild
                   onMouseEnter={() => setHoveredButton("cv")}
                   onMouseLeave={() => setHoveredButton("")}

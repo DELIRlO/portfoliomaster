@@ -1,4 +1,4 @@
-// src/App.jsx - VERSÃO ATUALIZADA
+// src/App.jsx - VERSÃO CORRIGIDA
 import { useState, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
@@ -35,24 +35,61 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen text-foreground fade-in-after-loading relative">
-      {/* COMPONENTE DE PARTÍCULAS DE FUNDO */}
-      <ParticleBackground />
+    <div
+      className="min-h-screen text-foreground fade-in-after-loading relative"
+      style={{
+        // Força o background do container principal
+        backgroundColor: darkMode ? "#000000" : "#ffffff",
+        position: "relative",
+        overflow: "hidden", // Evita scroll horizontal das partículas
+      }}
+    >
+      {/* COMPONENTE DE PARTÍCULAS DE FUNDO - POSICIONADO ANTES DO CONTEÚDO */}
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          zIndex: 0, // Mudado de -1 para 0
+          pointerEvents: "none",
+        }}
+      >
+        <ParticleBackground />
+      </div>
 
-      <Header
-        darkMode={darkMode}
-        toggleDarkMode={toggleTheme}
-        musicPlaying={isPlaying}
-        toggleMusic={toggleMusic}
-      />
-      <main className="relative z-20">
+      {/* HEADER */}
+      <div style={{ position: "relative", zIndex: 50 }}>
+        <Header
+          darkMode={darkMode}
+          toggleDarkMode={toggleTheme}
+          musicPlaying={isPlaying}
+          toggleMusic={toggleMusic}
+        />
+      </div>
+
+      {/* CONTEÚDO PRINCIPAL */}
+      <main
+        className="relative"
+        style={{
+          position: "relative",
+          zIndex: 20,
+          // Garante que o conteúdo fique acima das partículas
+          backgroundColor: "transparent",
+        }}
+      >
         <Hero />
         <About />
         <Projects />
         <CertificatesCarousel />
         <Contact />
       </main>
-      <Footer className="relative z-20" />
+
+      {/* FOOTER */}
+      <div style={{ position: "relative", zIndex: 20 }}>
+        <Footer />
+      </div>
     </div>
   );
 }
