@@ -14,7 +14,7 @@ import useTheme from "./hooks/useTheme";
 import useBackgroundMusic from "./hooks/useBackgroundMusic";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const { darkMode, toggleTheme } = useTheme();
   const { isPlaying, toggleMusic } = useBackgroundMusic();
 
