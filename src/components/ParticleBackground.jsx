@@ -49,12 +49,10 @@ const ParticleBackground = () => {
     };
 
     // ====== FUNDO: placa de circuito com tema dinâmico ======
-    const drawCircuitBoard = () => {
+    const drawCircuitBoard = (colors) => {
       const w = canvas.width;
       const h = canvas.height;
-      const colors = getThemeColors();
 
-      // Fundo dinâmico baseado no tema
       ctx.fillStyle = colors.background;
       ctx.fillRect(0, 0, w, h);
 
@@ -70,7 +68,6 @@ const ParticleBackground = () => {
         ctx.lineTo(w - MARGIN, y);
         ctx.stroke();
 
-        // Ramificações sutis
         for (let x = 100; x < w - 100; x += 120) {
           if (j > 0) {
             ctx.beginPath();
@@ -95,7 +92,6 @@ const ParticleBackground = () => {
         ctx.lineTo(x, h - MARGIN);
         ctx.stroke();
 
-        // Ramificações sutis
         for (let y = 100; y < h - 100; y += 100) {
           if (i > 0) {
             ctx.beginPath();
@@ -112,7 +108,7 @@ const ParticleBackground = () => {
         }
       }
 
-      // Pontos de solda discretos
+      // Pontos de solda
       ctx.fillStyle = colors.solder;
       for (let i = 1; i < COLS; i += 2) {
         for (let j = 1; j < ROWS; j += 2) {
@@ -219,7 +215,6 @@ const ParticleBackground = () => {
     // Inicializa partículas zigzag
     const initializeZigzagParticles = () => {
       const zigzagPaths = circuitPaths.filter((p) => p.type === "zigzag");
-      const colors = getThemeColors();
       const maxGoldenParticles = 5;
       let particleCount = 0;
 
@@ -234,7 +229,7 @@ const ParticleBackground = () => {
           speed: 2.352 + Math.random() * 1.568,
           intensity: 0.85,
           size: 1.54,
-          color: colors.particleGold,
+          getColor: () => getThemeColors().particleGold,
           isBlinking: false,
           blinkCount: 0,
           blinkTimer: 0,
@@ -243,39 +238,9 @@ const ParticleBackground = () => {
         });
         particleCount++;
       });
-
-      if (zigzagPaths.length > 0 && particleCount < maxGoldenParticles) {
-        for (
-          let i = 0;
-          i < Math.min(2, maxGoldenParticles - particleCount);
-          i++
-        ) {
-          const originalPath = zigzagPaths[i % zigzagPaths.length];
-          const reversedPath = {
-            ...originalPath,
-            points: [...originalPath.points].reverse(),
-          };
-
-          energyPulsesRef.current.push({
-            id: `zigzag-rev-${Date.now()}-${i}`,
-            path: reversedPath,
-            currentSegment: 0,
-            progress: Math.random() * 100,
-            speed: 2.352 + Math.random() * 1.568,
-            intensity: 0.85,
-            size: 1.54,
-            color: colors.particleGold,
-            isBlinking: false,
-            blinkCount: 0,
-            blinkTimer: 0,
-            blinkPhase: 0,
-            finalPosition: null,
-          });
-        }
-      }
     };
 
-    // Limpa partículas existentes quando o tema muda
+    // Limpa partículas e inicializa
     energyPulsesRef.current = [];
     initializeZigzagParticles();
 
@@ -285,16 +250,13 @@ const ParticleBackground = () => {
         circuitPaths[Math.floor(Math.random() * circuitPaths.length)];
       if (!path || path.points.length < 2) return;
 
-      const colors = getThemeColors();
       const isZig = path.type === "zigzag";
 
       if (isZig) {
-        const goldenCount = energyPulsesRef.current.filter(
-          (p) =>
-            Array.isArray(p.color) &&
-            p.color[0] === colors.particleGold[0] &&
-            p.color[1] === colors.particleGold[1]
-        ).length;
+        const goldenCount = energyPulsesRef.current.filter((p) => {
+          const [r] = p.getColor();
+          return r === 255; // identifica dourado/laranja
+        }).length;
 
         if (goldenCount >= 5) return;
       }
@@ -309,7 +271,8 @@ const ParticleBackground = () => {
           : 1.69 + Math.random() * 1.17,
         intensity: isZig ? 0.85 : 0.7,
         size: isZig ? 1.68 : 1.8,
-        color: isZig ? colors.particleGold : colors.particleBlue,
+        getColor: () =>
+          isZig ? getThemeColors().particleGold : getThemeColors().particleBlue,
         isBlinking: false,
         blinkCount: 0,
         blinkTimer: 0,
@@ -331,7 +294,8 @@ const ParticleBackground = () => {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      drawCircuitBoard();
+      const colors = getThemeColors();
+      drawCircuitBoard(colors);
 
       const toRemove = [];
 
@@ -343,6 +307,7 @@ const ParticleBackground = () => {
         }
 
         const segmentIndex = pulse.currentSegment;
+        const [r, g1, b] = pulse.getColor();
 
         // Lógica de piscar no final
         if (segmentIndex >= path.points.length - 1) {
@@ -381,7 +346,6 @@ const ParticleBackground = () => {
                 cy,
                 pulse.size * 6
               );
-              const [r, g1, b] = pulse.color;
               g.addColorStop(0, `rgba(${r},${g1},${b},${pulse.intensity})`);
               g.addColorStop(
                 0.3,
@@ -408,8 +372,6 @@ const ParticleBackground = () => {
         const t = pulse.progress / 100;
         const x = A.x + (B.x - A.x) * t;
         const y = A.y + (B.y - A.y) * t;
-
-        const [r, g1, b] = pulse.color;
 
         // Trilha
         const trailLen = 4;
@@ -476,7 +438,7 @@ const ParticleBackground = () => {
       clearInterval(pulseIntervalRef.current);
       cancelAnimationFrame(animationIdRef.current);
     };
-  }, [darkMode]); // Dependência do tema
+  }, [darkMode]);
 
   return (
     <div
@@ -487,7 +449,7 @@ const ParticleBackground = () => {
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        zIndex: -1, // Mudado para -1 para ficar atrás do conteúdo
+        zIndex: -1,
         pointerEvents: "none",
       }}
     >
