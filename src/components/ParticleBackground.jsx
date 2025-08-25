@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-const CircuitBoardEnergy = () => {
+const ParticleBackground = () => {
   const canvasRef = useRef(null);
   const energyPulsesRef = useRef([]);
   const animationIdRef = useRef(null);
@@ -18,17 +18,126 @@ const CircuitBoardEnergy = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    // Criar caminhos para os pulsos de energia (30% menos elementos)
-    const createEnergyPaths = () => {
+    // Desenhar placa de circuito estática no fundo
+    const drawCircuitBoard = () => {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Configuração das linhas do circuito
+      ctx.strokeStyle = "rgba(59, 130, 246, 0.15)"; // Azul muito sutil
+      ctx.lineWidth = 0.5;
+      ctx.lineCap = "round";
+
+      // Grid base - linhas horizontais principais
+      const mainHorizontalLines = 8;
+      for (let i = 0; i < mainHorizontalLines; i++) {
+        const y = (h / (mainHorizontalLines + 1)) * (i + 1);
+        ctx.beginPath();
+        ctx.moveTo(50, y);
+        ctx.lineTo(w - 50, y);
+        ctx.stroke();
+
+        // Pequenas ramificações nas linhas principais
+        for (let branch = 100; branch < w - 100; branch += 120) {
+          // Ramificação para cima
+          if (i > 0) {
+            ctx.beginPath();
+            ctx.moveTo(branch, y);
+            ctx.lineTo(branch, y - 30);
+            ctx.stroke();
+          }
+
+          // Ramificação para baixo
+          if (i < mainHorizontalLines - 1) {
+            ctx.beginPath();
+            ctx.moveTo(branch + 60, y);
+            ctx.lineTo(branch + 60, y + 30);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Grid base - linhas verticais principais
+      const mainVerticalLines = 12;
+      for (let i = 0; i < mainVerticalLines; i++) {
+        const x = (w / (mainVerticalLines + 1)) * (i + 1);
+        ctx.beginPath();
+        ctx.moveTo(x, 50);
+        ctx.lineTo(x, h - 50);
+        ctx.stroke();
+
+        // Pequenas ramificações nas linhas verticais
+        for (let branch = 100; branch < h - 100; branch += 100) {
+          // Ramificação para esquerda
+          if (i > 0) {
+            ctx.beginPath();
+            ctx.moveTo(x, branch);
+            ctx.lineTo(x - 25, branch);
+            ctx.stroke();
+          }
+
+          // Ramificação para direita
+          if (i < mainVerticalLines - 1) {
+            ctx.beginPath();
+            ctx.moveTo(x, branch + 50);
+            ctx.lineTo(x + 25, branch + 50);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Pontos de conexão (componentes simulados)
+      ctx.fillStyle = "rgba(59, 130, 246, 0.25)";
+      for (let i = 1; i < mainVerticalLines; i += 2) {
+        for (let j = 1; j < mainHorizontalLines; j += 2) {
+          const x = (w / (mainVerticalLines + 1)) * (i + 1);
+          const y = (h / (mainHorizontalLines + 1)) * (j + 1);
+
+          // Pequenos quadrados como componentes
+          ctx.fillRect(x - 3, y - 3, 6, 6);
+
+          // Círculos menores como pontos de solda
+          ctx.beginPath();
+          ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Adicionar alguns componentes maiores (chips simulados)
+      ctx.fillStyle = "rgba(59, 130, 246, 0.12)";
+      ctx.strokeStyle = "rgba(59, 130, 246, 0.3)";
+      ctx.lineWidth = 1;
+
+      // Chip no canto superior esquerdo
+      const chip1X = w * 0.15;
+      const chip1Y = h * 0.2;
+      ctx.fillRect(chip1X - 20, chip1Y - 15, 40, 30);
+      ctx.strokeRect(chip1X - 20, chip1Y - 15, 40, 30);
+
+      // Chip no centro
+      const chip2X = w * 0.5;
+      const chip2Y = h * 0.5;
+      ctx.fillRect(chip2X - 25, chip2Y - 18, 50, 36);
+      ctx.strokeRect(chip2X - 25, chip2Y - 18, 50, 36);
+
+      // Chip no canto inferior direito
+      const chip3X = w * 0.85;
+      const chip3Y = h * 0.8;
+      ctx.fillRect(chip3X - 18, chip3Y - 12, 36, 24);
+      ctx.strokeRect(chip3X - 18, chip3Y - 12, 36, 24);
+    };
+
+    // Criar caminhos de circuito para os pulsos de energia
+    const createCircuitPaths = () => {
       const paths = [];
       const w = canvas.width;
       const h = canvas.height;
-      const margin = 40;
+      const margin = 50;
 
-      // Reduzir em 30% o número de caminhos horizontais
-      const layers = Math.max(3, Math.floor(14 * 0.7)); // 10 camadas (30% menos)
-      for (let i = 0; i < layers; i++) {
-        const y = margin + ((h - 2 * margin) / (layers - 1)) * i;
+      // Caminhos horizontais principais
+      const mainHorizontalLines = 8;
+      for (let i = 0; i < mainHorizontalLines; i++) {
+        const y = (h / (mainHorizontalLines + 1)) * (i + 1);
         paths.push({
           points: [
             { x: margin, y },
@@ -38,10 +147,10 @@ const CircuitBoardEnergy = () => {
         });
       }
 
-      // Reduzir em 30% o número de caminhos verticais
-      const vLayers = Math.max(3, Math.floor(11 * 0.7)); // 8 camadas (30% menos)
-      for (let i = 0; i < vLayers; i++) {
-        const x = margin + ((w - 2 * margin) / (vLayers - 1)) * i;
+      // Caminhos verticais principais
+      const mainVerticalLines = 12;
+      for (let i = 0; i < mainVerticalLines; i++) {
+        const x = (w / (mainVerticalLines + 1)) * (i + 1);
         paths.push({
           points: [
             { x, y: margin },
@@ -51,31 +160,22 @@ const CircuitBoardEnergy = () => {
         });
       }
 
-      // Reduzir em 30% o número de conexões diagonais
-      for (let i = 1; i < layers - 1; i += 4) {
-        // Aumentado de 3 para 4
-        const y1 = margin + ((h - 2 * margin) / (layers - 1)) * i;
-        const y2 = margin + ((h - 2 * margin) / (layers - 1)) * (i + 1);
+      // Caminhos L-shaped (mais complexos, seguindo o desenho do circuito)
+      for (let i = 1; i < mainVerticalLines - 1; i += 3) {
+        for (let j = 1; j < mainHorizontalLines - 1; j += 2) {
+          const startX = (w / (mainVerticalLines + 1)) * (i + 1);
+          const startY = (h / (mainHorizontalLines + 1)) * (j + 1);
+          const midX = (w / (mainVerticalLines + 1)) * (i + 2);
+          const endY = (h / (mainHorizontalLines + 1)) * (j + 2);
 
-        for (let j = 1; j < vLayers - 1; j += 3) {
-          // Aumentado de 2 para 3
-          const x1 = margin + ((w - 2 * margin) / (vLayers - 1)) * j;
-          const x2 = margin + ((w - 2 * margin) / (vLayers - 1)) * (j + 1);
-
+          // Caminho em L
           paths.push({
             points: [
-              { x: x1, y: y1 },
-              { x: x2, y: y2 },
+              { x: startX, y: startY },
+              { x: midX, y: startY },
+              { x: midX, y: endY },
             ],
-            type: "diagonal",
-          });
-
-          paths.push({
-            points: [
-              { x: x2, y: y1 },
-              { x: x1, y: y2 },
-            ],
-            type: "diagonal",
+            type: "L-shape",
           });
         }
       }
@@ -83,37 +183,33 @@ const CircuitBoardEnergy = () => {
       return paths;
     };
 
-    const energyPaths = createEnergyPaths();
+    const circuitPaths = createCircuitPaths();
 
-    // Gerar pulsos de energia com maior velocidade
+    // Gerar pulsos de energia seguindo os caminhos do circuito
     const generateEnergyPulse = () => {
-      const numPulses = 1; // Reduzido de 1-2 para apenas 1
+      const path =
+        circuitPaths[Math.floor(Math.random() * circuitPaths.length)];
+      if (path.points.length < 2) return;
 
-      for (let i = 0; i < numPulses; i++) {
-        const path =
-          energyPaths[Math.floor(Math.random() * energyPaths.length)];
-        if (path.points.length < 2) continue;
+      const newPulse = {
+        id: Date.now() + Math.random(),
+        path: path,
+        currentSegment: 0,
+        progress: 0,
+        speed: 0.8 + Math.random() * 0.6, // Mais lento e suave
+        intensity: 0.6 + Math.random() * 0.3,
+        size: 1.5 + Math.random() * 1,
+        color: [59, 130, 246], // Azul consistente com o tema
+      };
 
-        const newPulse = {
-          id: Date.now() + Math.random() + i,
-          path: path,
-          currentSegment: 0,
-          progress: 0,
-          speed: 1.7 + Math.random() * 1.1,
-          intensity: 0.8 + Math.random() * 0.2,
-          size: 2 + Math.random() * 2,
-          color: [0, 180, 255],
-        };
-
-        // Reduzir em 30% o número máximo de pulsos (de 60 para 42)
-        if (energyPulsesRef.current.length >= 42) {
-          energyPulsesRef.current = [
-            ...energyPulsesRef.current.slice(1),
-            newPulse,
-          ];
-        } else {
-          energyPulsesRef.current = [...energyPulsesRef.current, newPulse];
-        }
+      // Limitar número de pulsos
+      if (energyPulsesRef.current.length >= 25) {
+        energyPulsesRef.current = [
+          ...energyPulsesRef.current.slice(1),
+          newPulse,
+        ];
+      } else {
+        energyPulsesRef.current = [...energyPulsesRef.current, newPulse];
       }
     };
 
@@ -125,10 +221,13 @@ const CircuitBoardEnergy = () => {
       ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      // Desenhar a placa de circuito estática
+      drawCircuitBoard();
+
       // Filtra pulsos completos para remoção
       const pulsesToRemove = [];
 
-      // Desenhar pulsos de energia
+      // Desenhar pulsos de energia seguindo os caminhos do circuito
       energyPulsesRef.current.forEach((pulse, index) => {
         const path = pulse.path;
         if (path.points.length < 2) {
@@ -152,45 +251,47 @@ const CircuitBoardEnergy = () => {
         const currentY =
           startPoint.y + (endPoint.y - startPoint.y) * segmentProgress;
 
-        // Trilha de energia (reduzida em 30%)
-        const trailLength = 6; // Reduzido de 8 para 6
+        // Trilha de energia mais sutil
+        const trailLength = 4;
         for (let i = 0; i < trailLength; i++) {
-          const trailProgress = Math.max(0, segmentProgress - i * 0.1);
+          const trailProgress = Math.max(0, segmentProgress - i * 0.15);
           const trailX =
             startPoint.x + (endPoint.x - startPoint.x) * trailProgress;
           const trailY =
             startPoint.y + (endPoint.y - startPoint.y) * trailProgress;
 
-          const trailAlpha = (1 - i / trailLength) * pulse.intensity * 0.4;
+          const trailAlpha = (1 - i / trailLength) * pulse.intensity * 0.3;
           ctx.fillStyle = `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, ${trailAlpha})`;
           ctx.beginPath();
           ctx.arc(
             trailX,
             trailY,
-            pulse.size * (1 - (i / trailLength) * 0.5),
+            pulse.size * (1 - (i / trailLength) * 0.3),
             0,
             Math.PI * 2
           );
           ctx.fill();
         }
 
-        // Pulso principal
+        // Pulso principal com glow mais suave
         const gradient = ctx.createRadialGradient(
           currentX,
           currentY,
           0,
           currentX,
           currentY,
-          pulse.size * 3
+          pulse.size * 4
         );
         gradient.addColorStop(
           0,
-          `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, ${pulse.intensity})`
+          `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, ${
+            pulse.intensity * 0.8
+          })`
         );
         gradient.addColorStop(
-          0.4,
+          0.3,
           `rgba(${pulse.color[0]}, ${pulse.color[1]}, ${pulse.color[2]}, ${
-            pulse.intensity * 0.6
+            pulse.intensity * 0.4
           })`
         );
         gradient.addColorStop(
@@ -200,16 +301,16 @@ const CircuitBoardEnergy = () => {
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(currentX, currentY, pulse.size * 3, 0, Math.PI * 2);
+        ctx.arc(currentX, currentY, pulse.size * 4, 0, Math.PI * 2);
         ctx.fill();
 
-        // Núcleo brilhante
-        ctx.fillStyle = `rgba(255, 255, 255, ${pulse.intensity * 0.9})`;
+        // Núcleo brilhante menor
+        ctx.fillStyle = `rgba(255, 255, 255, ${pulse.intensity * 0.6})`;
         ctx.beginPath();
-        ctx.arc(currentX, currentY, pulse.size * 0.7, 0, Math.PI * 2);
+        ctx.arc(currentX, currentY, pulse.size * 0.5, 0, Math.PI * 2);
         ctx.fill();
 
-        // Atualizar progresso diretamente na referência
+        // Atualizar progresso
         energyPulsesRef.current[index].progress += pulse.speed;
         if (energyPulsesRef.current[index].progress >= 100) {
           energyPulsesRef.current[index].progress = 0;
@@ -227,10 +328,10 @@ const CircuitBoardEnergy = () => {
       animationIdRef.current = requestAnimationFrame(animate);
     };
 
-    // Reduzir frequência de geração de pulsos em 30%
+    // Gerar pulsos com menor frequência para manter discrição
     pulseIntervalRef.current = setInterval(
       generateEnergyPulse,
-      200 + Math.random() * 200 // Aumentado de 100-250 para 200-400
+      400 + Math.random() * 400
     );
 
     // Iniciar animação
@@ -254,6 +355,8 @@ const CircuitBoardEnergy = () => {
         height: "100%",
         overflow: "hidden",
         background: "black",
+        zIndex: 0, // Mudado para 0 para ficar visível
+        pointerEvents: "none", // Não interferir com interações
       }}
     >
       <canvas
@@ -270,4 +373,4 @@ const CircuitBoardEnergy = () => {
   );
 };
 
-export default CircuitBoardEnergy;
+export default ParticleBackground;
