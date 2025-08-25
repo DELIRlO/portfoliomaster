@@ -39,18 +39,19 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        mobileMenuOpen &&
-        !event.target.closest(".mobile-menu") &&
-        !event.target.closest(".menu-button")
-      ) {
-        setMobileMenuOpen(false);
-      }
-    };
+    // Remove a lógica de fechamento do menu ao clicar fora
+    // const handleClickOutside = (event) => {
+    //   if (
+    //     mobileMenuOpen &&
+    //     !event.target.closest(".mobile-menu") &&
+    //     !event.target.closest(".menu-button")
+    //   ) {
+    //     setMobileMenuOpen(false);
+    //   }
+    // };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    // document.addEventListener("mousedown", handleClickOutside);
+    // return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [mobileMenuOpen]);
 
   return (
@@ -564,11 +565,10 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
       >
         <div
           className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
-          onClick={() => setMobileMenuOpen(false)}
         />
 
         <div
-          className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-background/95 backdrop-blur-lg border-l border-primary/20 transform transition-transform duration-300 ease-out ${
+          className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-black border-l border-primary/20 transform transition-transform duration-300 ease-out ${
             mobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
