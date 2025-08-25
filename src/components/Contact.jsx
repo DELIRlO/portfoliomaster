@@ -564,12 +564,12 @@ const Contact = () => {
                       </CardHeader>
                       <CardContent className="p-0">
                         <img
-                          src="https://i.ibb.co/Xrrx3kS2/CARLOS-AUGUSTO-DINIZ-FILHO-2025.png"
+                          src="https://i.ibb.co/tpFVDK8g/CARLOSAUGUSTOFILHO2025.png"
                           alt="Currículo"
                           className="rounded-lg shadow-md cursor-pointer mb-4 hover:scale-105 transition-transform"
                           onClick={() =>
                             window.open(
-                              "https://i.ibb.co/Xrrx3kS2/CARLOS-AUGUSTO-DINIZ-FILHO-2025.png",
+                              "https://i.ibb.co/tpFVDK8g/CARLOSAUGUSTOFILHO2025.png",
                               "_blank"
                             )
                           }
@@ -585,8 +585,8 @@ const Contact = () => {
                             onClick={() => {
                               const link = document.createElement("a");
                               link.href =
-                                "https://drive.google.com/uc?export=download&id=1frKopK3El5HF0bf0_zCZ3z3P-fEdaylM";
-                              link.download = "carlosfilho2025.pdf";
+                                "https://drive.google.com/uc?export=download&id=1CqXH0dlmXrjeyCpGN0AY4EaIf828nc2R";
+                              link.download = "CARLOSAUGUSTOFILHO2025.pdf";
                               link.click();
                             }}
                             onMouseEnter={() => setHoveredButton("downloadcv")}
