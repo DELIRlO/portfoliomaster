@@ -315,6 +315,10 @@ const userData = {
       name: "Java Script Avançado",
       image: "/cursos/jva.jpg",
     },
+    {
+      name: "Programação para dispositivos móveis ",
+      image: "/cursos/pdm.jpg",
+    },
   ],
 };
 
