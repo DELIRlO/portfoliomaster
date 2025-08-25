@@ -10,10 +10,10 @@ const ParticleBackground = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    // ====== GRID (compartilhado entre desenho e caminhos) ======
+    // ====== GRID ======
     const MARGIN = 50;
-    const ROWS = 8; // mesmas 8 linhas da sua placa
-    const COLS = 12; // mesmas 12 colunas da sua placa
+    const ROWS = 8;
+    const COLS = 12;
 
     const gridX = (i) => (canvas.width / (COLS + 1)) * (i + 1);
     const gridY = (j) => (canvas.height / (ROWS + 1)) * (j + 1);
@@ -25,21 +25,40 @@ const ParticleBackground = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    // ====== FUNDO: placa de circuito (sem trilha zig-zag amarela) ======
-    const drawCircuitBoard = () => {
+    // ====== DETECÇÃO DE TEMA ======
+    const getThemeColors = () => {
+      const isDarkMode = document.documentElement.classList.contains("dark");
+
+      if (isDarkMode) {
+        return {
+          background: "#000000",
+          circuit: "rgba(59, 130, 246, 0.15)",
+          solder: "rgba(59, 130, 246, 0.25)",
+          particleBlue: [59, 130, 246], // Azul para partículas normais
+          particleGold: [255, 215, 0], // Dourado para partículas especiais
+        };
+      } else {
+        return {
+          background: "#ffffff",
+          circuit: "rgba(59, 130, 246, 0.08)",
+          solder: "rgba(59, 130, 246, 0.12)",
+          particleBlue: [59, 130, 246], // Azul para partículas normais
+          particleGold: [255, 215, 0], // Dourado para partículas especiais
+        };
+      }
+    };
+
+    // ====== FUNDO: placa de circuito ======
+    const drawCircuitBoard = (colors) => {
       const w = canvas.width;
       const h = canvas.height;
 
-      // Detecta o tema atual
-      const isDarkMode = document.documentElement.classList.contains("dark");
-      const circuitColor = isDarkMode
-        ? "rgba(255, 255, 255, 0.1)"
-        : "rgba(59,130,246,0.08)";
-      const soldColor = isDarkMode
-        ? "rgba(255, 255, 255, 0.15)"
-        : "rgba(59,130,246,0.15)";
+      // Fundo baseado no tema
+      ctx.fillStyle = colors.background;
+      ctx.fillRect(0, 0, w, h);
 
-      ctx.strokeStyle = circuitColor;
+      // Cores do circuito
+      ctx.strokeStyle = colors.circuit;
       ctx.lineWidth = 0.5;
       ctx.lineCap = "round";
 
@@ -51,7 +70,7 @@ const ParticleBackground = () => {
         ctx.lineTo(w - MARGIN, y);
         ctx.stroke();
 
-        // Ramificações sutis
+        // Ramificações
         for (let x = 100; x < w - 100; x += 120) {
           if (j > 0) {
             ctx.beginPath();
@@ -76,7 +95,7 @@ const ParticleBackground = () => {
         ctx.lineTo(x, h - MARGIN);
         ctx.stroke();
 
-        // Ramificações sutis
+        // Ramificações
         for (let y = 100; y < h - 100; y += 100) {
           if (i > 0) {
             ctx.beginPath();
@@ -93,8 +112,8 @@ const ParticleBackground = () => {
         }
       }
 
-      // Pontos de solda discretos
-      ctx.fillStyle = soldColor;
+      // Pontos de solda
+      ctx.fillStyle = colors.solder;
       for (let i = 1; i < COLS; i += 2) {
         for (let j = 1; j < ROWS; j += 2) {
           const x = gridX(i);
@@ -132,7 +151,7 @@ const ParticleBackground = () => {
         });
       }
 
-      // Em L (como no seu código)
+      // Em L
       for (let i = 1; i < COLS - 1; i += 3) {
         for (let j = 1; j < ROWS - 1; j += 2) {
           const startX = gridX(i);
@@ -150,18 +169,15 @@ const ParticleBackground = () => {
         }
       }
 
-      // ===== Zig-zag DENTRO do circuito (staircase em cruzamentos) =====
-      // helper: cria caminho "escada" alternando X e Y em passos de 1 célula
+      // Zig-zag
       const stairPath = (ci, rj, dx, dy, steps) => {
         const pts = [{ x: gridX(ci), y: gridY(rj) }];
         let c = ci,
           r = rj;
         for (let s = 0; s < steps; s++) {
-          // passo horizontal
           c += dx;
           if (c < 0 || c >= COLS) break;
           pts.push({ x: gridX(c), y: gridY(r) });
-          // passo vertical
           r += dy;
           if (r < 0 || r >= ROWS) break;
           pts.push({ x: gridX(c), y: gridY(r) });
@@ -176,13 +192,10 @@ const ParticleBackground = () => {
 
       const stepsAcross = Math.min(6, Math.floor(Math.min(COLS, ROWS) / 2));
 
-      // variações pedidas:
-      addStair(1, 1, +1, +1, stepsAcross); // direita-baixo-direita...
-      addStair(COLS - 2, 1, -1, +1, stepsAcross); // esquerda-baixo-esquerda...
-      addStair(1, ROWS - 2, +1, -1, stepsAcross); // direita-cima-direita...
-      addStair(COLS - 2, ROWS - 2, -1, -1, stepsAcross); // esquerda-cima-esquerda...
-
-      // mais alguns no meio para densidade
+      addStair(1, 1, +1, +1, stepsAcross);
+      addStair(COLS - 2, 1, -1, +1, stepsAcross);
+      addStair(1, ROWS - 2, +1, -1, stepsAcross);
+      addStair(COLS - 2, ROWS - 2, -1, -1, stepsAcross);
       addStair(
         Math.floor(COLS / 3),
         Math.floor(ROWS / 3),
@@ -203,27 +216,28 @@ const ParticleBackground = () => {
 
     const circuitPaths = createCircuitPaths();
 
-    // garante partículas nos zig-zags - LIMITADO A 5 PARTÍCULAS DOURADAS
-    const initializeZigzagParticles = () => {
+    // Inicializa partículas (azuis e douradas)
+    const initializeParticles = () => {
       const zigzagPaths = circuitPaths.filter((p) => p.type === "zigzag");
-
-      // Apenas 5 partículas douradas no total
-      const maxGoldenParticles = 5;
+      const maxParticles = 12;
       let particleCount = 0;
 
-      // Partículas originais (limitadas)
+      // Partículas azuis e douradas nos caminhos zigzag
       zigzagPaths.forEach((path, index) => {
-        if (particleCount >= maxGoldenParticles) return;
+        if (particleCount >= maxParticles) return;
+
+        // Alterna entre azul e dourado
+        const isGold = index % 3 === 0; // Aproximadamente 1/3 serão douradas
 
         energyPulsesRef.current.push({
-          id: `zigzag-${Date.now()}-${index}`,
+          id: `particle-${Date.now()}-${index}`,
           path,
           currentSegment: 0,
           progress: Math.random() * 100,
-          speed: 2.352 + Math.random() * 1.568, // Aumentado em 40% (era 1.68 + 1.12)
-          intensity: 0.85,
-          size: 1.54, // Reduzido 30% (era 2.2)
-          color: [255, 215, 0], // dourado
+          speed: isGold ? 2.5 + Math.random() * 1.5 : 2.0 + Math.random() * 1.5,
+          intensity: isGold ? 0.9 : 0.8,
+          size: isGold ? 1.8 : 1.6,
+          isGold: isGold, // Marca se é partícula dourada
           isBlinking: false,
           blinkCount: 0,
           blinkTimer: 0,
@@ -232,68 +246,30 @@ const ParticleBackground = () => {
         });
         particleCount++;
       });
-
-      // Partículas extras em direções opostas (se ainda houver espaço)
-      if (zigzagPaths.length > 0 && particleCount < maxGoldenParticles) {
-        for (
-          let i = 0;
-          i < Math.min(2, maxGoldenParticles - particleCount);
-          i++
-        ) {
-          const originalPath = zigzagPaths[i % zigzagPaths.length];
-          const reversedPath = {
-            ...originalPath,
-            points: [...originalPath.points].reverse(),
-          };
-
-          energyPulsesRef.current.push({
-            id: `zigzag-rev-${Date.now()}-${i}`,
-            path: reversedPath,
-            currentSegment: 0,
-            progress: Math.random() * 100,
-            speed: 2.352 + Math.random() * 1.568, // Aumentado em 40%
-            intensity: 0.85,
-            size: 1.54, // Reduzido 30%
-            color: [255, 215, 0],
-            isBlinking: false,
-            blinkCount: 0,
-            blinkTimer: 0,
-            blinkPhase: 0,
-            finalPosition: null,
-          });
-        }
-      }
     };
-    initializeZigzagParticles();
 
-    // gera pulsos
+    // Limpa e inicializa partículas
+    energyPulsesRef.current = [];
+    initializeParticles();
+
+    // Gera novos pulsos
     const generateEnergyPulse = () => {
       const path =
         circuitPaths[Math.floor(Math.random() * circuitPaths.length)];
       if (!path || path.points.length < 2) return;
 
-      const isZig = path.type === "zigzag";
-
-      // Se for zigzag (dourada), verifica limite de 5 partículas douradas
-      if (isZig) {
-        const goldenCount = energyPulsesRef.current.filter(
-          (p) => p.color[0] === 255 && p.color[1] === 215 && p.color[2] === 0
-        ).length;
-
-        if (goldenCount >= 5) return; // Não cria nova partícula dourada se já tem 5
-      }
+      const isZigzag = path.type === "zigzag";
+      const isGold = isZigzag && Math.random() < 0.3; // 30% de chance de ser dourada em zigzag
 
       const newPulse = {
         id: Date.now() + Math.random(),
         path,
         currentSegment: 0,
         progress: 0,
-        speed: isZig
-          ? 3.318 + Math.random() * 2.296 // Douradas: aumentado 40% (era 2.37 + 1.64)
-          : 1.69 + Math.random() * 1.17, // Azuis: velocidade original mantida
-        intensity: isZig ? 0.85 : 0.7,
-        size: isZig ? 1.68 : 1.8, // Douradas: reduzido 30% (era 2.4) | Azuis: mantido original
-        color: isZig ? [255, 215, 0] : [200, 200, 200],
+        speed: isGold ? 2.5 + Math.random() * 1.5 : 1.7 + Math.random() * 1.2,
+        intensity: isGold ? 0.9 : 0.7,
+        size: isGold ? 1.8 : 1.8,
+        isGold: isGold,
         isBlinking: false,
         blinkCount: 0,
         blinkTimer: 0,
@@ -301,7 +277,7 @@ const ParticleBackground = () => {
         finalPosition: null,
       };
 
-      if (energyPulsesRef.current.length >= 42) {
+      if (energyPulsesRef.current.length >= 35) {
         energyPulsesRef.current = [
           ...energyPulsesRef.current.slice(1),
           newPulse,
@@ -315,14 +291,8 @@ const ParticleBackground = () => {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Detecta o tema atual
-      const isDarkMode = document.documentElement.classList.contains("dark");
-      const bgColor = isDarkMode ? "#020617" : "#ffffff";
-
-      ctx.fillStyle = bgColor;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      drawCircuitBoard();
+      const colors = getThemeColors();
+      drawCircuitBoard(colors);
 
       const toRemove = [];
 
@@ -335,7 +305,13 @@ const ParticleBackground = () => {
 
         const segmentIndex = pulse.currentSegment;
 
-        // chegou ao final do caminho -> piscar e sumir
+        // Escolhe a cor baseada no tipo de partícula
+        const particleColor = pulse.isGold
+          ? colors.particleGold
+          : colors.particleBlue;
+        const [r, g, b] = particleColor;
+
+        // Final do caminho - piscar e desaparecer
         if (segmentIndex >= path.points.length - 1) {
           if (!pulse.isBlinking) {
             const finalPoint = path.points[path.points.length - 1];
@@ -364,7 +340,7 @@ const ParticleBackground = () => {
             }
             if (pulse.blinkPhase === 0) {
               const { x: cx, y: cy } = pulse.finalPosition;
-              const g = ctx.createRadialGradient(
+              const gradient = ctx.createRadialGradient(
                 cx,
                 cy,
                 0,
@@ -372,21 +348,16 @@ const ParticleBackground = () => {
                 cy,
                 pulse.size * 6
               );
-              g.addColorStop(
+              gradient.addColorStop(
                 0,
-                `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},${pulse.intensity})`
+                `rgba(${r},${g},${b},${pulse.intensity})`
               );
-              g.addColorStop(
+              gradient.addColorStop(
                 0.3,
-                `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},${
-                  pulse.intensity * 0.6
-                })`
+                `rgba(${r},${g},${b},${pulse.intensity * 0.6})`
               );
-              g.addColorStop(
-                1,
-                `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},0)`
-              );
-              ctx.fillStyle = g;
+              gradient.addColorStop(1, `rgba(${r},${g},${b},0)`);
+              ctx.fillStyle = gradient;
               ctx.beginPath();
               ctx.arc(cx, cy, pulse.size * 6, 0, Math.PI * 2);
               ctx.fill();
@@ -400,21 +371,21 @@ const ParticleBackground = () => {
           return;
         }
 
-        // em movimento
+        // Movimento da partícula
         const A = path.points[segmentIndex];
         const B = path.points[segmentIndex + 1];
         const t = pulse.progress / 100;
         const x = A.x + (B.x - A.x) * t;
         const y = A.y + (B.y - A.y) * t;
 
-        // trilha
+        // Trilha
         const trailLen = 4;
         for (let i = 0; i < trailLen; i++) {
           const tp = Math.max(0, t - i * 0.15);
           const tx = A.x + (B.x - A.x) * tp;
           const ty = A.y + (B.y - A.y) * tp;
           const alpha = (1 - i / trailLen) * pulse.intensity * 0.3;
-          ctx.fillStyle = `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},${alpha})`;
+          ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
           ctx.beginPath();
           ctx.arc(
             tx,
@@ -426,36 +397,36 @@ const ParticleBackground = () => {
           ctx.fill();
         }
 
-        // glow principal
-        const g = ctx.createRadialGradient(x, y, 0, x, y, pulse.size * 4);
-        g.addColorStop(
+        // Brilho principal
+        const gradient = ctx.createRadialGradient(
+          x,
+          y,
           0,
-          `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},${
-            pulse.intensity * 0.8
-          })`
+          x,
+          y,
+          pulse.size * 4
         );
-        g.addColorStop(
+        gradient.addColorStop(
+          0,
+          `rgba(${r},${g},${b},${pulse.intensity * 0.8})`
+        );
+        gradient.addColorStop(
           0.3,
-          `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},${
-            pulse.intensity * 0.4
-          })`
+          `rgba(${r},${g},${b},${pulse.intensity * 0.4})`
         );
-        g.addColorStop(
-          1,
-          `rgba(${pulse.color[0]},${pulse.color[1]},${pulse.color[2]},0)`
-        );
-        ctx.fillStyle = g;
+        gradient.addColorStop(1, `rgba(${r},${g},${b},0)`);
+        ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(x, y, pulse.size * 4, 0, Math.PI * 2);
         ctx.fill();
 
-        // núcleo
+        // Núcleo
         ctx.fillStyle = `rgba(255,255,255,${pulse.intensity * 0.6})`;
         ctx.beginPath();
         ctx.arc(x, y, pulse.size * 0.5, 0, Math.PI * 2);
         ctx.fill();
 
-        // progresso
+        // Progresso
         if (!pulse.isBlinking) {
           energyPulsesRef.current[idx].progress += pulse.speed;
           if (energyPulsesRef.current[idx].progress >= 100) {
@@ -465,6 +436,7 @@ const ParticleBackground = () => {
         }
       });
 
+      // Remove partículas que terminaram
       if (toRemove.length > 0) {
         energyPulsesRef.current = energyPulsesRef.current.filter(
           (p) => !toRemove.includes(p.id)
@@ -474,12 +446,14 @@ const ParticleBackground = () => {
       animationIdRef.current = requestAnimationFrame(animate);
     };
 
+    // Intervalo para gerar novas partículas
     pulseIntervalRef.current = setInterval(() => {
       generateEnergyPulse();
-    }, 200 + Math.random() * 200);
+    }, 250 + Math.random() * 150);
 
     animate();
 
+    // Cleanup
     return () => {
       window.removeEventListener("resize", resize);
       clearInterval(pulseIntervalRef.current);
@@ -496,7 +470,6 @@ const ParticleBackground = () => {
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        background: "transparent",
         zIndex: -1,
         pointerEvents: "none",
       }}
