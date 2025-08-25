@@ -142,7 +142,7 @@ const ParticleBackground = () => {
       }
 
       // ===== Zig-zag DENTRO do circuito (staircase em cruzamentos) =====
-      // helper: cria caminho “escada” alternando X e Y em passos de 1 célula
+      // helper: cria caminho "escada" alternando X e Y em passos de 1 célula
       const stairPath = (ci, rj, dx, dy, steps) => {
         const pts = [{ x: gridX(ci), y: gridY(rj) }];
         let c = ci,
@@ -194,20 +194,26 @@ const ParticleBackground = () => {
 
     const circuitPaths = createCircuitPaths();
 
-    // garante partículas nos zig-zags
+    // garante partículas nos zig-zags - LIMITADO A 5 PARTÍCULAS DOURADAS
     const initializeZigzagParticles = () => {
       const zigzagPaths = circuitPaths.filter((p) => p.type === "zigzag");
 
-      // Partículas originais
+      // Apenas 5 partículas douradas no total
+      const maxGoldenParticles = 5;
+      let particleCount = 0;
+
+      // Partículas originais (limitadas)
       zigzagPaths.forEach((path, index) => {
+        if (particleCount >= maxGoldenParticles) return;
+
         energyPulsesRef.current.push({
           id: `zigzag-${Date.now()}-${index}`,
           path,
           currentSegment: 0,
           progress: Math.random() * 100,
-          speed: 1.68 + Math.random() * 1.12, // Aumentado em 40%
+          speed: 2.352 + Math.random() * 1.568, // Aumentado em 40% (era 1.68 + 1.12)
           intensity: 0.85,
-          size: 2.2,
+          size: 1.54, // Reduzido 30% (era 2.2)
           color: [255, 215, 0], // dourado
           isBlinking: false,
           blinkCount: 0,
@@ -215,11 +221,16 @@ const ParticleBackground = () => {
           blinkPhase: 0,
           finalPosition: null,
         });
+        particleCount++;
       });
 
-      // 2 partículas extras em direções opostas
-      if (zigzagPaths.length > 0) {
-        for (let i = 0; i < 2; i++) {
+      // Partículas extras em direções opostas (se ainda houver espaço)
+      if (zigzagPaths.length > 0 && particleCount < maxGoldenParticles) {
+        for (
+          let i = 0;
+          i < Math.min(2, maxGoldenParticles - particleCount);
+          i++
+        ) {
           const originalPath = zigzagPaths[i % zigzagPaths.length];
           const reversedPath = {
             ...originalPath,
@@ -231,9 +242,9 @@ const ParticleBackground = () => {
             path: reversedPath,
             currentSegment: 0,
             progress: Math.random() * 100,
-            speed: 1.68 + Math.random() * 1.12, // Aumentado em 40%
+            speed: 2.352 + Math.random() * 1.568, // Aumentado em 40%
             intensity: 0.85,
-            size: 2.2,
+            size: 1.54, // Reduzido 30%
             color: [255, 215, 0],
             isBlinking: false,
             blinkCount: 0,
@@ -253,16 +264,26 @@ const ParticleBackground = () => {
       if (!path || path.points.length < 2) return;
 
       const isZig = path.type === "zigzag";
+
+      // Se for zigzag (dourada), verifica limite de 5 partículas douradas
+      if (isZig) {
+        const goldenCount = energyPulsesRef.current.filter(
+          (p) => p.color[0] === 255 && p.color[1] === 215 && p.color[2] === 0
+        ).length;
+
+        if (goldenCount >= 5) return; // Não cria nova partícula dourada se já tem 5
+      }
+
       const newPulse = {
         id: Date.now() + Math.random(),
         path,
         currentSegment: 0,
         progress: 0,
         speed: isZig
-          ? 2.37 + Math.random() * 1.64 // Aumentado em 40% para amarelos
-          : 1.69 + Math.random() * 1.17, // Velocidade original para azuis
+          ? 3.318 + Math.random() * 2.296 // Douradas: aumentado 40% (era 2.37 + 1.64)
+          : 1.69 + Math.random() * 1.17, // Azuis: velocidade original mantida
         intensity: isZig ? 0.85 : 0.7,
-        size: isZig ? 2.4 : 1.8,
+        size: isZig ? 1.68 : 1.8, // Douradas: reduzido 30% (era 2.4) | Azuis: mantido original
         color: isZig ? [255, 215, 0] : [59, 130, 246],
         isBlinking: false,
         blinkCount: 0,
