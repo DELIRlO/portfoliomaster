@@ -252,7 +252,11 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 href={`#${item.id}`}
                 className="relative group overflow-hidden"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform ease-in-out duration-0 group-hover:duration-1000"></span>
+                {/* Efeito espelho cinza - NOVO */}
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-400/30 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform ease-in-out duration-0 group-hover:duration-800 z-20"></span>
+
+                {/* Animação original mantida */}
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform ease-in-out duration-0 group-hover:duration-1000 z-10"></span>
                 <span className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/30 opacity-0 group-hover:opacity-25 group-hover:animate-pulse-glow blur-md"></span>
                 <span className="relative z-10 flex items-center gap-2 px-3 py-2">
                   {item.icon}
@@ -609,10 +613,13 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   <button
                     key={item.id}
                     onClick={() => handleMobileMenuClick(item.id)}
-                    className="w-full text-left p-4 rounded-lg bg-card/30 hover:bg-primary/10 transition-all duration-300 group border border-transparent hover:border-primary/20"
+                    className="w-full text-left p-4 rounded-lg bg-card/30 hover:bg-primary/10 transition-all duration-300 group border border-transparent hover:border-primary/20 relative overflow-hidden"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    <div className="flex items-center space-x-4">
+                    {/* Efeito espelho cinza no menu mobile também */}
+                    <span className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-400/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform ease-in-out duration-800"></span>
+
+                    <div className="flex items-center space-x-4 relative z-10">
                       <span className="text-primary">{item.icon}</span>
                       <span className="text-lg font-medium group-hover:text-primary transition-colors duration-300">
                         {item.label}

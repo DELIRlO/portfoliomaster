@@ -1,5 +1,5 @@
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { FaWhatsapp } from "react-icons/fa";
@@ -26,6 +26,25 @@ const Contact = () => {
   });
 
   const [hoveredButton, setHoveredButton] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Detecta mudanças de tema
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsDarkMode(document.documentElement.classList.contains("dark"));
+    };
+
+    checkTheme();
+
+    // Observer para mudanças de tema
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const contactLinks = [
     {
@@ -64,7 +83,7 @@ const Contact = () => {
 
   return (
     <>
-      {/* Estilos CSS para as animações */}
+      {/* Estilos CSS para as animações - CORRIGIDO */}
       <style jsx>{`
         @keyframes textShimmer {
           0% {
@@ -174,8 +193,8 @@ const Contact = () => {
           animation: slideShine 2s ease-in-out infinite;
         }
 
-        /* Texto com gradiente animado vermelho - IGUAL AO HERO */
-        .animated-text-red {
+        /* CORRIGIDO - Texto com gradiente animado vermelho para MODO ESCURO */
+        .animated-text-red-dark {
           background: linear-gradient(
             90deg,
             #ef4444 0%,
@@ -191,7 +210,25 @@ const Contact = () => {
           animation: textShimmer 2s ease-in-out infinite;
         }
 
-        .animated-text {
+        /* CORRIGIDO - Texto com gradiente animado vermelho para MODO CLARO */
+        .animated-text-red-light {
+          background: linear-gradient(
+            90deg,
+            #dc2626 0%,
+            #1f2937 25%,
+            #dc2626 50%,
+            #1f2937 75%,
+            #dc2626 100%
+          );
+          background-size: 200% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: textShimmer 2s ease-in-out infinite;
+        }
+
+        /* CORRIGIDO - Texto animado para MODO ESCURO */
+        .animated-text-dark {
           background: linear-gradient(
             90deg,
             #ffffff 0%,
@@ -207,19 +244,51 @@ const Contact = () => {
           animation: textShimmer 3s ease-in-out infinite;
         }
 
-        /* Ícone com cor vermelha e efeito shimmer */
-        .icon-shimmer {
+        /* CORRIGIDO - Texto animado para MODO CLARO */
+        .animated-text-light {
+          background: linear-gradient(
+            90deg,
+            #1f2937 0%,
+            #4b5563 25%,
+            #1f2937 50%,
+            #4b5563 75%,
+            #1f2937 100%
+          );
+          background-size: 200% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: textShimmer 3s ease-in-out infinite;
+        }
+
+        /* CORRIGIDO - Ícone para MODO ESCURO */
+        .icon-shimmer-dark {
           filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
           transition: all 0.3s ease;
           color: #ffffff;
         }
 
-        .icon-shimmer-red {
+        /* CORRIGIDO - Ícone para MODO CLARO */
+        .icon-shimmer-light {
+          filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
+          transition: all 0.3s ease;
+          color: #1f2937;
+        }
+
+        /* CORRIGIDO - Ícone vermelho para MODO ESCURO */
+        .icon-shimmer-red-dark {
           color: #ef4444;
           filter: drop-shadow(0 0 3px rgba(239, 68, 68, 0.4));
         }
 
-        .professional-button-cv:hover .icon-shimmer {
+        /* CORRIGIDO - Ícone vermelho para MODO CLARO */
+        .icon-shimmer-red-light {
+          color: #dc2626;
+          filter: drop-shadow(0 0 3px rgba(220, 38, 38, 0.4));
+        }
+
+        .professional-button-cv:hover .icon-shimmer-dark,
+        .professional-button-cv:hover .icon-shimmer-light {
           transform: scale(1.1);
           filter: drop-shadow(0 0 4px currentColor);
         }
@@ -349,10 +418,37 @@ const Contact = () => {
                         </div>
 
                         <div className="flex gap-3 mt-6">
-                          <Button className="glow flex-1" asChild>
-                            <a href="mailto:ysneshy@gmail.com">
-                              <Mail className="mr-2 h-4 w-4" />
-                              Email
+                          {/* CORRIGIDO - Botão Email com cores corretas */}
+                          <Button
+                            className={`glow flex-1 ${
+                              isDarkMode
+                                ? "!text-black hover:!text-black"
+                                : "!text-white hover:!text-white"
+                            }`}
+                            style={{
+                              color: isDarkMode ? "#000000" : "#ffffff",
+                            }}
+                            asChild
+                          >
+                            <a
+                              href="mailto:ysneshy@gmail.com"
+                              style={{
+                                color: isDarkMode ? "#000000" : "#ffffff",
+                              }}
+                            >
+                              <Mail
+                                className="mr-2 h-4 w-4"
+                                style={{
+                                  color: isDarkMode ? "#000000" : "#ffffff",
+                                }}
+                              />
+                              <span
+                                style={{
+                                  color: isDarkMode ? "#000000" : "#ffffff",
+                                }}
+                              >
+                                Email
+                              </span>
                             </a>
                           </Button>
                           <Button
@@ -557,7 +653,7 @@ const Contact = () => {
                   >
                     <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20 h-full text-center">
                       <CardHeader className="p-0 mb-6">
-                        <CardTitle className="text-2xl gradient-text flex items-center gap-2">
+                        <CardTitle className="text-2xl gradient-text flex items-center gap-2 justify-center">
                           <FileText className="h-6 w-6 text-primary" />
                           Currículo
                         </CardTitle>
@@ -578,7 +674,7 @@ const Contact = () => {
                           Clique na imagem para visualizar em tela cheia
                         </p>
 
-                        {/* Botão Download CV com todas as animações - REDUZIDO 40% */}
+                        {/* CORRIGIDO - Botão Download CV com cores corretas para ambos os temas */}
                         <div className="relative group">
                           <Button
                             className="professional-button-cv cv-button-red relative cursor-pointer px-5 py-3 text-base font-medium z-10 w-auto mx-auto"
@@ -593,17 +689,25 @@ const Contact = () => {
                             onMouseLeave={() => setHoveredButton("")}
                           >
                             <FileDown
-                              className={`mr-2 h-4 w-4 icon-shimmer transition-all duration-300 ${
+                              className={`mr-2 h-4 w-4 transition-all duration-300 ${
                                 hoveredButton === "downloadcv"
-                                  ? "icon-shimmer-red"
-                                  : ""
+                                  ? isDarkMode
+                                    ? "icon-shimmer-red-dark"
+                                    : "icon-shimmer-red-light"
+                                  : isDarkMode
+                                  ? "icon-shimmer-dark"
+                                  : "icon-shimmer-light"
                               }`}
                             />
                             <span
                               className={
                                 hoveredButton === "downloadcv"
-                                  ? "animated-text-red"
-                                  : "animated-text"
+                                  ? isDarkMode
+                                    ? "animated-text-red-dark"
+                                    : "animated-text-red-light"
+                                  : isDarkMode
+                                  ? "animated-text-dark"
+                                  : "animated-text-light"
                               }
                             >
                               Download CV

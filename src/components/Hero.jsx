@@ -5,7 +5,7 @@ import { ArrowDown, Download, Eye, Briefcase } from "lucide-react";
 import userData from "../userData";
 import PageTransition from "./PageTransition";
 
-const Hero = ({ darkMode = true }) => {
+const Hero = () => {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: false,
@@ -13,6 +13,27 @@ const Hero = ({ darkMode = true }) => {
 
   const typewriterRef = useRef(null);
   const [hoveredButton, setHoveredButton] = useState("");
+  const [darkMode, setDarkMode] = useState(true); // Estado local para o tema
+
+  // Detecta mudanças no tema
+  useEffect(() => {
+    const updateTheme = () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      setDarkMode(isDark);
+    };
+
+    // Verifica o tema inicial
+    updateTheme();
+
+    // Observer para mudanças na classe dark
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (inView && typewriterRef.current) {
@@ -177,7 +198,7 @@ const Hero = ({ darkMode = true }) => {
             }
           }
 
-          /* Animações profissionais para os botões - REDUZIDO EM 40% */
+          /* Animações profissionais para os botões */
           @keyframes professionalGlow {
             0%,
             100% {
@@ -209,20 +230,6 @@ const Hero = ({ darkMode = true }) => {
             }
           }
 
-          @keyframes professionalGlowRed {
-            0%,
-            100% {
-              box-shadow: 0 0 3px rgba(255, 0, 0, 0.18),
-                0 0 6px rgba(255, 0, 0, 0.12), 0 0 9px rgba(255, 0, 0, 0.06),
-                inset 0 1px 0 rgba(255, 255, 255, 0.06);
-            }
-            50% {
-              box-shadow: 0 0 6px rgba(255, 0, 0, 0.3),
-                0 0 12px rgba(255, 0, 0, 0.18), 0 0 18px rgba(255, 0, 0, 0.12),
-                inset 0 1px 0 rgba(255, 255, 255, 0.12);
-            }
-          }
-
           @keyframes slideShine {
             0% {
               transform: translateX(-100%) skewX(-15deg);
@@ -245,16 +252,6 @@ const Hero = ({ darkMode = true }) => {
             50% {
               transform: scale(1.02);
             }
-            ${darkMode
-              ? ""
-              : `
-              0%, 100% {
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-              }
-              50% {
-                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
-              }
-            `}
           }
 
           @keyframes textShimmer {
@@ -275,29 +272,6 @@ const Hero = ({ darkMode = true }) => {
             transform: translateY(0);
           }
 
-          /* Estilos para MODO ESCURO (padrão) */
-          .professional-button.dark {
-            background: linear-gradient(
-              145deg,
-              rgba(255, 255, 255, 0.1),
-              rgba(255, 255, 255, 0.05)
-            );
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-          }
-
-          /* Estilos para MODO CLARO */
-          .professional-button.light {
-            background: linear-gradient(
-              145deg,
-              rgba(255, 255, 255, 0.9),
-              rgba(255, 255, 255, 0.8)
-            );
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            color: #2d2d2d;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          }
-
           .professional-button:hover {
             transform: translateY(-2px);
             animation: pulseScale 2s ease-in-out infinite;
@@ -315,68 +289,60 @@ const Hero = ({ darkMode = true }) => {
             }
           }
 
-          /* Botão Ver Projetos */
+          /* BOTÃO VER PROJETOS - Cores dinâmicas baseadas no tema atual */
           .projects-button {
             background: ${darkMode
               ? "linear-gradient(145deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05))"
-              : "linear-gradient(145deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.1))"};
+              : "linear-gradient(145deg, rgba(59, 130, 246, 0.25), rgba(37, 99, 235, 0.15))"};
             border: 1px solid
               ${darkMode
                 ? "rgba(59, 130, 246, 0.3)"
-                : "rgba(59, 130, 246, 0.4)"};
-            color: ${darkMode ? "white" : "#1e40af"};
+                : "rgba(59, 130, 246, 0.5)"};
+            color: ${darkMode ? "#ffffff" : "#1e40af"} !important;
+            box-shadow: ${darkMode
+              ? "0 2px 4px rgba(0, 0, 0, 0.1)"
+              : "0 4px 8px rgba(59, 130, 246, 0.15)"};
           }
 
           .projects-button:hover {
             animation: professionalGlow 2s ease-in-out infinite;
             background: ${darkMode
               ? "linear-gradient(145deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1))"
-              : "linear-gradient(145deg, rgba(59, 130, 246, 0.25), rgba(37, 99, 235, 0.15))"};
+              : "linear-gradient(145deg, rgba(59, 130, 246, 0.35), rgba(37, 99, 235, 0.25))"};
             border-color: ${darkMode
               ? "rgba(59, 130, 246, 0.5)"
-              : "rgba(59, 130, 246, 0.6)"};
-            color: ${darkMode ? "white" : "#1e40af"};
+              : "rgba(59, 130, 246, 0.7)"};
+            color: ${darkMode ? "#ffffff" : "#1e40af"} !important;
+            box-shadow: ${darkMode
+              ? "0 4px 8px rgba(59, 130, 246, 0.2)"
+              : "0 6px 12px rgba(59, 130, 246, 0.25)"};
           }
 
-          /* Botão Baixar CV */
+          /* BOTÃO BAIXAR CV - Cores dinâmicas baseadas no tema atual */
           .cv-button {
             background: ${darkMode
               ? "linear-gradient(145deg, rgba(34, 197, 94, 0.1), rgba(21, 128, 61, 0.05))"
-              : "linear-gradient(145deg, rgba(34, 197, 94, 0.15), rgba(21, 128, 61, 0.1))"};
+              : "linear-gradient(145deg, rgba(34, 197, 94, 0.25), rgba(21, 128, 61, 0.15))"};
             border: 1px solid
-              ${darkMode ? "rgba(34, 197, 94, 0.3)" : "rgba(34, 197, 94, 0.4)"};
-            color: ${darkMode ? "white" : "#166534"};
+              ${darkMode ? "rgba(34, 197, 94, 0.3)" : "rgba(34, 197, 94, 0.5)"};
+            color: ${darkMode ? "#ffffff" : "#166534"} !important;
+            box-shadow: ${darkMode
+              ? "0 2px 4px rgba(0, 0, 0, 0.1)"
+              : "0 4px 8px rgba(34, 197, 94, 0.15)"};
           }
 
           .cv-button:hover {
             animation: professionalGlowCV 2s ease-in-out infinite;
             background: ${darkMode
               ? "linear-gradient(145deg, rgba(34, 197, 94, 0.2), rgba(21, 128, 61, 0.1))"
-              : "linear-gradient(145deg, rgba(34, 197, 94, 0.25), rgba(21, 128, 61, 0.15))"};
+              : "linear-gradient(145deg, rgba(34, 197, 94, 0.35), rgba(21, 128, 61, 0.25))"};
             border-color: ${darkMode
               ? "rgba(34, 197, 94, 0.5)"
-              : "rgba(34, 197, 94, 0.6)"};
-            color: ${darkMode ? "white" : "#166534"};
-          }
-
-          /* Botão CV Vermelho */
-          .cv-button-red {
-            background: linear-gradient(
-              145deg,
-              rgba(255, 0, 0, 0.1),
-              rgba(200, 0, 0, 0.05)
-            );
-            border: 1px solid rgba(255, 0, 0, 0.3);
-          }
-
-          .cv-button-red:hover {
-            animation: professionalGlowRed 2s ease-in-out infinite;
-            background: linear-gradient(
-              145deg,
-              rgba(255, 0, 0, 0.2),
-              rgba(200, 0, 0, 0.1)
-            );
-            border-color: rgba(255, 0, 0, 0.5);
+              : "rgba(34, 197, 94, 0.7)"};
+            color: ${darkMode ? "#ffffff" : "#166534"} !important;
+            box-shadow: ${darkMode
+              ? "0 4px 8px rgba(34, 197, 94, 0.2)"
+              : "0 6px 12px rgba(34, 197, 94, 0.25)"};
           }
 
           /* Efeito de brilho deslizante */
@@ -403,7 +369,7 @@ const Hero = ({ darkMode = true }) => {
             animation: slideShine 2s ease-in-out infinite;
           }
 
-          /* Texto e ícones com gradiente animado - ÍCONES AGORA VISÍVEIS */
+          /* Texto e ícones com gradiente animado */
           .animated-text {
             background: ${darkMode
               ? "linear-gradient(90deg, #ffffff 0%, #e2e8f0 25%, #ffffff 50%, #e2e8f0 75%, #ffffff 100%)"
@@ -416,14 +382,9 @@ const Hero = ({ darkMode = true }) => {
           }
 
           .animated-text-blue {
-            background: linear-gradient(
-              90deg,
-              #3b82f6 0%,
-              #1d4ed8 25%,
-              #60a5fa 50%,
-              #3b82f6 75%,
-              #1e40af 100%
-            );
+            background: ${darkMode
+              ? "linear-gradient(90deg, #3b82f6 0%, #1d4ed8 25%, #60a5fa 50%, #3b82f6 75%, #1e40af 100%)"
+              : "linear-gradient(90deg, #1e40af 0%, #3b82f6 25%, #1d4ed8 50%, #3b82f6 75%, #1e40af 100%)"};
             background-size: 200% 100%;
             -webkit-background-clip: text;
             background-clip: text;
@@ -432,14 +393,9 @@ const Hero = ({ darkMode = true }) => {
           }
 
           .animated-text-green {
-            background: linear-gradient(
-              90deg,
-              #22c55e 0%,
-              #15803d 25%,
-              #4ade80 50%,
-              #22c55e 75%,
-              #166534 100%
-            );
+            background: ${darkMode
+              ? "linear-gradient(90deg, #22c55e 0%, #15803d 25%, #4ade80 50%, #22c55e 75%, #166534 100%)"
+              : "linear-gradient(90deg, #166534 0%, #22c55e 25%, #15803d 50%, #22c55e 75%, #166534 100%)"};
             background-size: 200% 100%;
             -webkit-background-clip: text;
             background-clip: text;
@@ -451,17 +407,27 @@ const Hero = ({ darkMode = true }) => {
           .icon-shimmer {
             filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
             transition: all 0.3s ease;
-            color: ${darkMode ? "white" : "#3b82f6"};
+            color: ${darkMode ? "#ffffff" : "#3b82f6"} !important;
           }
 
           .icon-shimmer-blue {
-            color: #60a5fa;
-            filter: drop-shadow(0 0 3px rgba(96, 165, 250, 0.4));
+            color: ${darkMode ? "#60a5fa" : "#1e40af"} !important;
+            filter: drop-shadow(
+              0 0 3px
+                ${darkMode
+                  ? "rgba(96, 165, 250, 0.4)"
+                  : "rgba(30, 64, 175, 0.4)"}
+            );
           }
 
           .icon-shimmer-green {
-            color: #4ade80;
-            filter: drop-shadow(0 0 3px rgba(74, 222, 128, 0.4));
+            color: ${darkMode ? "#4ade80" : "#166534"} !important;
+            filter: drop-shadow(
+              0 0 3px
+                ${darkMode
+                  ? "rgba(74, 222, 128, 0.4)"
+                  : "rgba(22, 101, 52, 0.4)"}
+            );
           }
 
           .professional-button:hover .icon-shimmer {
@@ -469,7 +435,7 @@ const Hero = ({ darkMode = true }) => {
             filter: drop-shadow(0 0 4px currentColor);
           }
 
-          /* Partículas flutuantes - AUMENTADO EM 40% */
+          /* Partículas flutuantes */
           .floating-particles {
             position: absolute;
             width: 100%;
@@ -488,11 +454,15 @@ const Hero = ({ darkMode = true }) => {
           }
 
           .particle.blue {
-            background: rgba(59, 130, 246, 0.8);
+            background: ${darkMode
+              ? "rgba(59, 130, 246, 0.8)"
+              : "rgba(30, 64, 175, 0.8)"};
           }
 
           .particle.green {
-            background: rgba(34, 197, 94, 0.8);
+            background: ${darkMode
+              ? "rgba(34, 197, 94, 0.8)"
+              : "rgba(22, 101, 52, 0.8)"};
           }
 
           @keyframes floatUp {
@@ -607,44 +577,44 @@ const Hero = ({ darkMode = true }) => {
           /* Responsividade específica para o círculo CF */
           @media (max-width: 768px) {
             .hero-circle {
-              width: 5rem !important; /* 80px */
-              height: 5rem !important; /* 80px */
+              width: 5rem !important;
+              height: 5rem !important;
               margin-bottom: 1rem !important;
             }
 
             .hero-circle-text {
-              font-size: 1.5rem !important; /* 24px */
+              font-size: 1.5rem !important;
             }
           }
 
           @media (max-width: 640px) {
             .hero-circle {
-              width: 4rem !important; /* 64px */
-              height: 4rem !important; /* 64px */
+              width: 4rem !important;
+              height: 4rem !important;
               margin-bottom: 0.75rem !important;
             }
 
             .hero-circle-text {
-              font-size: 1.25rem !important; /* 20px */
+              font-size: 1.25rem !important;
             }
           }
 
           /* Responsividade para títulos */
           @media (max-width: 768px) {
             .hero-main-title {
-              font-size: 2rem !important; /* 32px */
+              font-size: 2rem !important;
               line-height: 2.5rem !important;
               margin-bottom: 0.75rem !important;
             }
 
             .hero-typewriter {
-              font-size: 1.125rem !important; /* 18px */
+              font-size: 1.125rem !important;
               line-height: 1.5rem !important;
               min-height: 1.5rem !important;
             }
 
             .hero-description {
-              font-size: 0.875rem !important; /* 14px */
+              font-size: 0.875rem !important;
               line-height: 1.25rem !important;
               margin-bottom: 1.5rem !important;
             }
@@ -652,16 +622,16 @@ const Hero = ({ darkMode = true }) => {
 
           @media (max-width: 640px) {
             .hero-main-title {
-              font-size: 1.75rem !important; /* 28px */
+              font-size: 1.75rem !important;
               line-height: 2rem !important;
             }
 
             .hero-typewriter {
-              font-size: 1rem !important; /* 16px */
+              font-size: 1rem !important;
             }
 
             .hero-description {
-              font-size: 0.8rem !important; /* ~13px */
+              font-size: 0.8rem !important;
               padding: 0 0.5rem !important;
             }
           }
@@ -693,7 +663,6 @@ const Hero = ({ darkMode = true }) => {
               </div>
             </div>
 
-            {/* Título principal com efeito nas letras */}
             <h1 className="hero-main-title text-2xl md:text-4xl lg:text-6xl font-bold mb-2 md:mb-4">
               {createLetterEffect("Olá, eu sou ")}
               <span className="gradient-text">
@@ -712,15 +681,12 @@ const Hero = ({ darkMode = true }) => {
               {userData.about}
             </p>
 
-            {/* Botões com animações profissionais */}
             <div className="hero-buttons-container flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center mb-8 md:mb-12">
               {/* Botão Ver Projetos */}
               <div className="relative group w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className={`professional-button ${
-                    darkMode ? "dark" : "light"
-                  } projects-button w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold relative z-10`}
+                  className="professional-button projects-button w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold relative z-10"
                   asChild
                   onMouseEnter={() => setHoveredButton("projects")}
                   onMouseLeave={() => setHoveredButton("")}
@@ -746,7 +712,6 @@ const Hero = ({ darkMode = true }) => {
                   </a>
                 </Button>
 
-                {/* Partículas flutuantes - AUMENTADO PARA 8 (40% mais que 6) */}
                 {hoveredButton === "projects" && (
                   <div className="floating-particles">
                     {[...Array(8)].map((_, i) => (
@@ -762,13 +727,13 @@ const Hero = ({ darkMode = true }) => {
                   </div>
                 )}
 
-                {/* Linha brilhante */}
-                <div className="glow-line" style={{ color: "#3b82f6" }}></div>
-
-                {/* Borda animada */}
+                <div
+                  className="glow-line"
+                  style={{ color: darkMode ? "#3b82f6" : "#1e40af" }}
+                ></div>
                 <div
                   className="animated-border"
-                  style={{ color: "#3b82f6" }}
+                  style={{ color: darkMode ? "#3b82f6" : "#1e40af" }}
                 ></div>
               </div>
 
@@ -776,9 +741,7 @@ const Hero = ({ darkMode = true }) => {
               <div className="relative group w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className={`professional-button ${
-                    darkMode ? "dark" : "light"
-                  } cv-button w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold relative z-10`}
+                  className="professional-button cv-button w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-semibold relative z-10"
                   asChild
                   onMouseEnter={() => setHoveredButton("cv")}
                   onMouseLeave={() => setHoveredButton("")}
@@ -804,7 +767,6 @@ const Hero = ({ darkMode = true }) => {
                   </a>
                 </Button>
 
-                {/* Partículas flutuantes - AUMENTADO PARA 8 (40% mais que 6) */}
                 {hoveredButton === "cv" && (
                   <div className="floating-particles">
                     {[...Array(8)].map((_, i) => (
@@ -820,13 +782,13 @@ const Hero = ({ darkMode = true }) => {
                   </div>
                 )}
 
-                {/* Linha brilhante */}
-                <div className="glow-line" style={{ color: "#22c55e" }}></div>
-
-                {/* Borda animada */}
+                <div
+                  className="glow-line"
+                  style={{ color: darkMode ? "#22c55e" : "#166534" }}
+                ></div>
                 <div
                   className="animated-border"
-                  style={{ color: "#22c55e" }}
+                  style={{ color: darkMode ? "#22c55e" : "#166534" }}
                 ></div>
               </div>
             </div>
