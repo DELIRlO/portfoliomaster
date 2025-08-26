@@ -38,6 +38,166 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
     }
   };
 
+  const ReflectiveText = ({ text, darkMode }) => {
+    const letters = text.split("");
+
+    return (
+      <>
+        <style>{`
+          @keyframes cascadeReflection {
+            0% { 
+              background-position: -400% -400%;
+              opacity: 0.8;
+            }
+            50% { 
+              background-position: 0% 0%;
+              opacity: 1;
+            }
+            100% { 
+              background-position: 400% 400%;
+              opacity: 0.8;
+            }
+          }
+
+          @keyframes letterGlow {
+            0%, 100% { 
+              text-shadow: 
+                0 0 3px rgba(255, 255, 255, 0.4),
+                0 0 8px rgba(229, 231, 235, 0.3);
+              transform: scale(1) translateY(0px) skewX(0deg);
+            }
+            50% { 
+              text-shadow: 
+                0 0 8px rgba(255, 255, 255, 0.7),
+                0 0 15px rgba(229, 231, 235, 0.5);
+              transform: scale(1.03) translateY(-1px) skewX(-2deg);
+            }
+          }
+
+          @keyframes sparkleEffect {
+            0%, 100% { 
+              opacity: 0;
+              transform: scale(0) rotate(0deg);
+            }
+            50% { 
+              opacity: 0.9;
+              transform: scale(1) rotate(45deg);
+            }
+          }
+
+          .reflective-letter {
+            display: inline-block;
+            position: relative;
+            background: linear-gradient(
+              135deg,
+              ${darkMode ? "#1b1b1b" : "#4a4a4a"} 0%,  
+              ${darkMode ? "#252525" : "#5a5a5a"} 15%,  
+              ${darkMode ? "#353535" : "#6a6a6a"} 25%,  
+              ${darkMode ? "#555555" : "#7a7a7a"} 35%,  
+              ${darkMode ? "#7a7a7a" : "#8a8a8a"} 42%,  
+              ${darkMode ? "#999999" : "#aaaaaa"} 46%,  
+              ${darkMode ? "#ffffff" : "#1a1a1a"} 50%,  
+              ${darkMode ? "#999999" : "#aaaaaa"} 54%,  
+              ${darkMode ? "#7a7a7a" : "#8a8a8a"} 58%,  
+              ${darkMode ? "#555555" : "#7a7a7a"} 65%,  
+              ${darkMode ? "#353535" : "#6a6a6a"} 75%,  
+              ${darkMode ? "#252525" : "#5a5a5a"} 85%,  
+              ${darkMode ? "#1b1b1b" : "#4a4a4a"} 100%  
+            );
+            background-size: 400% 400%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: cascadeReflection 15s ease-in-out infinite;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+
+          .sparkle {
+            animation: sparkleEffect 12s ease-in-out infinite;
+          }
+
+          .reflective-letter:nth-child(1) { animation-delay: 0s; }
+          .reflective-letter:nth-child(2) { animation-delay: 0.4s; }
+          .reflective-letter:nth-child(3) { animation-delay: 0.8s; }
+          .reflective-letter:nth-child(4) { animation-delay: 1.2s; }
+          .reflective-letter:nth-child(5) { animation-delay: 1s; }
+          .reflective-letter:nth-child(6) { animation-delay: 1.25s; }
+          .reflective-letter:nth-child(7) { animation-delay: 1.5s; }
+          .reflective-letter:nth-child(8) { animation-delay: 1.75s; }
+
+          .reflective-letter:hover {
+            animation: letterGlow 0.8s ease-in-out infinite alternate;
+            cursor: default;
+            transform: translateY(-2px) scale(1.05) skewX(-3deg);
+          }
+
+          .sparkle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(
+              circle, 
+              ${darkMode ? "#ffffff" : "#2a2a2a"} 0%, 
+              ${darkMode ? "#f3f4f6" : "#4a4a4a"} 30%, 
+              transparent 70%
+            );
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkleEffect 8.75s ease-in-out infinite;
+          }
+
+          .sparkle:nth-child(1) { 
+            top: 8%; left: 15%; 
+            animation-delay: 0.5s; 
+          }
+          .sparkle:nth-child(2) { 
+            top: 25%; right: 25%; 
+            animation-delay: 2.75s; 
+          }
+          .sparkle:nth-child(3) { 
+            bottom: 12%; left: 55%; 
+            animation-delay: 5.75s; 
+          }
+          .sparkle:nth-child(4) { 
+            top: 55%; right: 40%; 
+            animation-delay: 8.5s;
+          }
+
+          @supports not (-webkit-background-clip: text) {
+            .reflective-letter {
+              background: none;
+              color: ${darkMode ? "#ffffff" : "#1a1a1a"};
+              text-shadow: 
+                0 0 3px ${
+                  darkMode
+                    ? "rgba(255, 255, 255, 0.5)"
+                    : "rgba(26, 26, 26, 0.5)"
+                },
+                0 0 8px ${
+                  darkMode
+                    ? "rgba(229, 231, 235, 0.3)"
+                    : "rgba(74, 74, 74, 0.3)"
+                };
+            }
+          }
+        `}</style>
+
+        <div className="relative inline-block">
+          {letters.map((letter, index) => (
+            <span key={index} className="reflective-letter">
+              {letter}
+            </span>
+          ))}
+
+          <div className="sparkle"></div>
+          <div className="sparkle"></div>
+          <div className="sparkle"></div>
+          <div className="sparkle"></div>
+        </div>
+      </>
+    );
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -51,168 +211,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
           <div className="flex items-center space-x-4">
             <div className="relative group p-2">
               <h1 className="text-xl font-bold relative overflow-hidden">
-                {(() => {
-                  const ReflectiveText = ({ text }) => {
-                    const letters = text.split("");
-
-                    return (
-                      <>
-                        <style>{`
-                          @keyframes cascadeReflection {
-                            0% { 
-                              background-position: -400% -400%;
-                              opacity: 0.8;
-                            }
-                            50% { 
-                              background-position: 0% 0%;
-                              opacity: 1;
-                            }
-                            100% { 
-                              background-position: 400% 400%;
-                              opacity: 0.8;
-                            }
-                          }
-
-                          @keyframes letterGlow {
-                            0%, 100% { 
-                              text-shadow: 
-                                0 0 3px rgba(255, 255, 255, 0.4),
-                                0 0 8px rgba(229, 231, 235, 0.3);
-                              transform: scale(1) translateY(0px) skewX(0deg);
-                            }
-                            50% { 
-                              text-shadow: 
-                                0 0 8px rgba(255, 255, 255, 0.7),
-                                0 0 15px rgba(229, 231, 235, 0.5);
-                              transform: scale(1.03) translateY(-1px) skewX(-2deg);
-                            }
-                          }
-
-                          @keyframes sparkleEffect {
-                            0%, 100% { 
-                              opacity: 0;
-                              transform: scale(0) rotate(0deg);
-                            }
-                            50% { 
-                              opacity: 0.9;
-                              transform: scale(1) rotate(45deg);
-                            }
-                          }
-
-                          .reflective-letter {
-                            display: inline-block;
-                            position: relative;
-                            background: linear-gradient(
-                              135deg,
-                              ${darkMode ? "#1b1b1b" : "#4a4a4a"} 0%,  
-                              ${darkMode ? "#252525" : "#5a5a5a"} 15%,  
-                              ${darkMode ? "#353535" : "#6a6a6a"} 25%,  
-                              ${darkMode ? "#555555" : "#7a7a7a"} 35%,  
-                              ${darkMode ? "#7a7a7a" : "#8a8a8a"} 42%,  
-                              ${darkMode ? "#999999" : "#aaaaaa"} 46%,  
-                              ${darkMode ? "#ffffff" : "#1a1a1a"} 50%,  
-                              ${darkMode ? "#999999" : "#aaaaaa"} 54%,  
-                              ${darkMode ? "#7a7a7a" : "#8a8a8a"} 58%,  
-                              ${darkMode ? "#555555" : "#7a7a7a"} 65%,  
-                              ${darkMode ? "#353535" : "#6a6a6a"} 75%,  
-                              ${darkMode ? "#252525" : "#5a5a5a"} 85%,  
-                              ${darkMode ? "#1b1b1b" : "#4a4a4a"} 100%  
-                            );
-                            background-size: 400% 400%;
-                            background-clip: text;
-                            -webkit-background-clip: text;
-                            color: transparent;
-                            animation: cascadeReflection 15s ease-in-out infinite;
-                            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                          }
-
-                          .sparkle {
-                            animation: sparkleEffect 12s ease-in-out infinite;
-                          }
-
-                          .reflective-letter:nth-child(1) { animation-delay: 0s; }
-                          .reflective-letter:nth-child(2) { animation-delay: 0.4s; }
-                          .reflective-letter:nth-child(3) { animation-delay: 0.8s; }
-                          .reflective-letter:nth-child(4) { animation-delay: 1.2s; }
-                          .reflective-letter:nth-child(5) { animation-delay: 1s; }
-                          .reflective-letter:nth-child(6) { animation-delay: 1.25s; }
-                          .reflective-letter:nth-child(7) { animation-delay: 1.5s; }
-                          .reflective-letter:nth-child(8) { animation-delay: 1.75s; }
-
-                          .reflective-letter:hover {
-                            animation: letterGlow 0.8s ease-in-out infinite alternate;
-                            cursor: default;
-                            transform: translateY(-2px) scale(1.05) skewX(-3deg);
-                          }
-
-                          .sparkle {
-                            position: absolute;
-                            width: 3px;
-                            height: 3px;
-                            background: radial-gradient(
-                              circle, 
-                              ${darkMode ? "#ffffff" : "#2a2a2a"} 0%, 
-                              ${darkMode ? "#f3f4f6" : "#4a4a4a"} 30%, 
-                              transparent 70%
-                            );
-                            border-radius: 50%;
-                            pointer-events: none;
-                            animation: sparkleEffect 8.75s ease-in-out infinite;
-                          }
-
-                          .sparkle:nth-child(1) { 
-                            top: 8%; left: 15%; 
-                            animation-delay: 0.5s; 
-                          }
-                          .sparkle:nth-child(2) { 
-                            top: 25%; right: 25%; 
-                            animation-delay: 2.75s; 
-                          }
-                          .sparkle:nth-child(3) { 
-                            bottom: 12%; left: 55%; 
-                            animation-delay: 5.75s; 
-                          }
-                          .sparkle:nth-child(4) { 
-                            top: 55%; right: 40%; 
-                            animation-delay: 8.5s;
-                          }
-
-                          @supports not (-webkit-background-clip: text) {
-                            .reflective-letter {
-                              background: none;
-                              color: ${darkMode ? "#ffffff" : "#1a1a1a"};
-                              text-shadow: 
-                                0 0 3px ${
-                                  darkMode
-                                    ? "rgba(255, 255, 255, 0.5)"
-                                    : "rgba(26, 26, 26, 0.5)"
-                                },
-                                0 0 8px ${
-                                  darkMode
-                                    ? "rgba(229, 231, 235, 0.3)"
-                                    : "rgba(74, 74, 74, 0.3)"
-                                };
-                            }
-                          }
-                        `}</style>
-
-                        <div className="relative inline-block">
-                          {letters.map((letter, index) => (
-                            <span key={index} className="reflective-letter">
-                              {letter}
-                            </span>
-                          ))}
-
-                          <div className="sparkle"></div>
-                          <div className="sparkle"></div>
-                          <div className="sparkle"></div>
-                          <div className="sparkle"></div>
-                        </div>
-                      </>
-                    );
-                  };
-                  return <ReflectiveText text="NeshDev" />;
-                })()}
+                <ReflectiveText text="NeshDev" darkMode={darkMode} />
               </h1>
             </div>
           </div>
