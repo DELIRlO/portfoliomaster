@@ -21,15 +21,34 @@ const Projects = () => {
   });
 
   const getTechColor = (tech) => {
+    const isDarkMode = document.documentElement.classList.contains("dark");
+
     const colors = {
-      JavaScript: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
-      Python: "bg-blue-500/20 text-blue-300 border-blue-500/30",
-      React: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
-      HTML: "bg-orange-500/20 text-orange-300 border-orange-500/30",
-      CSS: "bg-blue-600/20 text-blue-400 border-blue-600/30",
-      TypeScript: "bg-blue-700/20 text-blue-400 border-blue-700/30",
+      JavaScript: isDarkMode
+        ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
+        : "bg-yellow-500/20 text-yellow-700 border-yellow-500/30",
+      Python: isDarkMode
+        ? "bg-blue-500/20 text-blue-300 border-blue-500/30"
+        : "bg-blue-500/20 text-blue-700 border-blue-500/30",
+      React: isDarkMode
+        ? "bg-cyan-500/20 text-cyan-300 border-cyan-500/30"
+        : "bg-cyan-500/20 text-cyan-600 border-cyan-500/30",
+      HTML: isDarkMode
+        ? "bg-orange-500/20 text-orange-300 border-orange-500/30"
+        : "bg-orange-500/20 text-orange-700 border-orange-500/30",
+      CSS: isDarkMode
+        ? "bg-blue-600/20 text-blue-400 border-blue-600/30"
+        : "bg-blue-600/20 text-blue-600 border-blue-600/30",
+      TypeScript: isDarkMode
+        ? "bg-blue-700/20 text-blue-400 border-blue-700/30"
+        : "bg-blue-700/20 text-blue-700 border-blue-700/30",
     };
-    return colors[tech] || "bg-primary/20 text-primary border-primary/30";
+    return (
+      colors[tech] ||
+      (isDarkMode
+        ? "bg-primary/20 text-primary border-primary/30"
+        : "bg-primary/20 text-primary-foreground border-primary/30")
+    );
   };
 
   // Função para obter a imagem do projeto

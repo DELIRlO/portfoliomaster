@@ -36,14 +36,16 @@ const ParticleBackground = () => {
           solder: "rgba(59, 130, 246, 0.25)",
           particleBlue: [59, 130, 246], // Azul para partículas normais
           particleGold: [255, 215, 0], // Dourado para partículas especiais
+          trailOpacity: 0.3, // Opacidade da trilha no modo escuro
         };
       } else {
         return {
           background: "#ffffff",
-          circuit: "rgba(59, 130, 246, 0.08)",
-          solder: "rgba(59, 130, 246, 0.12)",
-          particleBlue: [59, 130, 246], // Azul para partículas normais
-          particleGold: [255, 215, 0], // Dourado para partículas especiais
+          circuit: "rgba(0, 0, 0, 0.15)", // Circuito mais escuro no modo claro
+          solder: "rgba(0, 0, 0, 0.25)", // Solda mais escura no modo claro
+          particleBlue: [30, 64, 175], // Azul mais escuro para melhor contraste
+          particleGold: [180, 83, 9], // Dourado mais escuro (âmbar)
+          trailOpacity: 0.5, // Maior opacidade para trilhas no modo claro
         };
       }
     };
@@ -59,7 +61,7 @@ const ParticleBackground = () => {
 
       // Cores do circuito
       ctx.strokeStyle = colors.circuit;
-      ctx.lineWidth = 0.5;
+      ctx.lineWidth = 1.0; // Linha um pouco mais grossa no modo claro
       ctx.lineCap = "round";
 
       // Linhas horizontais principais
@@ -119,7 +121,7 @@ const ParticleBackground = () => {
           const x = gridX(i);
           const y = gridY(j);
           ctx.beginPath();
-          ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+          ctx.arc(x, y, 2.0, 0, Math.PI * 2); // Pontos de solda maiores
           ctx.fill();
         }
       }
@@ -236,7 +238,7 @@ const ParticleBackground = () => {
           progress: Math.random() * 100,
           speed: isGold ? 2.5 + Math.random() * 1.5 : 2.0 + Math.random() * 1.5,
           intensity: isGold ? 0.9 : 0.8,
-          size: isGold ? 1.8 : 1.6,
+          size: isGold ? 2.0 : 1.8, // Partículas ligeiramente maiores
           isGold: isGold, // Marca se é partícula dourada
           isBlinking: false,
           blinkCount: 0,
@@ -268,7 +270,7 @@ const ParticleBackground = () => {
         progress: 0,
         speed: isGold ? 2.5 + Math.random() * 1.5 : 1.7 + Math.random() * 1.2,
         intensity: isGold ? 0.9 : 0.7,
-        size: isGold ? 1.8 : 1.8,
+        size: isGold ? 2.0 : 1.8,
         isGold: isGold,
         isBlinking: false,
         blinkCount: 0,
@@ -378,19 +380,20 @@ const ParticleBackground = () => {
         const x = A.x + (B.x - A.x) * t;
         const y = A.y + (B.y - A.y) * t;
 
-        // Trilha
-        const trailLen = 4;
+        // Trilha - usando a opacidade específica do tema
+        const trailLen = 6; // Trilha mais longa
         for (let i = 0; i < trailLen; i++) {
-          const tp = Math.max(0, t - i * 0.15);
+          const tp = Math.max(0, t - i * 0.12); // Ajuste para trilha mais suave
           const tx = A.x + (B.x - A.x) * tp;
           const ty = A.y + (B.y - A.y) * tp;
-          const alpha = (1 - i / trailLen) * pulse.intensity * 0.3;
+          const alpha =
+            (1 - i / trailLen) * pulse.intensity * colors.trailOpacity;
           ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
           ctx.beginPath();
           ctx.arc(
             tx,
             ty,
-            pulse.size * (1 - (i / trailLen) * 0.3),
+            pulse.size * (1.2 - (i / trailLen) * 0.4), // Trilha ligeiramente mais larga
             0,
             Math.PI * 2
           );
@@ -421,9 +424,9 @@ const ParticleBackground = () => {
         ctx.fill();
 
         // Núcleo
-        ctx.fillStyle = `rgba(255,255,255,${pulse.intensity * 0.6})`;
+        ctx.fillStyle = `rgba(255,255,255,${pulse.intensity * 0.8})`; // Núcleo mais brilhante
         ctx.beginPath();
-        ctx.arc(x, y, pulse.size * 0.5, 0, Math.PI * 2);
+        ctx.arc(x, y, pulse.size * 0.6, 0, Math.PI * 2); // Núcleo ligeiramente maior
         ctx.fill();
 
         // Progresso

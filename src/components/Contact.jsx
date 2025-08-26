@@ -564,12 +564,12 @@ const Contact = () => {
                       </CardHeader>
                       <CardContent className="p-0">
                         <img
-                          src="https://i.ibb.co/tpFVDK8g/CARLOSAUGUSTOFILHO2025.png"
+                          src="https://i.ibb.co/MxKmZVQR/CARLOSAUGUSTOFILHO2025.png"
                           alt="Currículo"
                           className="rounded-lg shadow-md cursor-pointer mb-4 hover:scale-105 transition-transform"
                           onClick={() =>
                             window.open(
-                              "https://i.ibb.co/tpFVDK8g/CARLOSAUGUSTOFILHO2025.png",
+                              "https://i.ibb.co/MxKmZVQR/CARLOSAUGUSTOFILHO2025.png",
                               "_blank"
                             )
                           }
