@@ -7,12 +7,42 @@ import {
   Clock,
   Github,
   Linkedin,
-  Instagram,
   Heart,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useInView } from "react-intersection-observer";
 import PageTransition from "./PageTransition";
+
+/* ===================== */
+/* 🔥 Animações do Footer */
+/* ===================== */
+import "../index.css"; // certifique-se que contém as animações abaixo:
+
+/*
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.4; transform: translateY(1px); }
+  50% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heartBeat {
+  0%, 100% {
+    transform: scale(1);
+    color: #7f1d1d;
+  }
+  50% {
+    transform: scale(1.05);
+    color: #ef4444;
+  }
+}
+
+.animate-fade-in-out {
+  animation: fadeInOut 4s ease-in-out infinite;
+}
+
+.animate-heart-beat {
+  animation: heartBeat 4s ease-in-out infinite;
+}
+*/
 
 const Footer = ({ gaId = "G-KRH5SVFBEB", updateInterval = 300000 }) => {
   const { ref, inView } = useInView({
@@ -21,7 +51,6 @@ const Footer = ({ gaId = "G-KRH5SVFBEB", updateInterval = 300000 }) => {
   });
   const [hoveredIcon, setHoveredIcon] = useState("");
 
-  // Estado dos dados do Analytics
   const [analyticsData, setAnalyticsData] = useState({
     pageViews: null,
     users: null,
@@ -30,10 +59,9 @@ const Footer = ({ gaId = "G-KRH5SVFBEB", updateInterval = 300000 }) => {
     error: null,
   });
 
-  // Função para buscar dados do Analytics
   const fetchAnalyticsData = useCallback(async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simula latência da API
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const newData = {
         pageViews: Math.floor(Math.random() * 5000) + 1000,
@@ -45,7 +73,6 @@ const Footer = ({ gaId = "G-KRH5SVFBEB", updateInterval = 300000 }) => {
 
       setAnalyticsData(newData);
 
-      // Envia evento para o GA4
       if (window.gtag) {
         ReactGA.event({
           category: "Analytics",
@@ -69,7 +96,7 @@ const Footer = ({ gaId = "G-KRH5SVFBEB", updateInterval = 300000 }) => {
       window.location.hostname === "127.0.0.1" ||
       window.location.hostname === "" ||
       window.location.port === "3000" ||
-      window.location.port === "5173"; // Vite default port
+      window.location.port === "5173";
 
     if (!window.gtag) {
       ReactGA.initialize(gaId, {
@@ -144,12 +171,12 @@ const Footer = ({ gaId = "G-KRH5SVFBEB", updateInterval = 300000 }) => {
       <footer className="py-8 border-t border-border bg-card/30" ref={ref}>
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8">
-            {/* Copyright */}
+            {/* Copyright + Animações */}
             <div className="flex-shrink-0 order-1">
-              <p className="text-muted-foreground text-center lg:text-left text-sm animate-pulse-gray">
+              <p className="text-muted-foreground text-center lg:text-left text-sm animate-fade-in-out">
                 © 2025 Carlos Filho. Feito com{" "}
-                <Heart className="inline h-4 w-4 mx-1 animate-pulse-red" />
-                React - tailwind
+                <Heart className="inline h-4 w-4 mx-1 animate-heart-beat" />
+                React - Tailwind
               </p>
             </div>
 
@@ -249,10 +276,9 @@ const Footer = ({ gaId = "G-KRH5SVFBEB", updateInterval = 300000 }) => {
                         x2="100%"
                         y2="100%"
                       >
-                        <stop offset="0%" stopColor="#f472b6" /> {/* rosa */}
-                        <stop offset="50%" stopColor="#8b5cf6" /> {/* roxo */}
-                        <stop offset="100%" stopColor="#f59e0b" />{" "}
-                        {/* laranja */}
+                        <stop offset="0%" stopColor="#f472b6" />
+                        <stop offset="50%" stopColor="#8b5cf6" />
+                        <stop offset="100%" stopColor="#f59e0b" />
                       </linearGradient>
                     </defs>
                     <rect
@@ -293,7 +319,6 @@ const Footer = ({ gaId = "G-KRH5SVFBEB", updateInterval = 300000 }) => {
                       }
                     />
                   </svg>
-
                   <span
                     className={`absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-pink-400 via-purple-500 to-yellow-400 group-hover:w-full transition-all duration-300 ${
                       hoveredIcon === "instagram" ? "w-full" : ""

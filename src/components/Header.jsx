@@ -621,7 +621,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 variant="ghost"
                 size="icon"
                 asChild
-                className="relative group"
+                className="relative group social-icon"
                 onMouseEnter={() => setHoveredIcon("github")}
                 onMouseLeave={() => setHoveredIcon("")}
               >
@@ -633,12 +633,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   <Github
                     className={`h-4 w-4 transition-colors duration-300 ${
                       hoveredIcon === "github"
-                        ? "text-purple-600"
+                        ? "text-purple-500"
                         : "text-foreground/90"
                     }`}
                   />
                   <span
-                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-purple-600 group-hover:w-full transition-all duration-300 rounded-full ${
+                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-purple-500 group-hover:w-full transition-all duration-300 rounded-full ${
                       hoveredIcon === "github" ? "w-full" : ""
                     }`}
                   ></span>
@@ -648,7 +648,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 variant="ghost"
                 size="icon"
                 asChild
-                className="relative group"
+                className="relative group social-icon"
                 onMouseEnter={() => setHoveredIcon("linkedin")}
                 onMouseLeave={() => setHoveredIcon("")}
               >
@@ -660,12 +660,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   <Linkedin
                     className={`h-4 w-4 transition-colors duration-300 ${
                       hoveredIcon === "linkedin"
-                        ? "text-blue-600"
+                        ? "text-purple-500"
                         : "text-foreground/90"
                     }`}
                   />
                   <span
-                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300 rounded-full ${
+                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-purple-500 group-hover:w-full transition-all duration-300 rounded-full ${
                       hoveredIcon === "linkedin" ? "w-full" : ""
                     }`}
                   ></span>
@@ -675,7 +675,7 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                 variant="ghost"
                 size="icon"
                 asChild
-                className="relative group"
+                className="relative group social-icon"
                 onMouseEnter={() => setHoveredIcon("instagram")}
                 onMouseLeave={() => setHoveredIcon("")}
               >
@@ -687,12 +687,12 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
                   <Instagram
                     className={`h-4 w-4 transition-colors duration-300 ${
                       hoveredIcon === "instagram"
-                        ? "text-pink-500"
+                        ? "text-purple-500"
                         : "text-foreground/90"
                     }`}
                   />
                   <span
-                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-pink-500 to-yellow-500 group-hover:w-full transition-all duration-300 rounded-full ${
+                    className={`absolute bottom-0 left-0 h-[2px] w-0 bg-purple-500 group-hover:w-full transition-all duration-300 rounded-full ${
                       hoveredIcon === "instagram" ? "w-full" : ""
                     }`}
                   ></span>
@@ -829,6 +829,32 @@ const Header = ({ darkMode, toggleDarkMode, musicPlaying, toggleMusic }) => {
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        /* Estilos para garantir que a animação funcione corretamente */
+        .social-icon {
+          position: relative;
+          overflow: visible !important;
+        }
+
+        .social-icon a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        }
+
+        .social-icon span:last-child {
+          z-index: 10;
+        }
+
+        /* Ajuste para garantir que o SVG mude de cor corretamente */
+        .social-icon svg {
+          transition: color 0.3s ease, fill 0.3s ease;
+          position: relative;
+          z-index: 5;
+        }
+      `}</style>
     </header>
   );
 };
