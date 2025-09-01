@@ -1,33 +1,47 @@
-import { useState, useEffect } from 'react';
+// src/hooks/useTheme.js
+import { useState, useEffect } from "react";
 
 const useTheme = () => {
-  const [darkMode, setDarkMode] = useState(() => {
-    // Check localStorage first, then system preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      return savedTheme === 'dark';
-    }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+  // 🎯 MUDANÇA PRINCIPAL: Inicializa sempre como TRUE (dark mode)
+  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
-    // Apply theme to document
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
+    // 🎯 FORÇA DARK MODE NA INICIALIZAÇÃO
+    // Verifica se existe preferência salva, senão usa dark como padrão
+    const savedTheme = localStorage.getItem("darkMode");
+    const prefersDark = savedTheme ? JSON.parse(savedTheme) : true; // 👈 Padrão TRUE
+
+    setDarkMode(prefersDark);
+
+    // Aplica o tema imediatamente no DOM
+    if (prefersDark) {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
     }
-    
-    // Save to localStorage
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+  }, []);
+
+  // Aplica mudanças quando darkMode muda
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+    }
+
+    // Salva a preferência
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
 
   const toggleTheme = () => {
-    setDarkMode(!darkMode);
+    setDarkMode((prev) => !prev);
   };
 
   return { darkMode, toggleTheme };
 };
 
 export default useTheme;
-
