@@ -319,101 +319,6 @@ const GitHubProjects = () => {
         .professional-button-repos:hover .animated-border-repos {
           opacity: 0.5;
         }
-
-        /* CORREÇÃO DOS BOTÕES DEMO - FORÇANDO VISIBILIDADE DO TEXTO */
-        .demo-button {
-          background: linear-gradient(
-            135deg,
-            rgba(59, 130, 246, 0.9) 0%,
-            rgba(37, 99, 235, 0.95) 100%
-          ) !important;
-          color: #ffffff !important;
-          border: 1px solid rgba(59, 130, 246, 0.3) !important;
-          transition: all 0.3s ease !important;
-          font-weight: 500 !important;
-        }
-
-        .demo-button:hover {
-          background: linear-gradient(
-            135deg,
-            rgba(59, 130, 246, 1) 0%,
-            rgba(37, 99, 235, 1) 100%
-          ) !important;
-          color: #ffffff !important;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
-        }
-
-        .demo-button span,
-        .demo-button .lucide {
-          color: #ffffff !important;
-          opacity: 1 !important;
-        }
-
-        /* Forçar visibilidade no modo claro */
-        :not(.dark) .demo-button {
-          background: linear-gradient(
-            135deg,
-            rgba(37, 99, 235, 0.9) 0%,
-            rgba(29, 78, 216, 0.95) 100%
-          ) !important;
-          color: #ffffff !important;
-        }
-
-        :not(.dark) .demo-button:hover {
-          background: linear-gradient(
-            135deg,
-            rgba(37, 99, 235, 1) 0%,
-            rgba(29, 78, 216, 1) 100%
-          ) !important;
-          color: #ffffff !important;
-        }
-
-        /* Forçar visibilidade no modo escuro */
-        .dark .demo-button {
-          background: linear-gradient(
-            135deg,
-            rgba(59, 130, 246, 0.9) 0%,
-            rgba(37, 99, 235, 0.95) 100%
-          ) !important;
-          color: #ffffff !important;
-        }
-
-        .dark .demo-button:hover {
-          background: linear-gradient(
-            135deg,
-            rgba(59, 130, 246, 1) 0%,
-            rgba(37, 99, 235, 1) 100%
-          ) !important;
-          color: #ffffff !important;
-        }
-
-        /* Correção adicional para o botão Código */
-        .codigo-button {
-          background: rgba(255, 255, 255, 0.05) !important;
-          border: 1px solid rgba(255, 255, 255, 0.2) !important;
-          color: rgba(255, 255, 255, 0.9) !important;
-          transition: all 0.3s ease !important;
-        }
-
-        .codigo-button:hover {
-          background: rgba(255, 255, 255, 0.1) !important;
-          color: #ffffff !important;
-          border-color: rgba(255, 255, 255, 0.3) !important;
-        }
-
-        /* Forçar visibilidade no modo claro para botão Código */
-        :not(.dark) .codigo-button {
-          background: rgba(0, 0, 0, 0.05) !important;
-          border: 1px solid rgba(0, 0, 0, 0.2) !important;
-          color: rgba(0, 0, 0, 0.8) !important;
-        }
-
-        :not(.dark) .codigo-button:hover {
-          background: rgba(0, 0, 0, 0.1) !important;
-          color: rgba(0, 0, 0, 0.9) !important;
-          border-color: rgba(0, 0, 0, 0.3) !important;
-        }
       `}</style>
 
       {/* Container com transição metálica integrada */}
@@ -537,7 +442,7 @@ const GitHubProjects = () => {
                             <Button
                               variant="outline"
                               size="sm"
-                              className="flex-1 codigo-button"
+                              className="flex-1"
                               asChild
                             >
                               <a
@@ -546,22 +451,18 @@ const GitHubProjects = () => {
                                 rel="noopener noreferrer"
                               >
                                 <Github className="mr-2 h-3 w-3" />
-                                <span>Código</span>
+                                Código
                               </a>
                             </Button>
                             {repo.homepage && (
-                              <Button
-                                size="sm"
-                                className="flex-1 demo-button"
-                                asChild
-                              >
+                              <Button size="sm" className="flex-1" asChild>
                                 <a
                                   href={repo.homepage}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
                                   <ExternalLink className="mr-2 h-3 w-3" />
-                                  <span>Demo</span>
+                                  Demo
                                 </a>
                               </Button>
                             )}

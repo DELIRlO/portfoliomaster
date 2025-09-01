@@ -364,14 +364,14 @@ const FuturisticLoader = ({ onComplete }) => {
                     }`}
                   />
                 </div>
-                <span className="text-white text-xs mr-1">
+                <span className="text-blue-400 text-xs mr-1">
                   {index < currentStep
                     ? "✓"
                     : index === currentStep
                     ? "▸"
                     : "○"}
                 </span>
-                <span className="font-mono text-xs text-white">{step}</span>
+                <span className="font-mono text-xs text-green-400">{step}</span>
               </div>
             ))}
           </div>
