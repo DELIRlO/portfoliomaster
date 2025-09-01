@@ -60,14 +60,14 @@ const Projects = () => {
   const getButtonStyles = (isDarkMode) => {
     return {
       primary: isDarkMode
-        ? "bg-primary text-primary-foreground hover:bg-primary/90 border-primary"
-        : "bg-primary text-primary-foreground hover:bg-primary/90 border-primary",
+        ? "bg-primary text-white hover:bg-primary/90 border-primary"
+        : "bg-primary text-white hover:bg-primary/90 border-primary",
       outline: isDarkMode
-        ? "bg-transparent text-primary-foreground border-primary hover:bg-primary/20"
-        : "bg-transparent text-primary border-primary hover:bg-primary/10",
+        ? "bg-transparent text-white border-primary hover:bg-primary/20"
+        : "bg-transparent text-white border-primary hover:bg-primary/10",
       secondary: isDarkMode
-        ? "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-secondary"
-        : "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-secondary",
+        ? "bg-secondary text-white hover:bg-secondary/80 border-secondary"
+        : "bg-secondary text-white hover:bg-secondary/80 border-secondary",
     };
   };
 
@@ -187,14 +187,14 @@ const Projects = () => {
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                className="h-8 w-8 hover:bg-primary/20"
+                                className="h-8 w-8 hover:bg-primary/20 text-white hover:text-white"
                                 asChild
                               >
                                 <a
                                   href={project.githubLink}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="hover:text-primary"
+                                  className="hover:text-white text-white"
                                 >
                                   <Github className="h-4 w-4" />
                                 </a>
@@ -203,14 +203,14 @@ const Projects = () => {
                                 <Button
                                   variant="ghost"
                                   size="icon"
-                                  className="h-8 w-8 hover:bg-primary/20"
+                                  className="h-8 w-8 hover:bg-primary/20 text-white hover:text-white"
                                   asChild
                                 >
                                   <a
                                     href={project.onlineLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="hover:text-primary"
+                                    className="hover:text-white text-white"
                                   >
                                     <ExternalLink className="h-4 w-4" />
                                   </a>
