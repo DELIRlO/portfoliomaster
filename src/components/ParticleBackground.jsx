@@ -218,28 +218,35 @@ const ParticleBackground = () => {
 
     const circuitPaths = createCircuitPaths();
 
-    // Inicializa partículas (azuis e douradas)
+    // Inicializa partículas (azuis e douradas) - 🎯 MAIS PARTÍCULAS DOURADAS
     const initializeParticles = () => {
       const zigzagPaths = circuitPaths.filter((p) => p.type === "zigzag");
-      const maxParticles = 12;
+      const maxParticles = 15; // Aumentado para acomodar mais partículas douradas
       let particleCount = 0;
+      let goldCount = 0;
 
       // Partículas azuis e douradas nos caminhos zigzag
       zigzagPaths.forEach((path, index) => {
         if (particleCount >= maxParticles) return;
 
-        // Alterna entre azul e dourado
-        const isGold = index % 3 === 0; // Aproximadamente 1/3 serão douradas
+        // 🎯 GARANTIR 5 PARTÍCULAS DOURADAS INICIAIS
+        const shouldBeGold =
+          goldCount < 5 && (index % 2 === 0 || goldCount < 3);
+        const isGold = shouldBeGold;
+
+        if (isGold) goldCount++;
 
         energyPulsesRef.current.push({
           id: `particle-${Date.now()}-${index}`,
           path,
           currentSegment: 0,
           progress: Math.random() * 100,
-          speed: isGold ? 2.5 + Math.random() * 1.5 : 2.0 + Math.random() * 1.5,
+          speed: isGold
+            ? (2.5 + Math.random() * 1.5) * 1.6
+            : (2.0 + Math.random() * 1.5) * 1.6,
           intensity: isGold ? 0.9 : 0.8,
-          size: isGold ? 2.0 : 1.8, // Partículas ligeiramente maiores
-          isGold: isGold, // Marca se é partícula dourada
+          size: isGold ? 2.0 : 1.8,
+          isGold: isGold,
           isBlinking: false,
           blinkCount: 0,
           blinkTimer: 0,
@@ -248,27 +255,65 @@ const ParticleBackground = () => {
         });
         particleCount++;
       });
+
+      // 🎯 SE NÃO TEMOS 5 PARTÍCULAS DOURADAS, CRIAR MAIS EM OUTROS CAMINHOS
+      while (
+        goldCount < 5 &&
+        particleCount < maxParticles &&
+        circuitPaths.length > 0
+      ) {
+        const randomPath =
+          circuitPaths[Math.floor(Math.random() * circuitPaths.length)];
+
+        energyPulsesRef.current.push({
+          id: `extra-gold-${Date.now()}-${goldCount}`,
+          path: randomPath,
+          currentSegment: 0,
+          progress: Math.random() * 100,
+          speed: (2.5 + Math.random() * 1.5) * 1.6,
+          intensity: 0.9,
+          size: 2.0,
+          isGold: true,
+          isBlinking: false,
+          blinkCount: 0,
+          blinkTimer: 0,
+          blinkPhase: 0,
+          finalPosition: null,
+        });
+        goldCount++;
+        particleCount++;
+      }
     };
 
     // Limpa e inicializa partículas
     energyPulsesRef.current = [];
     initializeParticles();
 
-    // Gera novos pulsos
+    // Gera novos pulsos - 🎯 PRIORIZAR PARTÍCULAS DOURADAS QUANDO NECESSÁRIO
     const generateEnergyPulse = () => {
       const path =
         circuitPaths[Math.floor(Math.random() * circuitPaths.length)];
       if (!path || path.points.length < 2) return;
 
+      // 🎯 VERIFICAR QUANTAS PARTÍCULAS DOURADAS EXISTEM ATUALMENTE
+      const currentGoldCount = energyPulsesRef.current.filter(
+        (p) => p.isGold && !p.isBlinking
+      ).length;
+      const shouldForceGold = currentGoldCount < 5;
+
       const isZigzag = path.type === "zigzag";
-      const isGold = isZigzag && Math.random() < 0.3; // 30% de chance de ser dourada em zigzag
+      // 🎯 AUMENTAR CHANCE DE PARTÍCULA DOURADA SE PRECISARMOS MANTER 5
+      const goldChance = shouldForceGold ? 0.8 : isZigzag ? 0.4 : 0.2;
+      const isGold = Math.random() < goldChance;
 
       const newPulse = {
         id: Date.now() + Math.random(),
         path,
         currentSegment: 0,
         progress: 0,
-        speed: isGold ? 2.5 + Math.random() * 1.5 : 1.7 + Math.random() * 1.2,
+        speed: isGold
+          ? (2.5 + Math.random() * 1.5) * 1.6
+          : (1.7 + Math.random() * 1.2) * 1.6,
         intensity: isGold ? 0.9 : 0.7,
         size: isGold ? 2.0 : 1.8,
         isGold: isGold,
@@ -279,7 +324,8 @@ const ParticleBackground = () => {
         finalPosition: null,
       };
 
-      if (energyPulsesRef.current.length >= 35) {
+      if (energyPulsesRef.current.length >= 40) {
+        // Aumentado limite para acomodar mais partículas
         energyPulsesRef.current = [
           ...energyPulsesRef.current.slice(1),
           newPulse,
@@ -328,7 +374,7 @@ const ParticleBackground = () => {
 
           if (pulse.isBlinking) {
             energyPulsesRef.current[idx].blinkTimer += 1;
-            if (energyPulsesRef.current[idx].blinkTimer >= 8) {
+            if (energyPulsesRef.current[idx].blinkTimer >= 5) {
               energyPulsesRef.current[idx].blinkTimer = 0;
               energyPulsesRef.current[idx].blinkPhase =
                 energyPulsesRef.current[idx].blinkPhase === 0 ? 1 : 0;
@@ -381,9 +427,9 @@ const ParticleBackground = () => {
         const y = A.y + (B.y - A.y) * t;
 
         // Trilha - usando a opacidade específica do tema
-        const trailLen = 6; // Trilha mais longa
+        const trailLen = 6;
         for (let i = 0; i < trailLen; i++) {
-          const tp = Math.max(0, t - i * 0.12); // Ajuste para trilha mais suave
+          const tp = Math.max(0, t - i * 0.08);
           const tx = A.x + (B.x - A.x) * tp;
           const ty = A.y + (B.y - A.y) * tp;
           const alpha =
@@ -393,7 +439,7 @@ const ParticleBackground = () => {
           ctx.arc(
             tx,
             ty,
-            pulse.size * (1.2 - (i / trailLen) * 0.4), // Trilha ligeiramente mais larga
+            pulse.size * (1.2 - (i / trailLen) * 0.4),
             0,
             Math.PI * 2
           );
@@ -424,9 +470,9 @@ const ParticleBackground = () => {
         ctx.fill();
 
         // Núcleo
-        ctx.fillStyle = `rgba(255,255,255,${pulse.intensity * 0.8})`; // Núcleo mais brilhante
+        ctx.fillStyle = `rgba(255,255,255,${pulse.intensity * 0.8})`;
         ctx.beginPath();
-        ctx.arc(x, y, pulse.size * 0.6, 0, Math.PI * 2); // Núcleo ligeiramente maior
+        ctx.arc(x, y, pulse.size * 0.6, 0, Math.PI * 2);
         ctx.fill();
 
         // Progresso
@@ -452,7 +498,7 @@ const ParticleBackground = () => {
     // Intervalo para gerar novas partículas
     pulseIntervalRef.current = setInterval(() => {
       generateEnergyPulse();
-    }, 250 + Math.random() * 150);
+    }, 200 + Math.random() * 120);
 
     animate();
 
