@@ -20,41 +20,55 @@ const Projects = () => {
     rootMargin: "0px",
   });
 
+  // Função melhorada para obter cores de tecnologia com melhor contraste
   const getTechColor = (tech) => {
     const isDarkMode = document.documentElement.classList.contains("dark");
 
     const colors = {
       JavaScript: isDarkMode
-        ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
-        : "bg-yellow-500/20 text-yellow-700 border-yellow-500/30",
+        ? "bg-yellow-500/30 text-yellow-100 border-yellow-500/50"
+        : "bg-yellow-500/30 text-yellow-900 border-yellow-500/50",
       Python: isDarkMode
-        ? "bg-blue-500/20 text-blue-300 border-blue-500/30"
-        : "bg-blue-500/20 text-blue-700 border-blue-500/30",
+        ? "bg-blue-500/30 text-blue-100 border-blue-500/50"
+        : "bg-blue-500/30 text-blue-900 border-blue-500/50",
       React: isDarkMode
-        ? "bg-cyan-500/20 text-cyan-300 border-cyan-500/30"
-        : "bg-cyan-500/20 text-cyan-600 border-cyan-500/30",
+        ? "bg-cyan-500/30 text-cyan-100 border-cyan-500/50"
+        : "bg-cyan-500/30 text-cyan-900 border-cyan-500/50",
       HTML: isDarkMode
-        ? "bg-orange-500/20 text-orange-300 border-orange-500/30"
-        : "bg-orange-500/20 text-orange-700 border-orange-500/30",
+        ? "bg-orange-500/30 text-orange-100 border-orange-500/50"
+        : "bg-orange-500/30 text-orange-900 border-orange-500/50",
       CSS: isDarkMode
-        ? "bg-blue-600/20 text-blue-400 border-blue-600/30"
-        : "bg-blue-600/20 text-blue-600 border-blue-600/30",
+        ? "bg-blue-600/30 text-blue-100 border-blue-600/50"
+        : "bg-blue-600/30 text-blue-900 border-blue-600/50",
       TypeScript: isDarkMode
-        ? "bg-blue-700/20 text-blue-400 border-blue-700/30"
-        : "bg-blue-700/20 text-blue-700 border-blue-700/30",
+        ? "bg-blue-700/30 text-blue-100 border-blue-700/50"
+        : "bg-blue-700/30 text-blue-900 border-blue-700/50",
+      default: isDarkMode
+        ? "bg-primary/30 text-primary-foreground border-primary/50"
+        : "bg-primary/30 text-primary-foreground border-primary/50",
     };
-    return (
-      colors[tech] ||
-      (isDarkMode
-        ? "bg-primary/20 text-primary border-primary/30"
-        : "bg-primary/20 text-primary-foreground border-primary/30")
-    );
+
+    return colors[tech] || colors.default;
   };
 
   // Função para obter a imagem do projeto
   const getProjectThumbnail = (project) => {
-    // Usar a thumbnail do projeto se existir, senão usar fallback
     return project.thumbnail || "/thumbnails/portfoliomaster.png";
+  };
+
+  // Função para obter estilos de botão com melhor contraste
+  const getButtonStyles = (isDarkMode) => {
+    return {
+      primary: isDarkMode
+        ? "bg-primary text-primary-foreground hover:bg-primary/90 border-primary"
+        : "bg-primary text-primary-foreground hover:bg-primary/90 border-primary",
+      outline: isDarkMode
+        ? "bg-transparent text-primary-foreground border-primary hover:bg-primary/20"
+        : "bg-transparent text-primary border-primary hover:bg-primary/10",
+      secondary: isDarkMode
+        ? "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-secondary"
+        : "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-secondary",
+    };
   };
 
   // Featured projects (manually curated)
@@ -97,177 +111,181 @@ const Projects = () => {
                 Projetos em Destaque
               </DisintegrationTitle>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {featuredProjects.map((project, index) => (
-                  <div
-                    key={index}
-                    className={`transition-all duration-1000 ${
-                      hasIntersected ? "animate-fade-in-up" : "opacity-0"
-                    }`}
-                    style={{ animationDelay: `${index * 150}ms` }}
-                  >
-                    <Card className="h-full bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-all duration-500 hover:shadow-xl hover:shadow-primary/20 group hover-lift overflow-hidden">
-                      {/* Imagem do Projeto */}
-                      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-                        <img
-                          src={getProjectThumbnail(project)}
-                          alt={`${project.name} thumbnail`}
-                          className="w-full h-full object-cover transition-transform duration-500 transform scale-75 group-hover:scale-90"
-                          onError={(e) => {
-                            e.target.style.display = "none";
-                            e.target.nextSibling.style.display = "flex";
-                          }}
-                        />
-                        {/* Fallback quando a imagem não carrega */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center hidden">
-                          <div className="text-4xl font-bold text-primary/60">
-                            {project.name.charAt(0).toUpperCase()}
+                {featuredProjects.map((project, index) => {
+                  const isDarkMode =
+                    document.documentElement.classList.contains("dark");
+                  const buttonStyles = getButtonStyles(isDarkMode);
+
+                  return (
+                    <div
+                      key={index}
+                      className={`transition-all duration-1000 ${
+                        hasIntersected ? "animate-fade-in-up" : "opacity-0"
+                      }`}
+                      style={{ animationDelay: `${index * 150}ms` }}
+                    >
+                      <Card className="h-full bg-card/50 backdrop-blur-sm border-border hover:border-primary/40 transition-all duration-500 hover:shadow-xl group hover-lift overflow-hidden">
+                        {/* Imagem do Projeto */}
+                        <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+                          <img
+                            src={getProjectThumbnail(project)}
+                            alt={`${project.name} thumbnail`}
+                            className="w-full h-full object-cover transition-transform duration-500 transform scale-75 group-hover:scale-90"
+                            onError={(e) => {
+                              e.target.style.display = "none";
+                              e.target.nextSibling.style.display = "flex";
+                            }}
+                          />
+                          {/* Fallback quando a imagem não carrega */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center hidden">
+                            <div className="text-4xl font-bold text-primary/60">
+                              {project.name.charAt(0).toUpperCase()}
+                            </div>
                           </div>
-                        </div>
 
-                        {/* Overlay com botões */}
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-3">
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            asChild
-                            className="smooth-transition"
-                          >
-                            <a
-                              href={project.githubLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center space-x-2"
-                            >
-                              <Github className="h-4 w-4" />
-                              <span>Código</span>
-                            </a>
-                          </Button>
-                          {project.onlineLink && (
+                          {/* Overlay com botões - CORRIGIDO para melhor visibilidade */}
+                          <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-3">
                             <Button
-                              size="sm"
-                              asChild
-                              className="smooth-transition"
-                            >
-                              <a
-                                href={project.onlineLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center space-x-2"
-                              >
-                                <Eye className="h-4 w-4" />
-                                <span>Demo</span>
-                              </a>
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-
-                      <CardHeader className="pb-3">
-                        <CardTitle className="flex items-center justify-between">
-                          <span className="gradient-text group-hover:text-primary transition-colors text-lg">
-                            {project.name}
-                          </span>
-                          <div className="flex space-x-1">
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8"
+                              className={`${buttonStyles.secondary} font-semibold px-4 py-2 rounded-md transition-all`}
                               asChild
                             >
                               <a
                                 href={project.githubLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:text-primary smooth-transition"
+                                className="flex items-center space-x-2"
                               >
-                                <Github className="h-3 w-3" />
+                                <Github className="h-4 w-4" />
+                                <span className="text-sm">Código</span>
                               </a>
                             </Button>
                             {project.onlineLink && (
                               <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8"
+                                className={`${buttonStyles.primary} font-semibold px-4 py-2 rounded-md transition-all`}
                                 asChild
                               >
                                 <a
                                   href={project.onlineLink}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="hover:text-primary smooth-transition"
+                                  className="flex items-center space-x-2"
                                 >
-                                  <ExternalLink className="h-3 w-3" />
+                                  <Eye className="h-4 w-4" />
+                                  <span className="text-sm">Demo</span>
                                 </a>
                               </Button>
                             )}
                           </div>
-                        </CardTitle>
-                      </CardHeader>
-
-                      <CardContent className="pt-0">
-                        <p className="text-muted-foreground mb-4 text-sm leading-relaxed min-h-[2.5rem]">
-                          {project.description ||
-                            "Projeto em desenvolvimento..."}
-                        </p>
-
-                        <div className="flex flex-wrap gap-1.5 mb-4">
-                          {project.technologies.map((tech, techIndex) => (
-                            <Badge
-                              key={techIndex}
-                              variant="outline"
-                              className={`${getTechColor(
-                                tech
-                              )} text-xs px-2 py-1 smooth-transition hover:scale-105`}
-                            >
-                              {tech}
-                            </Badge>
-                          ))}
                         </div>
 
-                        <div className="flex space-x-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="flex-1 smooth-transition"
-                            asChild
-                          >
-                            <a
-                              href={project.githubLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Github className="mr-2 h-3 w-3" />
-                              Código
-                            </a>
-                          </Button>
-                          {project.onlineLink && (
+                        <CardHeader className="pb-3">
+                          <CardTitle className="flex items-center justify-between">
+                            <span className="text-foreground group-hover:text-primary transition-colors text-lg font-semibold">
+                              {project.name}
+                            </span>
+                            <div className="flex space-x-1">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 hover:bg-primary/20"
+                                asChild
+                              >
+                                <a
+                                  href={project.githubLink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="hover:text-primary"
+                                >
+                                  <Github className="h-4 w-4" />
+                                </a>
+                              </Button>
+                              {project.onlineLink && (
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-8 w-8 hover:bg-primary/20"
+                                  asChild
+                                >
+                                  <a
+                                    href={project.onlineLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:text-primary"
+                                  >
+                                    <ExternalLink className="h-4 w-4" />
+                                  </a>
+                                </Button>
+                              )}
+                            </div>
+                          </CardTitle>
+                        </CardHeader>
+
+                        <CardContent className="pt-0">
+                          <p className="text-muted-foreground mb-4 text-sm leading-relaxed min-h-[2.5rem]">
+                            {project.description ||
+                              "Projeto em desenvolvimento..."}
+                          </p>
+
+                          <div className="flex flex-wrap gap-1.5 mb-4">
+                            {project.technologies.map((tech, techIndex) => (
+                              <Badge
+                                key={techIndex}
+                                variant="outline"
+                                className={`${getTechColor(
+                                  tech
+                                )} text-xs px-2 py-1 font-medium hover:scale-105 transition-transform`}
+                              >
+                                {tech}
+                              </Badge>
+                            ))}
+                          </div>
+
+                          {/* Botões principais - CORRIGIDOS para melhor visibilidade */}
+                          <div className="flex space-x-2">
                             <Button
+                              variant="outline"
                               size="sm"
-                              className="flex-1 smooth-transition"
+                              className={`flex-1 font-medium ${buttonStyles.outline}`}
                               asChild
                             >
                               <a
-                                href={project.onlineLink}
+                                href={project.githubLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                <ExternalLink className="mr-2 h-3 w-3" />
-                                Demo
+                                <Github className="mr-2 h-4 w-4" />
+                                Código
                               </a>
                             </Button>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
+                            {project.onlineLink && (
+                              <Button
+                                size="sm"
+                                className={`flex-1 font-medium ${buttonStyles.primary}`}
+                                asChild
+                              >
+                                <a
+                                  href={project.onlineLink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <ExternalLink className="mr-2 h-4 w-4" />
+                                  Demo
+                                </a>
+                              </Button>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* GitHub Projects - SEM PageTransition aqui, pois ele já tem seu próprio controle de animação */}
+      {/* GitHub Projects */}
       <GitHubProjects />
     </PageTransition>
   );
