@@ -320,99 +320,119 @@ const GitHubProjects = () => {
           opacity: 0.5;
         }
 
-        /* CORREÇÃO DOS BOTÕES DEMO - FORÇANDO VISIBILIDADE DO TEXTO */
+        /* BOTÃO DEMO - AZUL - FUNCIONA EM AMBOS OS MODOS */
         .demo-button {
           background: linear-gradient(
             135deg,
             rgba(59, 130, 246, 0.9) 0%,
-            rgba(37, 99, 235, 0.95) 100%
+            rgba(37, 99, 235, 1) 100%
           ) !important;
+          border: 1px solid rgba(59, 130, 246, 0.4) !important;
           color: #ffffff !important;
-          border: 1px solid rgba(59, 130, 246, 0.3) !important;
-          transition: all 0.3s ease !important;
           font-weight: 500 !important;
+          transition: all 0.3s ease !important;
+          position: relative;
+          overflow: hidden;
         }
 
         .demo-button:hover {
           background: linear-gradient(
             135deg,
             rgba(59, 130, 246, 1) 0%,
-            rgba(37, 99, 235, 1) 100%
-          ) !important;
-          color: #ffffff !important;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
-        }
-
-        .demo-button span,
-        .demo-button .lucide {
-          color: #ffffff !important;
-          opacity: 1 !important;
-        }
-
-        /* Forçar visibilidade no modo claro */
-        :not(.dark) .demo-button {
-          background: linear-gradient(
-            135deg,
-            rgba(37, 99, 235, 0.9) 0%,
-            rgba(29, 78, 216, 0.95) 100%
-          ) !important;
-          color: #ffffff !important;
-        }
-
-        :not(.dark) .demo-button:hover {
-          background: linear-gradient(
-            135deg,
-            rgba(37, 99, 235, 1) 0%,
             rgba(29, 78, 216, 1) 100%
           ) !important;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
+        }
+
+        .demo-button * {
           color: #ffffff !important;
         }
 
-        /* Forçar visibilidade no modo escuro */
-        .dark .demo-button {
-          background: linear-gradient(
-            135deg,
-            rgba(59, 130, 246, 0.9) 0%,
-            rgba(37, 99, 235, 0.95) 100%
-          ) !important;
+        /* BOTÃO CÓDIGO - CINZA/OUTLINE - MODO ESCURO */
+        .dark .codigo-button {
+          background: rgba(255, 255, 255, 0.08) !important;
+          border: 1px solid rgba(255, 255, 255, 0.25) !important;
           color: #ffffff !important;
-        }
-
-        .dark .demo-button:hover {
-          background: linear-gradient(
-            135deg,
-            rgba(59, 130, 246, 1) 0%,
-            rgba(37, 99, 235, 1) 100%
-          ) !important;
-          color: #ffffff !important;
-        }
-
-        /* Correção adicional para o botão Código */
-        .codigo-button {
-          background: rgba(255, 255, 255, 0.05) !important;
-          border: 1px solid rgba(255, 255, 255, 0.2) !important;
-          color: rgba(255, 255, 255, 0.9) !important;
           transition: all 0.3s ease !important;
         }
 
-        .codigo-button:hover {
-          background: rgba(255, 255, 255, 0.1) !important;
-          color: #ffffff !important;
-          border-color: rgba(255, 255, 255, 0.3) !important;
+        .dark .codigo-button:hover {
+          background: rgba(255, 255, 255, 0.15) !important;
+          border-color: rgba(255, 255, 255, 0.4) !important;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1) !important;
         }
 
-        /* Forçar visibilidade no modo claro para botão Código */
+        .dark .codigo-button * {
+          color: #ffffff !important;
+        }
+
+        /* BOTÃO CÓDIGO - CINZA/OUTLINE - MODO CLARO */
         :not(.dark) .codigo-button {
-          background: rgba(0, 0, 0, 0.05) !important;
+          background: rgba(0, 0, 0, 0.06) !important;
           border: 1px solid rgba(0, 0, 0, 0.2) !important;
-          color: rgba(0, 0, 0, 0.8) !important;
+          color: rgba(0, 0, 0, 0.85) !important;
+          transition: all 0.3s ease !important;
         }
 
         :not(.dark) .codigo-button:hover {
           background: rgba(0, 0, 0, 0.1) !important;
-          color: rgba(0, 0, 0, 0.9) !important;
           border-color: rgba(0, 0, 0, 0.3) !important;
+          color: rgba(0, 0, 0, 0.95) !important;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        :not(.dark) .codigo-button * {
+          color: rgba(0, 0, 0, 0.85) !important;
+        }
+
+        :not(.dark) .codigo-button:hover * {
+          color: rgba(0, 0, 0, 0.95) !important;
+        }
+
+        /* Garantir especificidade máxima */
+        .card-content .demo-button,
+        .card-content .codigo-button {
+          position: relative !important;
+          z-index: 10 !important;
+        }
+
+        /* Para modo claro - forçar cores específicas */
+        html:not(.dark) .codigo-button,
+        body:not(.dark) .codigo-button,
+        [data-theme="light"] .codigo-button {
+          background: rgba(55, 65, 81, 0.08) !important;
+          border: 1px solid rgba(55, 65, 81, 0.25) !important;
+          color: rgba(55, 65, 81, 0.9) !important;
+        }
+
+        html:not(.dark) .codigo-button:hover,
+        body:not(.dark) .codigo-button:hover,
+        [data-theme="light"] .codigo-button:hover {
+          background: rgba(55, 65, 81, 0.12) !important;
+          border-color: rgba(55, 65, 81, 0.35) !important;
+          color: rgba(55, 65, 81, 1) !important;
+        }
+
+        /* Garantir que os ícones e texto também sigam as cores */
+        html:not(.dark) .codigo-button .lucide,
+        html:not(.dark) .codigo-button span,
+        body:not(.dark) .codigo-button .lucide,
+        body:not(.dark) .codigo-button span,
+        [data-theme="light"] .codigo-button .lucide,
+        [data-theme="light"] .codigo-button span {
+          color: rgba(55, 65, 81, 0.9) !important;
+        }
+
+        html:not(.dark) .codigo-button:hover .lucide,
+        html:not(.dark) .codigo-button:hover span,
+        body:not(.dark) .codigo-button:hover .lucide,
+        body:not(.dark) .codigo-button:hover span,
+        [data-theme="light"] .codigo-button:hover .lucide,
+        [data-theme="light"] .codigo-button:hover span {
+          color: rgba(55, 65, 81, 1) !important;
         }
       `}</style>
 
@@ -489,7 +509,7 @@ const GitHubProjects = () => {
                             </div>
                           </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="card-content">
                           <p className="text-muted-foreground mb-4 min-h-[3rem] text-sm">
                             {repo.description || "Sem descrição disponível"}
                           </p>
