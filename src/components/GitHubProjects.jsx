@@ -349,47 +349,138 @@ const GitHubProjects = () => {
           color: #ffffff !important;
         }
 
-        /* BOTÃO CÓDIGO - CINZA/OUTLINE - MODO ESCURO */
-        .dark .codigo-button {
-          background: rgba(255, 255, 255, 0.08) !important;
-          border: 1px solid rgba(255, 255, 255, 0.25) !important;
-          color: #ffffff !important;
+        /* ANIMAÇÃO DE PISCAR PARA ÍCONE E TEXTO */
+        @keyframes gentlePulse {
+          0%,
+          100% {
+            opacity: 0.85;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.05);
+          }
+        }
+
+        @keyframes colorShift {
+          0%,
+          100% {
+            color: #a855f7;
+          }
+          25% {
+            color: #c084fc;
+          }
+          50% {
+            color: #e879f9;
+          }
+          75% {
+            color: #d8b4fe;
+          }
+        }
+
+        /* BOTÃO CÓDIGO - LILÁS UNIVERSAL - FUNCIONA EM AMBOS OS MODOS */
+        .codigo-button {
+          background: linear-gradient(
+            135deg,
+            rgba(168, 85, 247, 0.15) 0%,
+            rgba(192, 132, 252, 0.1) 100%
+          ) !important;
+          border: 1px solid rgba(168, 85, 247, 0.4) !important;
+          color: #a855f7 !important;
           transition: all 0.3s ease !important;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .codigo-button:hover {
+          background: linear-gradient(
+            135deg,
+            rgba(168, 85, 247, 0.25) 0%,
+            rgba(192, 132, 252, 0.2) 100%
+          ) !important;
+          border-color: rgba(168, 85, 247, 0.6) !important;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3) !important;
+        }
+
+        /* ÍCONE E TEXTO COM ANIMAÇÃO DE PISCAR */
+        .codigo-button .lucide,
+        .codigo-button span {
+          color: #a855f7 !important;
+          animation: gentlePulse 2s ease-in-out infinite,
+            colorShift 3s ease-in-out infinite !important;
+        }
+
+        .codigo-button:hover .lucide,
+        .codigo-button:hover span {
+          color: #c084fc !important;
+          animation: gentlePulse 1s ease-in-out infinite,
+            colorShift 1.5s ease-in-out infinite !important;
+        }
+
+        /* MODO ESCURO - AJUSTES ESPECÍFICOS */
+        .dark .codigo-button {
+          background: linear-gradient(
+            135deg,
+            rgba(168, 85, 247, 0.2) 0%,
+            rgba(192, 132, 252, 0.15) 100%
+          ) !important;
+          border: 1px solid rgba(168, 85, 247, 0.5) !important;
         }
 
         .dark .codigo-button:hover {
-          background: rgba(255, 255, 255, 0.15) !important;
-          border-color: rgba(255, 255, 255, 0.4) !important;
-          transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1) !important;
+          background: linear-gradient(
+            135deg,
+            rgba(168, 85, 247, 0.3) 0%,
+            rgba(192, 132, 252, 0.25) 100%
+          ) !important;
+          border-color: rgba(168, 85, 247, 0.7) !important;
         }
 
-        .dark .codigo-button * {
-          color: #ffffff !important;
+        /* MODO CLARO - AJUSTES ESPECÍFICOS */
+        :not(.dark) .codigo-button,
+        html:not(.dark) .codigo-button,
+        body:not(.dark) .codigo-button,
+        [data-theme="light"] .codigo-button {
+          background: linear-gradient(
+            135deg,
+            rgba(168, 85, 247, 0.12) 0%,
+            rgba(192, 132, 252, 0.08) 100%
+          ) !important;
+          border: 1px solid rgba(168, 85, 247, 0.35) !important;
         }
 
-        /* BOTÃO CÓDIGO - CINZA/OUTLINE - MODO CLARO */
-        :not(.dark) .codigo-button {
-          background: rgba(0, 0, 0, 0.06) !important;
-          border: 1px solid rgba(0, 0, 0, 0.2) !important;
-          color: rgba(0, 0, 0, 0.85) !important;
-          transition: all 0.3s ease !important;
+        :not(.dark) .codigo-button:hover,
+        html:not(.dark) .codigo-button:hover,
+        body:not(.dark) .codigo-button:hover,
+        [data-theme="light"] .codigo-button:hover {
+          background: linear-gradient(
+            135deg,
+            rgba(168, 85, 247, 0.2) 0%,
+            rgba(192, 132, 252, 0.15) 100%
+          ) !important;
+          border-color: rgba(168, 85, 247, 0.5) !important;
         }
 
-        :not(.dark) .codigo-button:hover {
-          background: rgba(0, 0, 0, 0.1) !important;
-          border-color: rgba(0, 0, 0, 0.3) !important;
-          color: rgba(0, 0, 0, 0.95) !important;
-          transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+        /* EFEITO BRILHO DESLIZANTE NO BOTÃO CÓDIGO */
+        .codigo-button::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(168, 85, 247, 0.2),
+            transparent
+          );
+          transition: left 0.5s;
         }
 
-        :not(.dark) .codigo-button * {
-          color: rgba(0, 0, 0, 0.85) !important;
-        }
-
-        :not(.dark) .codigo-button:hover * {
-          color: rgba(0, 0, 0, 0.95) !important;
+        .codigo-button:hover::before {
+          left: 100%;
         }
 
         /* Garantir especificidade máxima */
@@ -397,42 +488,6 @@ const GitHubProjects = () => {
         .card-content .codigo-button {
           position: relative !important;
           z-index: 10 !important;
-        }
-
-        /* Para modo claro - forçar cores específicas */
-        html:not(.dark) .codigo-button,
-        body:not(.dark) .codigo-button,
-        [data-theme="light"] .codigo-button {
-          background: rgba(55, 65, 81, 0.08) !important;
-          border: 1px solid rgba(55, 65, 81, 0.25) !important;
-          color: rgba(55, 65, 81, 0.9) !important;
-        }
-
-        html:not(.dark) .codigo-button:hover,
-        body:not(.dark) .codigo-button:hover,
-        [data-theme="light"] .codigo-button:hover {
-          background: rgba(55, 65, 81, 0.12) !important;
-          border-color: rgba(55, 65, 81, 0.35) !important;
-          color: rgba(55, 65, 81, 1) !important;
-        }
-
-        /* Garantir que os ícones e texto também sigam as cores */
-        html:not(.dark) .codigo-button .lucide,
-        html:not(.dark) .codigo-button span,
-        body:not(.dark) .codigo-button .lucide,
-        body:not(.dark) .codigo-button span,
-        [data-theme="light"] .codigo-button .lucide,
-        [data-theme="light"] .codigo-button span {
-          color: rgba(55, 65, 81, 0.9) !important;
-        }
-
-        html:not(.dark) .codigo-button:hover .lucide,
-        html:not(.dark) .codigo-button:hover span,
-        body:not(.dark) .codigo-button:hover .lucide,
-        body:not(.dark) .codigo-button:hover span,
-        [data-theme="light"] .codigo-button:hover .lucide,
-        [data-theme="light"] .codigo-button:hover span {
-          color: rgba(55, 65, 81, 1) !important;
         }
       `}</style>
 
